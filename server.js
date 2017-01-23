@@ -12,7 +12,14 @@ app.post('/CheckUser',function(req,res) {
 	}
 		else{ res.json("Invalid User");}
 });
-
+//-------------------------------Services for Registration page-------------------------------//
+app.post('/CheckregisterUser',function(req,res) {
+	if (req.param('username')=="tarun" && req.param('email')=="tarun@gmail.com") 
+		{
+			res.json("This username has already taken");
+	}
+		else{ res.json("Registered");}
+});
 
 
 
