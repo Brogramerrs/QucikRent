@@ -20,8 +20,15 @@ app.post('/CheckregisterUser',function(req,res) {
 	}
 		else{ res.json("Registered");}
 });
-
-
+//-------------------------------Services for Login page-------------------------------//
+app.post('/forgotPassword',function(req,res) {
+	
+	if (req.param('email')=="vatsal@gmail.com") 
+		{res.json("Valid User");
+	//ToDo:Code to email the password 
+	}
+		else{ res.json("Invalid User");}
+});
 
 app.listen(3000);
 console.log("server running on 3000");
