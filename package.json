@@ -4,6 +4,7 @@
   "description": "single platform to rent different things",
   "main": "server.js",
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "express": "^4.14.0",
     "nodemailer": "^2.7.2"
   },

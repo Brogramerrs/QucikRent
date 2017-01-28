@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 var nodemailer = require('nodemailer');
+var CryptoJS = require("crypto-js");
+
 
 app.use(express.static(__dirname + "/public"));
 
@@ -18,7 +20,19 @@ app.post('/CheckregisterUser',function(req,res) {
 		{
 			res.json("This username has already taken");
 	}
-		else{ res.json("Registered");}
+		else{
+		 //-------------------------------Encrypting password-------------------------------//
+
+ 
+// Encrypt 
+var ciphertext = CryptoJS.AES.encrypt(req.param('pwd'), '100%sucker');
+ 
+// // Decrypt 
+// var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
+// var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+console.log("cipher text"+ciphertext); 
+			res.json("Encrypted Password :"+ciphertext);
+		}
 });
 //-------------------------------Services for Login page-------------------------------//
 app.post('/forgotPassword',function(req,res) {
@@ -61,7 +75,7 @@ transporter.sendMail(mailOptions, function(error, info){
 
 
 
- //-------------------------------Services for Login page-------------------------------//
+ 
 
 
 app.listen(3000);

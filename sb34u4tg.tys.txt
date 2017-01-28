@@ -1,0 +1,65 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   node_modules/crypto-js/CONTRIBUTING.md
+#	new file:   node_modules/crypto-js/LICENSE
+#	new file:   node_modules/crypto-js/README.md
+#	new file:   node_modules/crypto-js/aes.js
+#	new file:   node_modules/crypto-js/bower.json
+#	new file:   node_modules/crypto-js/cipher-core.js
+#	new file:   node_modules/crypto-js/core.js
+#	new file:   node_modules/crypto-js/crypto-js.js
+#	new file:   node_modules/crypto-js/docs/QuickStartGuide.wiki
+#	new file:   node_modules/crypto-js/enc-base64.js
+#	new file:   node_modules/crypto-js/enc-hex.js
+#	new file:   node_modules/crypto-js/enc-latin1.js
+#	new file:   node_modules/crypto-js/enc-utf16.js
+#	new file:   node_modules/crypto-js/enc-utf8.js
+#	new file:   node_modules/crypto-js/evpkdf.js
+#	new file:   node_modules/crypto-js/format-hex.js
+#	new file:   node_modules/crypto-js/format-openssl.js
+#	new file:   node_modules/crypto-js/hmac-md5.js
+#	new file:   node_modules/crypto-js/hmac-ripemd160.js
+#	new file:   node_modules/crypto-js/hmac-sha1.js
+#	new file:   node_modules/crypto-js/hmac-sha224.js
+#	new file:   node_modules/crypto-js/hmac-sha256.js
+#	new file:   node_modules/crypto-js/hmac-sha3.js
+#	new file:   node_modules/crypto-js/hmac-sha384.js
+#	new file:   node_modules/crypto-js/hmac-sha512.js
+#	new file:   node_modules/crypto-js/hmac.js
+#	new file:   node_modules/crypto-js/index.js
+#	new file:   node_modules/crypto-js/lib-typedarrays.js
+#	new file:   node_modules/crypto-js/md5.js
+#	new file:   node_modules/crypto-js/mode-cfb.js
+#	new file:   node_modules/crypto-js/mode-ctr-gladman.js
+#	new file:   node_modules/crypto-js/mode-ctr.js
+#	new file:   node_modules/crypto-js/mode-ecb.js
+#	new file:   node_modules/crypto-js/mode-ofb.js
+#	new file:   node_modules/crypto-js/package.json
+#	new file:   node_modules/crypto-js/pad-ansix923.js
+#	new file:   node_modules/crypto-js/pad-iso10126.js
+#	new file:   node_modules/crypto-js/pad-iso97971.js
+#	new file:   node_modules/crypto-js/pad-nopadding.js
+#	new file:   node_modules/crypto-js/pad-pkcs7.js
+#	new file:   node_modules/crypto-js/pad-zeropadding.js
+#	new file:   node_modules/crypto-js/pbkdf2.js
+#	new file:   node_modules/crypto-js/rabbit-legacy.js
+#	new file:   node_modules/crypto-js/rabbit.js
+#	new file:   node_modules/crypto-js/rc4.js
+#	new file:   node_modules/crypto-js/ripemd160.js
+#	new file:   node_modules/crypto-js/sha1.js
+#	new file:   node_modules/crypto-js/sha224.js
+#	new file:   node_modules/crypto-js/sha256.js
+#	new file:   node_modules/crypto-js/sha3.js
+#	new file:   node_modules/crypto-js/sha384.js
+#	new file:   node_modules/crypto-js/sha512.js
+#	new file:   node_modules/crypto-js/tripledes.js
+#	new file:   node_modules/crypto-js/x64-core.js
+#	modified:   package.json
+#	modified:   server.js
+#
+
