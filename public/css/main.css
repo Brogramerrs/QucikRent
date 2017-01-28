@@ -1,0 +1,13 @@
+body {
+    background: #eee !important;
+}
+.container-wrapper{
+    padding: 10px;
+}
+.no-padding{
+    padding:0px;
+}
+.header-no-margin
+{
+    margin:0px;
+}

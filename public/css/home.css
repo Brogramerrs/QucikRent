@@ -1,0 +1,22 @@
+.header-wrapper
+{
+    background-color: white;
+}
+.body-section-height
+{
+    height: 400px;
+    position: relative;
+}
+.text-box-container
+{
+    background-color: white;
+    opacity: 7;
+    padding: 10px;
+    position: absolute;
+    top: 150px;
+    width: 70%;
+    z-index: 15;
+    top: 15px;
+    margin: 15% 0 0 15%;
+    padding:20px 50px;
+}

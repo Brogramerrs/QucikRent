@@ -2,7 +2,16 @@ var express = require('express');
 var app = express();
 var nodemailer = require('nodemailer');
 var CryptoJS = require("crypto-js");
+var NodeGeocoder = require('node-geocoder');
 
+var options = {
+    provider: 'google',
+
+    // Optional depending on the providers
+    httpAdapter: 'https', // Default
+    apiKey: 'AIzaSyBzV0yOmGhO_ZDCzGa1uhA2O6xwAhQXuvo', // for Mapquest, OpenCage, Google Premier
+    formatter: null         // 'gpx', 'string', ...
+};
 
 app.use(express.static(__dirname + "/public"));
 
@@ -71,6 +80,20 @@ transporter.sendMail(mailOptions, function(error, info){
 });
 	}
 		else{ res.json("Invalid User");}
+});
+
+//----------------------------Service for location----------------------------------//
+app.post('/locate',function (req,res) {
+    console.log("data recieved at server");
+    var geocoder = NodeGeocoder(options);
+    var address;
+    geocoder.geocode(req.param('location'),function (err, RES) {
+        address=RES;
+        res.json(address);
+    }).catch(function(err) {
+        console.log(err);
+    });
+
 });
 
 
