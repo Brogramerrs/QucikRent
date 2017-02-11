@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home page</title>
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+<link rel="stylesheet" href="../stylesheets/main.css">
+<link rel="stylesheet" href="../stylesheets/home.css">
+</head>
+
+<body>
+<div class="row container-wrapper header-wrapper">
+
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Books</a></li>
+                <li><a href="#">Clothes</a></li>
+                <li><a href="#">Videogames</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class=" text-center" >
+        <h2 class="header-no-margin">Quickrent</h2>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center">
+        <a data-toggle="modal" data-target="#singin">Sing-In</a>
+
+        <!-- Modal -->
+        <div class="modal fade" id="singin" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>This is a large modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<div class="row body-section-height" >
+<img src="../images/dollar.jpg" class="img-resposive" width="100%">
+<div class="text-box-container" ng-controller="LocateCtrl">
+    <form>
+        <input type="text" class="form-control" placeholder="Search" ng-model="location" style="display:inline-block"/>
+        <div class="dropdown" style="display:inline-block">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Category
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Cars</a></li>
+                <li><a href="#">Books</a></li>
+                <li><a href="#">Clothes</a></li>
+            </ul>
+        </div>
+<div style="display:inline-block">
+<button class="btn btn-primary" type="submit" ng-click="locate()">GO</button>
+</div>
+</form>
+
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../controllers/controller.js"></script>
+</body>
+</html>

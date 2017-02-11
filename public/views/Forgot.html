@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Form</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+
+      <link rel="stylesheet" href="../stylesheets/login.css">
+</head>
+
+<body>
+    <div class="wrapper" ng-controller="ForgotCtrl">
+    <form class="form-signin">
+      <h2 class="form-signin-heading">Forget Password?</h2>
+      <input type="email" class="form-control" ng-model="email" placeholder="Email Address" required="" autofocus="" />      
+      <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="lost()">Send Password</button>   
+    </form>
+    
+  </div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script type="text/javascript" src="../controllers/controller.js"></script></body>
+</body>
+</html>
