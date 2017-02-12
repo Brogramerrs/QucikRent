@@ -1,6 +1,4 @@
-/**
- * Created by hardeepsingh on 2/9/17.
- */
+
 var myApp = angular.module('myApp', []);
 
 //-----------------Controller for login Page-------------------------------------------//
@@ -50,10 +48,12 @@ myApp.controller('RegisterCtrl', ['$scope', '$http', function ($scope, $http) {
 //-----------------Controller for Forgot User Page-------------------------------------------//
 myApp.controller('ForgotCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.lost = function () {
-        var email = $scope.email;
+        //var email = $scope.email;
         $http({
             method: 'POST',
-            url: '/forgotPassword?email=' + email
+            url: '/forgotPassword',
+            data:{email:$scope.email}
+
         }).then(function successCallback(response) {
             console.log(response.data);
 

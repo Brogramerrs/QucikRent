@@ -67,13 +67,13 @@ app.post('/CheckregisterUser',function(req,res) {
         res.json({"data":"Encrypted Password :"+ciphertext});
     }
 });
-//-------------------------------Services for Login page-------------------------------//
+//-------------------------------Services for forgot password page-------------------------------//
 app.post('/forgotPassword',function(req,res) {
 
-    if (req.param('email')=="djethwa2810@gmail.com")
+    if (req.body.email==="djethwa2810@gmail.com")
     {
 
-        res.json("Valid User");
+        //res.json("Valid User");
 
         //ToDo:Code to email the password
         var transporter = nodemailer.createTransport({
@@ -87,7 +87,7 @@ app.post('/forgotPassword',function(req,res) {
         });
         var mailOptions = {
             from: 'brogrammerrs@gmail.com', // sender address
-            to: req.param('email'), // list of receivers
+            to:req.body.email, // list of receivers
             subject: 'Recover Password', // Subject line
             text: "Your password is admin" // plaintext body
 
@@ -96,14 +96,19 @@ app.post('/forgotPassword',function(req,res) {
         transporter.sendMail(mailOptions, function(error, info){
             if(error){
                 console.log(error);
+                res.json({"data" : "Valid User.Error sending mail"});
                 res.json({yo: 'error'});
             }else{
                 console.log('Message sent: ' + info.response);
+                res.json({"data" : "Valid User.Message sent"});
                 res.json({yo: info.response});
             };
         });
     }
-    else{ res.json("Invalid User");}
+    else{
+        //res.json("Invalid User");
+        res.json({"data" : "Invalid User"});
+    }
 });
 
 //----------------------------Service for location----------------------------------//
