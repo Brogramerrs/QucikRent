@@ -49,22 +49,22 @@ app.post('/CheckUser',function(req,res) {
 
 //-------------------------------Services for Registration page-------------------------------//
 app.post('/CheckregisterUser',function(req,res) {
-    if (req.param('username')=="tarun" && req.param('email')=="tarun@gmail.com")
+    if (req.body.username === "tarun" && req.body.email === "tarun@gmail.com")
     {
-        res.json("This username has already taken");
+        res.json({"data" : "This username has already taken"});
     }
     else{
         //-------------------------------Encrypting password-------------------------------//
 
 
 // Encrypt
-        var ciphertext = CryptoJS.AES.encrypt(req.param('pwd'), '100%sucker');
+        var ciphertext = CryptoJS.AES.encrypt(req.body.pwd, '100%sucker');
 
 // // Decrypt
 // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
 // var plaintext = bytes.toString(CryptoJS.enc.Utf8);
         console.log("cipher text"+ciphertext);
-        res.json("Encrypted Password :"+ciphertext);
+        res.json({"data":"Encrypted Password :"+ciphertext});
     }
 });
 //-------------------------------Services for Login page-------------------------------//
@@ -111,9 +111,9 @@ app.post('/locate',function (req,res) {
     console.log("data recieved at server");
     var geocoder = NodeGeocoder(options);
     var address;
-    geocoder.geocode(req.param('location'),function (err, RES) {
+    geocoder.geocode(req.body.location ,function (err, RES) {
         address=RES;
-        res.json(address);
+        res.json({data: "location" +address});
     }).catch(function(err) {
         console.log(err);
     });
