@@ -1,5 +1,6 @@
 body {
     background: #eee !important;
+    overflow-x: hidden;
 }
 .container-wrapper{
     padding: 10px;
@@ -10,4 +11,56 @@ body {
 .header-no-margin
 {
     margin:0px;
+}
+.inner-container
+{
+    padding: 30px 20px;
+}
+.inner-padding
+{
+    padding:10px;
+}
+/*
+Card-ui*/
+.card
+{
+    position: relative;
+    margin: .5rem 0 1rem 0;
+    background-color: #fff;
+    transition: box-shadow .25s;
+    border-radius: 2px;
+}
+.card-content
+{
+    border-radius: 0 0 2px 2px;
+    text-align: center;
+    padding: 80px 50px;
+}
+.card-img-container
+{
+    position: relative;
+}
+.card-img
+{
+    display: block;
+    border-radius: 2px 2px 0 0;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+.card-title {
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    padding: 24px;
+}
+.card-product-content{
+    border-radius: 0 0 2px 2px;
+    text-align: center;
+    padding: 24px;
 }

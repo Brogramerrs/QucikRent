@@ -4,7 +4,7 @@
 }
 .body-section-height
 {
-    height: 400px;
+    height: 500px;
     position: relative;
 }
 .text-box-container
@@ -19,4 +19,12 @@
     top: 15px;
     margin: 15% 0 0 15%;
     padding:20px 50px;
+}
+.background-image-size {
+    max-height: 100%;
+    max-width: 100%;
+    width: 100%;
+}
+.btn-width {
+    width: 100%;
 }

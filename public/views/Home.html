@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home page</title>
-<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-<link rel="stylesheet" href="../stylesheets/main.css">
-<link rel="stylesheet" href="../stylesheets/home.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home page</title>
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="../stylesheets/main.css">
+    <link rel="stylesheet" href="../stylesheets/home.css">
 </head>
 
 <body>
@@ -25,55 +26,174 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
         <div class=" text-center" >
-        <h2 class="header-no-margin">Quickrent</h2>
+            <h2 class="header-no-margin">Quickrent</h2>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center">
-        <a data-toggle="modal" data-target="#singin">Sing-In</a>
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singin">Sing-In</a>
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singup">Sing-Up</a>
 
-        <!-- Modal -->
+        <!-- Modal Sing-In -->
         <div class="modal fade" id="singin" role="dialog">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
+                        <h2 class="form-signin-heading">Please login</h2>
                     </div>
                     <div class="modal-body">
-                        <p>This is a large modal.</p>
+                        <div class="wrapper" ng-controller="LoginCtrl">
+                            <form class="form-signin">
+                                <input type="text" class="form-control" ng-model="username" placeholder="Username" required="" autofocus="" />
+
+                                <input type="password" class="form-control" ng-model="password" placeholder="Password" required=""/>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+                                </label>
+                                <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="login()">Login</button>
+                                <div class="row" align="center">
+                                    <a href="forgot.html">Forgot Username or password </a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+        <!-- Modal Sing-up -->
+        <div class="modal fade" id="" role="dialog">
+            <div class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="form-signin-heading">Sign-Up</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="wrapper" ng-controller="RegisterCtrl">
+                            <form class="form-signin">
+
+                                <input type="text" class="form-control" ng-model="regisusername" placeholder="User Name" required="" autofocus="" />
+                                <input type="email" class="form-control" ng-model="regisemail" placeholder="Email Address" required="" autofocus="" />
+                                <input type="password" class="form-control" ng-model="regispassword" placeholder="Password" required=""/>
+                                <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="register()">Register</button>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
 
-    </div>
+        <div class="modal fade" id="singup" role="dialog">
+            <div class="modal-dialog">
 
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="form-signin-heading">Sign-Up</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="wrapper" ng-controller="RegisterCtrl">
+                            <form class="form-signin">
+
+                                <input type="text" class="form-control" ng-model="regisusername" placeholder="User Name" required="" autofocus="" />
+                                <input type="email" class="form-control" ng-model="regisemail" placeholder="Email Address" required="" autofocus="" />
+                                <input type="password" class="form-control" ng-model="regispassword" placeholder="Password" required=""/>
+                                <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="register()">Register</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row body-section-height" >
-<img src="../images/dollar.jpg" class="img-resposive" width="100%">
-<div class="text-box-container" ng-controller="LocateCtrl">
-    <form>
-        <input type="text" class="form-control" placeholder="Search" ng-model="location" style="display:inline-block"/>
-        <div class="dropdown" style="display:inline-block">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Category
-                <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a href="#">Cars</a></li>
-                <li><a href="#">Books</a></li>
-                <li><a href="#">Clothes</a></li>
-            </ul>
-        </div>
-<div style="display:inline-block">
-<button class="btn btn-primary" type="submit" ng-click="locate()">GO</button>
-</div>
-</form>
+    <img src="../images/dollar.jpg" class="img-resposive background-image-size" width="100%">
+    <div class="text-box-container" ng-controller="LocateCtrl">
+        <form>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="location" />
+                </div>
+                <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle btn-width" type="button" data-toggle="dropdown">Category
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Cars</a></li>
+                            <li><a href="#">Books</a></li>
+                            <li><a href="#">Clothes</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
+                    <button class="btn btn-primary btn-width" type="submit" ng-click="locate()">GO</button>
+                </div>
+            </div>
+        </form>
 
+    </div>
 </div>
+<div class="inner-container">
+    <div class="row">
+        <div class="container">
+            <h3 class="text-center">Our Products</h3>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>Cars</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>Books</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>Furniture</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>Party Materials</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>Clothes</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>Machines</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>

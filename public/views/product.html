@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Product page</title>
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="../stylesheets/main.css">
+    <link rel="stylesheet" href="../stylesheets/home.css">
+</head>
+<body>
+<div class="row container-wrapper header-wrapper">
+
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Books</a></li>
+                <li><a href="#">Clothes</a></li>
+                <li><a href="#">Videogames</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class=" text-center" >
+            <h2 class="header-no-margin">Quickrent</h2>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center">
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singin">Sing-In</a>
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singup">Sing-Up</a>
+
+        <!-- Modal Sing-In -->
+        <div class="modal fade" id="singin" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="form-signin-heading">Please login</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="wrapper" ng-controller="LoginCtrl">
+                            <form class="form-signin">
+                                <input type="text" class="form-control" ng-model="username" placeholder="Username" required="" autofocus="" />
+
+                                <input type="password" class="form-control" ng-model="password" placeholder="Password" required=""/>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+                                </label>
+                                <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="login()">Login</button>
+                                <div class="row" align="center">
+                                    <a href="forgot.html">Forgot Username or password </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Modal Sing-up -->
+        <div class="modal fade" id="" role="dialog">
+            <div class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="form-signin-heading">Sign-Up</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="wrapper" ng-controller="RegisterCtrl">
+                            <form class="form-signin">
+
+                                <input type="text" class="form-control" ng-model="regisusername" placeholder="User Name" required="" autofocus="" />
+                                <input type="email" class="form-control" ng-model="regisemail" placeholder="Email Address" required="" autofocus="" />
+                                <input type="password" class="form-control" ng-model="regispassword" placeholder="Password" required=""/>
+                                <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="register()">Register</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="singup" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="form-signin-heading">Sign-Up</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="wrapper" ng-controller="RegisterCtrl">
+                            <form class="form-signin">
+
+                                <input type="text" class="form-control" ng-model="regisusername" placeholder="User Name" required="" autofocus="" />
+                                <input type="email" class="form-control" ng-model="regisemail" placeholder="Email Address" required="" autofocus="" />
+                                <input type="password" class="form-control" ng-model="regispassword" placeholder="Password" required=""/>
+                                <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="register()">Register</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--Products -->
+<div class="container">
+    <div class="row inner-padding">
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+            <div class="form-group">
+                <label for="sel1">Products:</label>
+                <select class="form-control" id="sel1">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+            <div class="form-group">
+                <label for="sel1">Area:</label>
+                <select class="form-control" id="sel1">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+            <div class="form-group">
+                <label for="sel1">Price:</label>
+                <select class="form-control" id="sel1">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+            <div class="form-group inner-padding" style="margin-top:15px">
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addproduct">Add Product</button>
+
+                <!-- Modal -->
+                <div id="addproduct" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modal Header</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row text-left">
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <h5>Name:</h5>
+                                    </div>
+                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                        <div style="padding: 5px">
+                                            <textarea class="form-control" rows="1" id="comment"></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <h5>Description:</h5>
+                                    </div>
+                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                        <textarea name="editor1" id="editor1" rows="10" cols="80">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <h5>Address:</h5>
+                                    </div>
+                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                        <textarea name="editor2" id="editor2" rows="10" cols="80">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <h5>Price:</h5>
+                                    </div>
+                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                        <textarea class="form-control" rows="1" id="comment"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <h5>Contact:</h5>
+                                    </div>
+                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                        <textarea class="form-control" rows="1" id="comment"></textarea>
+                                        <div class="inner-padding">
+                                            <button class="btn btn-danger">Post add</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Products controller-->
+    <div class="row">
+        <div ng-controller="Product">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" ng-repeat="product in products">
+                <div class="card" ng-modal="product">
+                    <div class="card-img-container">
+                        <img src="../images/dollar.jpg" class="card-img">
+                        <span class="card-title">{{product.name}}</span>
+                    </div>
+                    <div class="card-product-content">
+                        <p>{{product.desciption}}</p>
+                        <!-- Trigger the modal with a button -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product1">{{product.moredetail}}</button>
+
+                        <!-- Modal -->
+                        <div id="product1" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Product Details</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row inner-padding">
+                                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                                <!-- Indicators -->
+                                                <ol class="carousel-indicators">
+                                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                                                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                                                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                                                </ol>
+
+                                                <!-- Wrapper for slides -->
+                                                <div class="carousel-inner" role="listbox">
+
+                                                    <div class="item active">
+                                                        <img src="../images/dollar.jpg" alt="Chania" width="100%">
+                                                    </div>
+
+                                                    <div class="item">
+                                                        <img src="../images/dollar.jpg" alt="Chania" width="100%">
+
+                                                    </div>
+
+                                                    <div class="item">
+                                                        <img src="../images/dollar.jpg" alt="Flower" width="100%">
+                                                    </div>
+
+                                                    <div class="item">
+                                                        <img src="../images/dollar.jpg" alt="Flower" width="100%">
+                                                    </div>
+
+                                                </div>
+
+                                                <!-- Left and right controls -->
+                                                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>Name:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <div style="padding: 5px">
+                                                    <p>Darshan jethwa</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>Description:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>Address:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>Price:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>Contact:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>Description:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>Text:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <form>
+                                                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                                                    <div style="padding:10px">
+                                                        <button class="btn btn-primary">Email</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../controllers/controller.js"></script>
+<script type="text/javascript" src="../controllers/productController.js"></script>
+<script type="text/javascript" src="http://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'editor1' );
+    CKEDITOR.replace( 'editor2' );
+</script>
+</body>
+</html>
