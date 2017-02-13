@@ -227,7 +227,7 @@
     <div class="row">
         <div ng-controller="Product">
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" ng-repeat="product in products">
-                <div class="card" ng-modal="product">
+                <div class="card">
                     <div class="card-img-container">
                         <img src="../images/dollar.jpg" class="card-img">
                         <span class="card-title">{{product.name}}</span>
@@ -235,10 +235,10 @@
                     <div class="card-product-content">
                         <p>{{product.desciption}}</p>
                         <!-- Trigger the modal with a button -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product1">{{product.moredetail}}</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product{{$index}}">{{product.moredetail}}</button>
 
                         <!-- Modal -->
-                        <div id="product1" class="modal fade" role="dialog">
+                        <div id="product{{$index}}" class="modal fade" role="dialog">
                             <div class="modal-dialog">
 
                                 <!-- Modal content-->
@@ -297,7 +297,7 @@
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
                                                 <div style="padding: 5px">
-                                                    <p>Darshan jethwa</p>
+                                                    <p>{{product.name}}</p>
                                                 </div>
 
                                             </div>
@@ -307,7 +307,7 @@
                                                 <h5>Description:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p></p>
+                                                <p>{{product.modaldetails}}</p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -315,7 +315,7 @@
                                                 <h5>Address:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p></p>
+                                                <p>{{product.address}}</p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -323,7 +323,7 @@
                                                 <h5>Price:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p></p>
+                                                <p>{{product.price}}</p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -331,15 +331,7 @@
                                                 <h5>Contact:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p></p>
-                                            </div>
-                                        </div>
-                                        <div class="row text-left">
-                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                <h5>Description:</h5>
-                                            </div>
-                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p></p>
+                                                <p>{{product.contact}}</p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -350,7 +342,7 @@
                                                 <form>
                                                     <textarea class="form-control" rows="5" id="comment"></textarea>
                                                     <div style="padding:10px">
-                                                        <button class="btn btn-primary">Email</button>
+                                                        <button class="btn btn-primary">{{product.buttontext}}</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -370,7 +362,10 @@
 
 
     </div>
+<!--pagination-->
+    <div class="row text-center">
 
+    </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -378,6 +373,7 @@
 <script type="text/javascript" src="../controllers/controller.js"></script>
 <script type="text/javascript" src="../controllers/productController.js"></script>
 <script type="text/javascript" src="http://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+
 <script>
     CKEDITOR.replace( 'editor1' );
     CKEDITOR.replace( 'editor2' );

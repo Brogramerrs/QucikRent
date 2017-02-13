@@ -84,3 +84,27 @@ myApp.controller('LocateCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 
 }]);
+//-----------controller for product--------//
+myApp.controller('Product', ['$scope',function ($scope) {
+
+    var productlist=[];
+    for(var i=1;i<=100;i++)
+    {
+        var products=
+            {
+                name:"Products "+i,
+                desciption:"description "+i,
+                moredetail:"More Detail"+i,
+                modaldetails:"Lorem ipsum dolor sit amet",
+                address:"2541 e temple ave",
+                price:"24$",
+                contact:"6263275334",
+                buttontext:"Email"
+
+            };
+
+        productlist.push(products);
+    }
+    $scope.products=productlist;
+
+}]);
