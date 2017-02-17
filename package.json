@@ -29,7 +29,7 @@
     "jshint": "^2.9.4"
   },
   "scripts": {
-    "test":"./node_module/mocha/bin/mocha ./test/demoTest.js"
+    "test":"mocha"
     
   },
   "repository": {
