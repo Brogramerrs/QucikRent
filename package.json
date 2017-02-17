@@ -29,7 +29,7 @@
     "jshint": "^2.9.4"
   },
   "scripts": {
-    "test": ""
+    
   },
   "repository": {
     "type": "git",
