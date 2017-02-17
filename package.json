@@ -29,7 +29,7 @@
     "jshint": "^2.9.4"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "node_modules/.bin/mocha --reporter spec"
   },
     "repository": {
     "type": "git",
