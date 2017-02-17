@@ -5,3 +5,4 @@ node_js:
 =======
   - 6.9.4
 >>>>>>> 3199b006f803d894106c23c30e4f0dbb7615feea
+before_script: chmod 0777 ./node_modules/.bin/mocha
