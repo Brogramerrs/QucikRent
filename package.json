@@ -28,11 +28,7 @@
     "chai": "^3.5.0",
     "jshint": "^2.9.4"
   },
-  "scripts": {
-    "test":"./node_modules/.bin/mocha"
-    
-  },
-  "repository": {
+    "repository": {
     "type": "git",
     "url": "git+https://github.com/Brogramerrs/QuickRent.git"
   },
