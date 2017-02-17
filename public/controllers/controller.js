@@ -6,8 +6,6 @@ myApp.controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
     console.log("hello from the controller");
     $scope.login = function () {
         console.log("Login Button Clicked");
-
-
         $http({
             method: 'POST',
             url: '/CheckUser',
@@ -26,13 +24,17 @@ myApp.controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
 
 //-----------------Controller for Registration Page-------------------------------------------//
 myApp.controller('RegisterCtrl', ['$scope', '$http', function ($scope, $http) {
+    console.log("clicked register controller");
     $scope.register = function () {
-        var username = $scope.regisusername;
-        var email = $scope.regisemail;
-        var pwd = $scope.regispassword;
         $http({
             method: 'POST',
-            url: '/CheckregisterUser?username=' + username + '&email=' + email + '&password=' + pwd
+            url: '/CheckregisterUser',
+            data: {
+                username: $scope.regisusername,
+                email:$scope.regisemail,
+                password: $scope.regispassword
+
+            },
         }).then(function successCallback(response) {
             console.log(response.data);
 
@@ -108,3 +110,11 @@ myApp.controller('Product', ['$scope',function ($scope) {
     $scope.products=productlist;
 
 }]);
+//-----product select---//
+/*
+myApp.controller('selectProduct'['$scope',function ($scope) {
+    $scope.items =
+    [
+        name: "cars"
+    ]
+}]);*/

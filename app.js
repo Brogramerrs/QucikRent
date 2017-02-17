@@ -51,21 +51,21 @@ app.post('/CheckUser',function(req,res) {
 app.post('/CheckregisterUser',function(req,res) {
     if (req.body.username === "tarun" && req.body.email === "tarun@gmail.com")
     {
+
         res.json({"data" : "This username has already taken"});
     }
     else{
         //-------------------------------Encrypting password-------------------------------//
 
+        // Encrypt
+            var ciphertext = CryptoJS.AES.encrypt(req.body.pwd, '100%sucker');
 
-// Encrypt
-        var ciphertext = CryptoJS.AES.encrypt(req.body.pwd, '100%sucker');
-
-// // Decrypt
-// var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
-// var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-        console.log("cipher text"+ciphertext);
-        res.json({"data":"Encrypted Password :"+ciphertext});
-    }
+        // // Decrypt
+        // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
+        // var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+            console.log("cipher text"+ciphertext);
+            res.json({"data":"Encrypted Password :"+ciphertext});
+        }
 });
 //-------------------------------Services for forgot password page-------------------------------//
 app.post('/forgotPassword',function(req,res) {

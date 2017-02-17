@@ -115,10 +115,10 @@
 <div class="container">
     <div class="row inner-padding">
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="form-group">
+            <div class="form-group" ng-controller="chooseProduct">
                 <label for="sel1">Products:</label>
-                <select class="form-control" id="sel1">
-                    <option>1</option>
+                <select class="form-control" id="sel1" ng-repeat="item in items">
+                    <option>{{item.}}</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
