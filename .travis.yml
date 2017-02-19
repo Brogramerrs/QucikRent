@@ -2,13 +2,14 @@ language: node_js
 node_js: 
   - 6.9.4
 before_script: chmod 0777 ./node_modules/mocha/bin/mocha
+env:
+  - secure: "NUF1dxHr+3oy6enBSIr8dtDZtPM44FmPqJfThhQ5GH8L7UV58p4dEFU1K2XyjyE3h6bBZFglzU04GNCesQjCmBXVJhFrQCGj9VRAWxwQ/vn+CmEJOICtBhxweN2+Gy0hn68ur90CRIDnwSUL424P7SD1y9at8n2cN+6qHBNvUzirZ8Ta3zElmp1EkPUD74NaRiU8R+8pNwtFPVPOIFPRlZ0rxaFezcNmPKmk4JUIdwss7eu+Xi5X5Kbo/VK0Rn1qPTZ2gjJCzFPYr4NR7tUDqhrjh0xwajJH0F05CSSffMEqkURmHh5GBNeDm/dgPZIXU65BKY6hO/6DGBtTQGXNoMPfajpEKYVzvO9dmJaN5/PE+qn9zAxJiV/7n6aErYPeWCf5HxkFZC5JvTP+KtmceAj7eN/RxI1mtSq57IidWC1TpUe7b5myIVdBfIAl5XugQ/4LgeScyj0LbqKsCB9CMbWBrBzLlia3q8ZWZJkSDpuMldExSuxtwBiJ6FPuCPmLzbCX0LL3j9woQHRkxmkcT9rCjmHI28OXMZ7wTIDovoIrhE3GboTTKgb/3sDChsdLwb75gUWKCpNpmvXpuQsjk8oM5FactMvX10au2i7X08VbOdTxdAXfSIWtj8KxuWZfq3vBH6zCvuGfy5G3qTpbXE/f3lu/4lRcB/dsVhHYEhU="
 deploy:
       skip_cleanup: true
       wait-until-deployed: true
       region: us-west-2
       provider: codedeploy
-      access_key_id: ""
-      secret_access_key: ""
+      access_key_id: "AKIAJGJAP6S7ROFUKAUA"
       application: QuickRent
       deployment_group: QuickRent
       
