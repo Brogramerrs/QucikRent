@@ -1,5 +1,5 @@
 
-var myApp = angular.module('myApp', []);
+var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination']);
 
 //-----------------Controller for login Page-------------------------------------------//
 myApp.controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -88,7 +88,6 @@ myApp.controller('LocateCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 //-----------controller for product--------//
 myApp.controller('Product', ['$scope',function ($scope) {
-
     var productlist=[];
     for(var i=1;i<=100;i++)
     {
@@ -108,13 +107,46 @@ myApp.controller('Product', ['$scope',function ($scope) {
         productlist.push(products);
     }
     $scope.products=productlist;
+    $scope.currentPage = 1;
+    $scope.pageSize = 12;
+
+    function OtherController($scope) {
+
+        $scope.pageChangeHandler = function(num) {
+        };
+    }
 
 }]);
 //-----product select---//
-/*
-myApp.controller('selectProduct'['$scope',function ($scope) {
+myApp.controller('selectProduct',['$scope','$http',function ($scope, $http) {
     $scope.items =
-    [
-        name: "cars"
-    ]
-}]);*/
+        {
+            name: ['Car','Books','Furniture','Machines','Others']
+        };
+    $scope.areas =
+        {
+            location: ['Irvine','West covina','Santa ana','new york']
+
+        };
+    $scope.prices =
+        {
+            amount: ['10', '20', '30']
+        };
+    $scope.selected = function () {
+    $http({
+        method: 'POST',
+        url: '/ProductSelectCheck',
+        data:{
+            itemWanted:$scope.itemSelect
+        },
+
+    }).then(function successCallback(response) {
+        console.log(response.data);
+
+    }, function errorCallback(response) {
+        console.log('error');
+    });
+
+    };
+}]);
+//-----------product pagination--------//

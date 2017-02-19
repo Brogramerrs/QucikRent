@@ -124,5 +124,14 @@ app.post('/locate',function (req,res) {
     });
 
 });
-
+//----------------------------Service for product selected----------------------------------//
+app.post('/ProductSelectCheck',function(req,res) {
+    console.log(req.body.itemWanted);
+    /*if(req.body.itemWanted === "Car" || req.body.itemWanted === "Books" || req.body.itemWanted === "admin") {
+        res.json({"data" : "Valid User"});
+    } else {
+        res.json({"data" : "Invalid User"});
+    }*/
+    res.json({"data": "valid data"})
+});
 module.exports = app;
