@@ -7,8 +7,8 @@ deploy:
       wait-until-deployed: true
       region: us-west-2
       provider: codedeploy
-      access_key_id: "AKIAJBNUOLGIDBFGRZDQ"
-      secret_access_key: "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"
+      access_key_id: ""
+      secret_access_key: ""
       application: QuickRent
       deployment_group: QuickRent
       
