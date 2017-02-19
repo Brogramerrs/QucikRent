@@ -1,16 +1,15 @@
 language: node_js
-node_js: 
-  - 6.9.4
+node_js:
+- 6.9.4
 before_script: chmod 0777 ./node_modules/mocha/bin/mocha
-env:
-  - secure: "NUF1dxHr+3oy6enBSIr8dtDZtPM44FmPqJfThhQ5GH8L7UV58p4dEFU1K2XyjyE3h6bBZFglzU04GNCesQjCmBXVJhFrQCGj9VRAWxwQ/vn+CmEJOICtBhxweN2+Gy0hn68ur90CRIDnwSUL424P7SD1y9at8n2cN+6qHBNvUzirZ8Ta3zElmp1EkPUD74NaRiU8R+8pNwtFPVPOIFPRlZ0rxaFezcNmPKmk4JUIdwss7eu+Xi5X5Kbo/VK0Rn1qPTZ2gjJCzFPYr4NR7tUDqhrjh0xwajJH0F05CSSffMEqkURmHh5GBNeDm/dgPZIXU65BKY6hO/6DGBtTQGXNoMPfajpEKYVzvO9dmJaN5/PE+qn9zAxJiV/7n6aErYPeWCf5HxkFZC5JvTP+KtmceAj7eN/RxI1mtSq57IidWC1TpUe7b5myIVdBfIAl5XugQ/4LgeScyj0LbqKsCB9CMbWBrBzLlia3q8ZWZJkSDpuMldExSuxtwBiJ6FPuCPmLzbCX0LL3j9woQHRkxmkcT9rCjmHI28OXMZ7wTIDovoIrhE3GboTTKgb/3sDChsdLwb75gUWKCpNpmvXpuQsjk8oM5FactMvX10au2i7X08VbOdTxdAXfSIWtj8KxuWZfq3vBH6zCvuGfy5G3qTpbXE/f3lu/4lRcB/dsVhHYEhU="
 deploy:
-      skip_cleanup: true
-      wait-until-deployed: true
-      region: us-west-2
-      provider: codedeploy
-      access_key_id: "AKIAJGJAP6S7ROFUKAUA"
-      application: QuickRent
-      deployment_group: QuickRent
-      
-
+  skip_cleanup: true
+  wait-until-deployed: true
+  region: us-west-2
+  provider: codedeploy
+  access_key_id: AKIAJGJAP6S7ROFUKAUA
+  application: QuickRent
+  deployment_group: QuickRent
+env:
+  global:
+    secure: DqzaqrV3/4vwT4eDRA8OgnGvcUYuPrCLXlw8r/pzG53beUFJxAmot8rMPaK36px9ZEUvCwqUOKyhPxub/J48MKUu/8IBkJm2hlr8jBs3l3+vS0qr4tUO0PVVuU7yOyOCcUYnBx3+/fc9TB+CETyUVCiC+sCI6VJuztjEEdJh4G1iHOsO2UozsK1953to/Oix/H4K61gUDci63pTNdRT8JAK4mSAk9xLrh187k4FyWSxvU8/9siQ/3p8JE7v7E2Zx6Gx33dnE6EocBnIbMIj+eqdxVoB1GJCbrLcKT3llUSNcBhC0h19czvK07guiAEoFMDL0uhqIT7zfkbIamTCioN2XCPNZN/v8js82lrNfzQ7L61/6zFAbCABZse88f0d7zfn25jEN7gyYUnE9wEftEwJzsJZhDAUJ4p//Q8aNjEe2eX1AIDL5+DeDBl881DhH7lLF1IBcYOXFHtNTq5Jz4SjTa+pZvyzC8xDWp+0fJS7NF1lzFNzVQxOmrsN/3pzGidTXfQtFJTuoCreHLL4x/uZ32SO4Xe1mo1NLJVPqQ33+4Dd+2nE1Wm7hP++eYnsduqm+01Dvt0gwbd09A6XKdrqRA3///wtTklXYENuSiav4/yyAH8GP0UP9qq+BkiLqIvACu9p2gCHjPta74q0Y8ruI8pfkw61wSoc/1lrwxpY=
