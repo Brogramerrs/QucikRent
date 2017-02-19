@@ -2,3 +2,13 @@ language: node_js
 node_js: 
   - 6.9.4
 before_script: chmod 0777 ./node_modules/mocha/bin/mocha
+deploy:
+      provider: codedeploy
+      access_key_id: "AKIAJBNUOLGIDBFGRZDQ"
+      secret_access_key: "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"
+      skip_cleanup: true
+      wait-until-deployed: true
+      application: QuickRent
+      deployment_group: QuickRent
+      region: us-west-2
+
