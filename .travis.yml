@@ -6,7 +6,7 @@ deploy:
   skip_cleanup: true
   wait-until-deployed: true
   access_key_id: AKIAJGJAP6S7ROFUKAUA
-  secret_access_key: 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
+  secret_access_key: 
   region: us-west-2
   provider: codedeploy  
   application: QuickRent
