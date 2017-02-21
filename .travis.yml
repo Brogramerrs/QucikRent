@@ -2,13 +2,8 @@ language: node_js
 node_js:
 - 6.9.4
 before_script: chmod 0777 ./node_modules/mocha/bin/mocha
-deploy:
-  skip_cleanup: true
-  wait-until-deployed: true
-  access_key_id: AKIAJGJAP6S7ROFUKAUA
-  secret_access_key:
-    secure: "BbZk+/cQETnK0pqSYzN+m/wY3YusOQ8Z0keHMWkgDw3Yiix2MFzxGYcs1A5UPmJYFNKfJdQwMsB7ApgoYpZbPLHrmlZ+W/tAo25p8MtmKsC1jWyceVDmRy7wSbDwcvVc9qj5RDNH58j+9IocyQj+JLduc6f/8vblm3BgAF4fivmgWQ/T2FHb7LpBpqR6TgBh3le4N5+gCSFm0b2CefESzp4KO9GeyU76nlDIcfu+CgykeOt1rRz6sXma+phUr8lcdyMWc6AXp5T/xfcybLFFeSQrxTIeJlKay55PBFapjFmlN/dsEcARYXINBVZvsrdVmDy37KOsp6J8JcqVk0JoAptujdQJanorTsB14ya34dvvySuIds+io2APGc6y2qI/Xkab7eizZO1fQcMq8YR9+/20tnM04ShBvpxX00A/iir8baX3h+xKbkPqeSI9SQPUpDBjOgterXue1Ws3xwKjG++dzLE+HMrxMoHuK3d845fxU3t4R/htuuf10Xsdd14PBDWaslS081Tv5e19P5aAddFQj7KR6kAIjHtCJ+WgFFktDbDr2ebPxdIHxlsGr/6WVKoUZx5z9BcxKtPXdQAqiIji+6XvQjx9fWMNjq2Dd2mi7Ll8kmnHez8zjTIR5HaxQiziPe7lmrpDfz9XZ/RAFVorC4naDrObexGbpGp9dWQ="
-  region: us-west-2
-  provider: codedeploy  
-  application: QuickRent
-  deployment_group: QuickRent
+before_install:
+    openssl aes-256-cbc -K $encrypted_15226b4476b5_key -iv $encrypted_15226b4476b5_iv -in quickrent.pem.enc -out quickrent.pem -d
+after_success:
+    chmod 400 ./quickrent.pem
+    ssh -i ./quickrent.pem ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd apps/Quickrent"

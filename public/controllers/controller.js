@@ -1,5 +1,5 @@
 
-var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination']);
+var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination','ngRoute']);
 
 //-----------------Controller for login Page-------------------------------------------//
 myApp.controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {

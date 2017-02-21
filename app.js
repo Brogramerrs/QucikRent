@@ -8,7 +8,7 @@ var express = require('express');
 var nodemailer = require('nodemailer');
 var CryptoJS = require("crypto-js");
 var NodeGeocoder = require('node-geocoder');
-
+var db;
 var index = require('./routes/index');
 
 var app = express();
@@ -56,7 +56,15 @@ app.post('/CheckregisterUser',function(req,res) {
     }
     else{
         //-------------------------------Encrypting password-------------------------------//
+        //databse
+/*
+        db.collection('CheckregisterUser').insert(req.body, function(err, result) {
+            if (err)
+                return console.log(err)
 
+            console.log('saved to database')
+            /!*res.redirect('/product.html')*!/
+        });*/
         // Encrypt
             var ciphertext = CryptoJS.AES.encrypt(req.body.pwd, '100%sucker');
 
@@ -134,4 +142,5 @@ app.post('/ProductSelectCheck',function(req,res) {
     }*/
     res.json({"data": "valid data"})
 });
+
 module.exports = app;
