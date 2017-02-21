@@ -6,7 +6,8 @@ deploy:
   skip_cleanup: true
   wait-until-deployed: true
   access_key_id: AKIAJGJAP6S7ROFUKAUA
-  secret_access_key: 
+  secret_access_key:
+    secure: "BbZk+/cQETnK0pqSYzN+m/wY3YusOQ8Z0keHMWkgDw3Yiix2MFzxGYcs1A5UPmJYFNKfJdQwMsB7ApgoYpZbPLHrmlZ+W/tAo25p8MtmKsC1jWyceVDmRy7wSbDwcvVc9qj5RDNH58j+9IocyQj+JLduc6f/8vblm3BgAF4fivmgWQ/T2FHb7LpBpqR6TgBh3le4N5+gCSFm0b2CefESzp4KO9GeyU76nlDIcfu+CgykeOt1rRz6sXma+phUr8lcdyMWc6AXp5T/xfcybLFFeSQrxTIeJlKay55PBFapjFmlN/dsEcARYXINBVZvsrdVmDy37KOsp6J8JcqVk0JoAptujdQJanorTsB14ya34dvvySuIds+io2APGc6y2qI/Xkab7eizZO1fQcMq8YR9+/20tnM04ShBvpxX00A/iir8baX3h+xKbkPqeSI9SQPUpDBjOgterXue1Ws3xwKjG++dzLE+HMrxMoHuK3d845fxU3t4R/htuuf10Xsdd14PBDWaslS081Tv5e19P5aAddFQj7KR6kAIjHtCJ+WgFFktDbDr2ebPxdIHxlsGr/6WVKoUZx5z9BcxKtPXdQAqiIji+6XvQjx9fWMNjq2Dd2mi7Ll8kmnHez8zjTIR5HaxQiziPe7lmrpDfz9XZ/RAFVorC4naDrObexGbpGp9dWQ="
   region: us-west-2
   provider: codedeploy  
   application: QuickRent
