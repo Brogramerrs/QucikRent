@@ -3,8 +3,13 @@ node_js:
 - 6.9.4
 before_script: chmod 0777 ./node_modules/mocha/bin/mocha
 before_install:
-    openssl aes-256-cbc -K $encrypted_15226b4476b5_key -iv $encrypted_15226b4476b5_iv -in quickrent.pem.enc -out quickrent.pem -d
+- openssl aes-256-cbc -K $encrypted_15226b4476b5_key -iv $encrypted_15226b4476b5_iv -in quickrent.pem.enc -out quickrent.pem -d
 after_success:
+<<<<<<< HEAD
     chmod 400 ./quickrent.pem
     ssh -i ./quickrent.pem ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd apps/Quickrent"
     ssh -i ./quickrent.pem ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "git pull"
+=======
+- chmod 400 ./quickrent.pem
+- ssh -i ./quickrent.pem ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd apps/Quickrent"
+>>>>>>> 34f364f2853f0879eee293b0a46fbcec2de0f295
