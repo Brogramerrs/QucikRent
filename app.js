@@ -56,14 +56,14 @@ app.post('/CheckregisterUser',function(req,res) {
     }
     else{
         //-------------------------------Encrypting password-------------------------------//
-        //databse
-/*
-        db.collection('CheckregisterUser').insert(req.body, function(err, result) {
-            if (err)
-                return console.log(err)
+        /*//databse
 
-            console.log('saved to database')
-            /!*res.redirect('/product.html')*!/
+        db.collection('personalinfo').save(req.body, function(err, result) {
+            if (err)
+                return console.log(err);
+
+            console.log('saved to database');
+            res.redirect('/product.html');
         });*/
         // Encrypt
             var ciphertext = CryptoJS.AES.encrypt(req.body.pwd, '100%sucker');
