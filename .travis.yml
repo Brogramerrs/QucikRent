@@ -6,11 +6,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_6a3d15ed6de0_key -iv $encrypted_6a3d15ed6de0_iv -in quickrent.pem.enc -out quickrent.pem -d
 after_success:
 - chmod 700 ./quickrent.pem
-- ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd /"
-- ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "ls"
-- ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd apps"
-- ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "ls"
-- ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd QuickRent"
+- ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd /apps/QuickRent"
 - ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "ls"
 - ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "git pull"
 
