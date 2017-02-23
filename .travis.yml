@@ -7,5 +7,6 @@ before_install:
 after_success:
 - chmod 400 ./quickrent.pem
 - ssh -i ./quickrent.pem ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd apps/Quickrent"
+- ssh -i ./quickrent.pem ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "yes"
 - ssh -i ./quickrent.pem ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "git pull"
 
