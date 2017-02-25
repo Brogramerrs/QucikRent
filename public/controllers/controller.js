@@ -2,20 +2,26 @@
 var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination']);//'angularUtils.directives.dirPagination','ngRoute'
 
 //-----------------Controller for login Page-------------------------------------------//
-myApp.controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('LoginCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     console.log("hello from the controller");
     $scope.login = function () {
         console.log("Login Button Clicked");
         $http({
             method: 'POST',
             url: '/CheckUser',
-            data : {
-                username: $scope.username,
-                password: $scope.password
+            data: {
+                username: $scope.loginusername,
+                password: $scope.loginpassword
             },
         }).then(function successCallback(response) {
-            console.log(response.data.data);
+            console.log(response);
+            console.log("successcallback");
+//            console.log(response.data.toString());
+            if(response.data.toString().includes("Valid"))
+            {$window.location.href = '/';}
+
         }, function errorCallback(response) {
+            console.log("error");
             console.log(response.status);
         });
     };

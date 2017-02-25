@@ -1,3 +1,4 @@
+delete process.env["DEBUG_FD"];
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -8,11 +9,11 @@ var express = require('express');
 var nodemailer = require('nodemailer');
 var CryptoJS = require("crypto-js");
 var NodeGeocoder = require('node-geocoder');
-var db;
+var mongo = require('mongoskin');
 var index = require('./routes/index');
 
 var app = express();
-
+db = mongo.db('mongodb://admin:root@ds153669.mlab.com:53669/quick_rent_database');
 var options = {
     provider: 'google',
     httpAdapter: 'https',
@@ -40,12 +41,59 @@ app.use('/', index);
 
 //-------------------------------Services for Login page-------------------------------//
 app.post('/CheckUser',function(req,res) {
-    if(req.body.username === "admin" && req.body.password === "admin") {
+     db.collection("personal_info").findOne({username: req.body.username, password: req.body.password},function (err, data) {
+            console.log("entered function");
+            if (err) {
+                console.log("entered if");
+                res.json(err);
+                console.log(err);
+            }
+            else if (data==null ||data.length == 0) {
+                console.log("entered else if");
+                //res.json(err);
+                res.json("Empty Data");
+            }
+            else {
+                console.log("entered else");
+                //console.log(data);
+                res.json("Valid");
+            }
+
+        }
+    );
+
+});
+
+
+
+            /* var name = getName();
+            var pass = get();
+            console.log(name); // this prints "undefined"*/
+    /*if (db.model("personal_info").find(username:req.body.username, password:req.body.password) != null)
+    {
         res.json({"data" : "Valid User"});
     } else {
         res.json({"data" : "Invalid User"});
-    }
-});
+    }*/
+
+
+
+
+
+/*function getName(){
+    db.test.find({name: req.body.username}, function(err, objs){
+        var returnable_name;
+        if (objs.length == 1)
+        {
+            returnable_name = objs[0].name;
+            console.log(returnable_name); // this prints "Renato", as it should
+            return returnable_name;
+        }
+    });
+}*/
+
+
+
 
 //-------------------------------Services for Registration page-------------------------------//
 app.post('/CheckregisterUser',function(req,res) {
@@ -55,17 +103,16 @@ app.post('/CheckregisterUser',function(req,res) {
         res.json({"data" : "This username has already taken"});
     }
     else{
-        //-------------------------------Encrypting password-------------------------------//
-        /*//databse
+        //-------------------------------database-------------------------------------------//
 
-        db.collection('personalinfo').save(req.body, function(err, result) {
+        db.collection('personal_info').save(req.body, function(err, result) {
             if (err)
                 return console.log(err);
 
             console.log('saved to database');
-            res.redirect('/product.html');
-        });*/
-        // Encrypt
+        })
+
+        //-------------------------------Encrypting password-------------------------------//
             var ciphertext = CryptoJS.AES.encrypt(req.body.pwd, '100%sucker');
 
         // // Decrypt
