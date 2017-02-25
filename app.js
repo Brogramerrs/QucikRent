@@ -45,18 +45,18 @@ app.post('/CheckUser',function(req,res) {
             console.log("entered function");
             if (err) {
                 console.log("entered if");
-                res.json(err);
+                res.json({"data":"failed" + err});
                 console.log(err);
             }
             else if (data==null ||data.length == 0) {
                 console.log("entered else if");
                 //res.json(err);
-                res.json("Empty Data");
+                res.json({"data":"Empty Data"});
             }
             else {
                 console.log("entered else");
                 //console.log(data);
-                res.json("Valid");
+                res.json({"data" : "Valid"});
             }
 
         }

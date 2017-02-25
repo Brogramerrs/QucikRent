@@ -17,9 +17,9 @@ myApp.controller('LoginCtrl', ['$scope', '$http', '$window', function ($scope, $
 
             console.log(response);
             console.log("successcallback");
-//            console.log(response.data.toString());
             if (response.data.toString().includes("Valid")) {
-                $window.location.href = 'views/product.html';
+                console.log("entered if loop");
+                $window.location.href = 'product.html';
             }
         },
         function errorCallback(response) {

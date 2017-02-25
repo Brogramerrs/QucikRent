@@ -7,3 +7,4 @@ before_install:
 after_success:
 - chmod 700 ./quickrent.pem
 - ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd apps/QuickRent && sudo git pull"
+- ssh -i ./quickrent.pem -o "StrictHostKeyChecking no" ubuntu@ec2-52-32-216-134.us-west-2.compute.amazonaws.com "cd apps/QuickRent/database forever start mlab_connection.js"

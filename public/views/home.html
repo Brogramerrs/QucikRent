@@ -23,10 +23,10 @@
             <h2 class="header-no-margin">QuickRent</h2>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center">
-        <a class="btn btn-primary" data-toggle="modal" data-target="#singin" value="">Sing-In</a>
-        <a class="btn btn-primary" data-toggle="modal" data-target="#singup" value="">Sing-Up</a>
-        <button class="btn btn-danger" ng-show="false" value="">Logout</button>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center" ng-controller="LoginCtrl">
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singin" value="" >Sing-In</a>
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singup" value="" >Sing-Up</a>
+        <button class="btn btn-danger" ng-show="" value="">Logout</button>
        <!-- hi there-->
         <!-- Modal Sing-In -->
         <div class="modal fade" id="singin" role="dialog">
@@ -39,7 +39,7 @@
                         <h2 class="form-signin-heading">Please login</h2>
                     </div>
                     <div class="modal-body">
-                        <div class="wrapper" ng-controller="LoginCtrl">
+                        <div class="wrapper" >
                             <form class="form-signin">
                                 <input type="text" class="form-control" ng-model="loginusername" placeholder="Username" required="" autofocus="" />
 
