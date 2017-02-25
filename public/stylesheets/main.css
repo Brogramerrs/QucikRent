@@ -64,3 +64,8 @@ Card-ui*/
     text-align: center;
     padding: 24px;
 }
+.display-inline
+{
+    display: inline-block;
+    padding-right: 5px;
+}

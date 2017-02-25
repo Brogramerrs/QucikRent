@@ -14,13 +14,15 @@ myApp.controller('LoginCtrl', ['$scope', '$http', '$window', function ($scope, $
                 password: $scope.loginpassword
             },
         }).then(function successCallback(response) {
+
             console.log(response);
             console.log("successcallback");
 //            console.log(response.data.toString());
-            if(response.data.toString().includes("Valid"))
-            {$window.location.href = '/';}
-
-        }, function errorCallback(response) {
+            if (response.data.toString().includes("Valid")) {
+                $window.location.href = 'views/product.html';
+            }
+        },
+        function errorCallback(response) {
             console.log("error");
             console.log(response.status);
         });
@@ -125,7 +127,7 @@ myApp.controller('Product', ['$scope',function ($scope) {
 }]);
 //-----product select---//
 myApp.controller('selectProduct',['$scope','$http',function ($scope, $http) {
-    $scope.items =
+   $scope.items =
         {
             name: ['Car','Books','Furniture','Machines','Others']
         };
@@ -139,11 +141,17 @@ myApp.controller('selectProduct',['$scope','$http',function ($scope, $http) {
             amount: ['10', '20', '30']
         };
     $scope.selected = function () {
+        console.log("search module called");
+        console.log($scope.itemSelectName);
+        console.log($scope.itemSelectArea);
+        console.log($scope.itemSelectPrice);
     $http({
         method: 'POST',
         url: '/ProductSelectCheck',
         data:{
-            itemWanted:$scope.itemSelect
+            itemName:$scope.itemSelectName,
+            itemArea:$scope.itemSelectArea,
+            itemPrice:$scope.itemSelectPrice
         },
 
     }).then(function successCallback(response) {
@@ -155,4 +163,29 @@ myApp.controller('selectProduct',['$scope','$http',function ($scope, $http) {
 
     };
 }]);
-//-----------product pagination--------//
+/*Add product*/
+myApp.controller('addProduct',['$scope','$http',function($scope,$http){
+    $scope.addProductToDb = function () {
+        $http({
+            method: 'POST',
+            url: '/ProductSelectCheck',
+            data: {
+                productImages:$scope.images =
+                {
+                    
+                },
+                productOwnerName:$scope.ownername,
+                productDescription:$scope.productdescrip,
+                productAddress:$scope.productaddress,
+                productPrice:$scope.productprice,
+                productContact:$scope.productcontact
+            },
+        }).
+        then(function successCallback(response) {
+            console.log(response.data);
+
+        }, function errorCallback(response) {
+            console.log('error');
+        });
+    };
+}]);

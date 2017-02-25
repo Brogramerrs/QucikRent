@@ -181,7 +181,7 @@ app.post('/locate',function (req,res) {
 });
 //----------------------------Service for product selected----------------------------------//
 app.post('/ProductSelectCheck',function(req,res) {
-    console.log(req.body.itemWanted);
+    console.log("app js called");
     /*if(req.body.itemWanted === "Car" || req.body.itemWanted === "Books" || req.body.itemWanted === "admin") {
         res.json({"data" : "Valid User"});
     } else {

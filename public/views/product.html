@@ -114,33 +114,42 @@
 <!--Products -->
 <div class="container">
     <div class="row inner-padding">
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="form-group" ng-controller="selectProduct">
-                <label for="productlist">Products:</label>
-                <select class="form-control" id="productlist" ng-model="itemSelect" ng-change="selected()">
-                    <option ng-repeat="item in items.name" value="{{item}}">{{item}}</option>
-                </select>
+        <form ng-controller="selectProduct">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group" >
+                    <label for="productlist">Products:</label>
+                    <select class="form-control" id="productlist" ng-model="itemSelectName">
+                        <option ng-repeat="item in items.name" value="{{item}}">{{item}}</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="form-group" ng-controller="selectProduct">
-                <label for="area">Area:</label>
-                <select class="form-control" id="area" ng-model="itemSelect" ng-change="selected()">
-                    <option ng-repeat="area in areas.location" value="{{area}}">{{area}}</option>
-                </select>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label for="area">Area:</label>
+                    <select class="form-control" id="area" ng-model="itemSelectArea">
+                        <option ng-repeat="area in areas.location" value="{{area}}">{{area}}</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="form-group">
-                <label for="itemprice">Price:</label>
-                <select class="form-control" id="itemprice" ng-model="itemSelect" ng-change="selected()">
-                    <option ng-repeat="price in prices.amount" value="{{item}}">{{item}}</option>
-                </select>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label for="itemprice">Price:</label>
+                    <select class="form-control" id="itemprice" ng-model="itemSelectPrice" >
+                        <option ng-repeat="price in prices.amount" value="{{price}}">{{price}}</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="form-group inner-padding" style="margin-top:15px">
-                <!-- Trigger the modal with a button -->
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 inner-padding">
+                <button type="submit" class="btn btn-primary" value="Search"  style="margin-top:15px;width: 100%;" ng-click="selected()">Search</button>
+            </div>
+        </form>
+    </div>
+    <!--Add Product-->
+    <div class="row text-center">
+        <div class="form-group inner-padding">
+            <!-- Trigger the modal with a button -->
+            <h3 class="display-inline">Add Your Product</h3>
+            <div class="display-inline">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addproduct">Add Product</button>
 
                 <!-- Modal -->
@@ -223,6 +232,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <!--Products controller-->
