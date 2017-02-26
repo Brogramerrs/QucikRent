@@ -162,70 +162,73 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Upload Product</h4>
                             </div>
-                            <div class="modal-body">
-                                <div class="row text-left">
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                        <h5>Images:</h5>
-                                    </div>
-                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <div style="padding: 5px">
-                                            <input type="file" type="file"/>
-                                            <input type="file" type="file"/>
-                                            <input type="file" type="file"/>
+                            <div class="modal-body" ng-controller="addProduct">
+                                <form>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>Images:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <div style="padding:5px">
+                                                <input type="file"  ng-file-model="images.url"/>
+                                                <input type="file"  ng-file-model="images.url"/>
+                                                <input type="file"  ng-file-model="images.url"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row text-left">
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                        <h5>Name:</h5>
-                                    </div>
-                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <div style="padding: 5px">
-                                            <textarea class="form-control" rows="1" id="comment"></textarea>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>Name:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <div style="padding: 5px">
+                                                <textarea class="form-control" rows="1" id="comment" ng-model="ownername"></textarea>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row text-left">
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                        <h5>Description:</h5>
-                                    </div>
-                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea name="editor1" id="editor1" rows="10" cols="80">
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>Description:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                        <textarea name="editor1" id="editor1" rows="10" cols="80"  ng-model="productdescrip" ckeditor="editorOptions">
                                         </textarea>
-                                    </div>
-                                </div>
-                                <div class="row text-left">
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                        <h5>Address:</h5>
-                                    </div>
-                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea name="editor2" id="editor2" rows="10" cols="80">
-                                        </textarea>
-                                    </div>
-                                </div>
-                                <div class="row text-left">
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                        <h5>Price:</h5>
-                                    </div>
-                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea class="form-control" rows="1" id="comment"></textarea>
-                                    </div>
-                                </div>
-                                <div class="row text-left">
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                        <h5>Contact:</h5>
-                                    </div>
-                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea class="form-control" rows="1" id="comment"></textarea>
-                                        <div class="inner-padding">
-                                            <button class="btn btn-danger">Post add</button>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>Address:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                        <textarea name="editor2" id="editor2" rows="10" cols="80" ng-model="productaddress" ckeditor="editorOptions">
+                                        </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>Price:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <textarea class="form-control" rows="1" id="comment" ng-model="productprice"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>Contact:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <textarea class="form-control" rows="1" id="comment" ng-model="productcontact"></textarea>
+                                            <div class="inner-padding">
+                                                <button class="btn btn-danger" ng-click="addProductToDb()">Post add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
 
+                                <!--modal body end-->
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearData()">Close</button>
                             </div>
                         </div>
 
@@ -383,6 +386,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/dirPagination.js"></script>
+<script type="text/javascript" src="../js/ng-file-model.js"></script>
+<script type="text/javascript" src="../js/ng-ckeditor.js"></script>
 <script type="text/javascript" src="../controllers/controller.js"></script>
 <script type="text/javascript" src="http://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 <script>

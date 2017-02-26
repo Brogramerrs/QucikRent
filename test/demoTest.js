@@ -55,7 +55,7 @@ describe("Test Demo", function () {
             });
     });
 
-    it("Service location", function (done) {
+    /*it("Service location", function (done) {
         var data = {
             location: '2541 West covina california 91792'
 
@@ -68,7 +68,7 @@ describe("Test Demo", function () {
                 expect(res.body.data).to.contain('location');
                 done();
             });
-    });
+    });*/
 
     it("Validate forgot password", function (done) {
         var data = {

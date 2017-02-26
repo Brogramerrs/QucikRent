@@ -1,9 +1,11 @@
 
-var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination']);//'angularUtils.directives.dirPagination','ngRoute'
+var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination','ng-file-model']);//'angularUtils.directives.dirPagination','ngRoute'
 
 //-----------------Controller for login Page-------------------------------------------//
 myApp.controller('LoginCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     console.log("hello from the controller");
+    $scope.checkUserLogin = true;
+    $scope.checkUserLogout = false;
     $scope.login = function () {
         console.log("Login Button Clicked");
         $http({
@@ -17,9 +19,11 @@ myApp.controller('LoginCtrl', ['$scope', '$http', '$window', function ($scope, $
 
             console.log(response);
             console.log("successcallback");
-            if (response.data.toString().includes("Valid")) {
+            if (response.data.data.toString().includes("Valid")) {
                 console.log("entered if loop");
-                $window.location.href = 'product.html';
+                $scope.checkUserLogin = false;
+                $scope.checkUserLogout = true;
+                $window.location.href = 'views/product.html';
             }
         },
         function errorCallback(response) {
@@ -75,20 +79,22 @@ myApp.controller('ForgotCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 //-----------------controller for location---------------------//
-myApp.controller('LocateCtrl', ['$scope', '$http', function ($scope, $http) {
-    $scope.locate = function () {
-        var location = $scope.location;
-        console.log(location);
+myApp.controller('LocateProduct', ['$scope', '$http', function ($scope, $http) {
+    $scope.searchProduct = function () {
+        console.log($scope.product);
 
         $http({
             method: 'POST',
-            url: '/locate?location=' + location
+            url: '/searchMyProduct',
+            data:{
+                mysearch:$scope.product
+            }
 
         }).then(function successCallback(response) {
             console.log(response.data);
 
         }, function errorCallback(response) {
-            console.log('error no such kind of place');
+            console.log('error no such listed product');
         });
 
     }
@@ -147,7 +153,7 @@ myApp.controller('selectProduct',['$scope','$http',function ($scope, $http) {
         console.log($scope.itemSelectPrice);
     $http({
         method: 'POST',
-        url: '/ProductSelectCheck',
+        url: '/productSelectCheck',
         data:{
             itemName:$scope.itemSelectName,
             itemArea:$scope.itemSelectArea,
@@ -166,14 +172,18 @@ myApp.controller('selectProduct',['$scope','$http',function ($scope, $http) {
 /*Add product*/
 myApp.controller('addProduct',['$scope','$http',function($scope,$http){
     $scope.addProductToDb = function () {
+        console.log("entered product add function");
+        console.log($scope.productdescrip);
+        console.log($scope.productaddress);
         $http({
             method: 'POST',
-            url: '/ProductSelectCheck',
+            url: '/productToDb',
             data: {
-                productImages:$scope.images =
-                {
-                    
-                },
+                productImages:$scope.images [
+                    {
+                        url:{},
+                    }
+                    ],
                 productOwnerName:$scope.ownername,
                 productDescription:$scope.productdescrip,
                 productAddress:$scope.productaddress,
@@ -188,4 +198,14 @@ myApp.controller('addProduct',['$scope','$http',function($scope,$http){
             console.log('error');
         });
     };
+    $scope.editorOptions = {
+        language: 'ru',
+        uiColor: '#000000'
+    };
+   /* Clear data function*/
+    $scope.clearData = function () {
+        console.log("clear function hit");
+        $("input[type=file], textarea").val("");
+    }
 }]);
+

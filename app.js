@@ -167,9 +167,10 @@ app.post('/forgotPassword',function(req,res) {
 });
 
 //----------------------------Service for location----------------------------------//
-app.post('/locate',function (req,res) {
+app.post('/searchMyProduct',function (req,res) {
     console.log("data recieved at server");
-    var geocoder = NodeGeocoder(options);
+
+    /*var geocoder = NodeGeocoder(options);
     var address;
     geocoder.geocode(req.body.location ,function (err, RES) {
         address=RES;
@@ -177,17 +178,24 @@ app.post('/locate',function (req,res) {
     }).catch(function(err) {
         console.log(err);
     });
-
+*/
 });
 //----------------------------Service for product selected----------------------------------//
-app.post('/ProductSelectCheck',function(req,res) {
+app.post('/productToDb',function(req,res) {
     console.log("app js called");
+    console.log(req.body);
     /*if(req.body.itemWanted === "Car" || req.body.itemWanted === "Books" || req.body.itemWanted === "admin") {
         res.json({"data" : "Valid User"});
     } else {
         res.json({"data" : "Invalid User"});
     }*/
-    res.json({"data": "valid data"})
+    /*db.collection('products').save(req.body, function(err, result) {
+        if (err)
+            return console.log(err);
+
+        console.log('saved to database');
+    })
+    res.json({"data": "valid data"})*/
 });
 
 module.exports = app;
