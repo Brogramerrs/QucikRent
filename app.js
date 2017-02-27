@@ -180,22 +180,59 @@ app.post('/searchMyProduct',function (req,res) {
     });
 */
 });
-//----------------------------Service for product selected----------------------------------//
+//----------------------------Service for product add----------------------------------//
 app.post('/productToDb',function(req,res) {
     console.log("app js called");
     console.log(req.body);
-    /*if(req.body.itemWanted === "Car" || req.body.itemWanted === "Books" || req.body.itemWanted === "admin") {
-        res.json({"data" : "Valid User"});
-    } else {
-        res.json({"data" : "Invalid User"});
-    }*/
-    /*db.collection('products').save(req.body, function(err, result) {
+    db.collection('products').save(req.body, function(err, result) {
         if (err)
             return console.log(err);
 
         console.log('saved to database');
     })
-    res.json({"data": "valid data"})*/
+    res.json({"data": "valid data"})
 });
+//----------------------------Service for product selected----------------------------------//
+app.post('/selectProduct',function(req,res) {
+    console.log("app js called");
+    console.log(req.body);
+    /*if(req.body.itemWanted === "Car" || req.body.itemWanted === "Books" || req.body.itemWanted === "admin") {
+     res.json({"data" : "Valid User"});
+     } else {
+     res.json({"data" : "Invalid User"});
+     }*/
+    /*db.collection('products').save(req.body, function(err, result) {
+     if (err)
+     return console.log(err);
 
+     console.log('saved to database');
+     })
+     res.json({"data": "valid data"})*/
+});
+app.get('/getAllData',function (req,res) {
+   console.log("entered the function");
+    db.collection('products').find(function (err, data) {
+
+            console.log(data);
+            if (err) {
+                console.log("entered if");
+                res.json({"data":"failed" + err});
+                console.log(err);
+            }
+            else if (data==null ||data.length == 0) {
+                console.log("entered else if");
+                //res.json(err);
+                res.json({"data":"Empty Data"});
+            }
+            else {
+                console.log("entered else");
+                console.log("entered database to fetch data");
+                //console.log(data);
+                res.json({"data" : data});
+            }
+
+        }
+    );
+
+});
 module.exports = app;

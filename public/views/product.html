@@ -188,10 +188,20 @@
                                     </div>
                                     <div class="row text-left">
                                         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>Product Type:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <div style="padding: 5px">
+                                                <textarea class="form-control" rows="1" id="comment" ng-model="producttype"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                             <h5>Description:</h5>
                                         </div>
                                         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea name="editor1" id="editor1" rows="10" cols="80"  ng-model="productdescrip" ckeditor="editorOptions">
+                                        <textarea  ng-model="productdescrip" ckeditor="editorOptions">
                                         </textarea>
                                         </div>
                                     </div>
@@ -200,7 +210,7 @@
                                             <h5>Address:</h5>
                                         </div>
                                         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea name="editor2" id="editor2" rows="10" cols="80" ng-model="productaddress" ckeditor="editorOptions">
+                                        <textarea ng-model="productaddress" ckeditor="editorOptions">
                                         </textarea>
                                         </div>
                                     </div>
@@ -251,7 +261,7 @@
                     <div class="card-product-content">
                         <p>{{product.desciption}}</p>
                         <!-- Trigger the modal with a button -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product{{$index}}">{{product.moredetail}}</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product{{$index}}">More detail</button>
 
                         <!-- Modal -->
                         <div id="product{{$index}}" class="modal fade" role="dialog">
@@ -313,7 +323,7 @@
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
                                                 <div style="padding: 5px">
-                                                    <p>{{product.name}}</p>
+                                                    <p>{{product.ownername}}</p>
                                                 </div>
 
                                             </div>
@@ -323,7 +333,7 @@
                                                 <h5>Description:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p>{{product.modaldetails}}</p>
+                                                <p>{{product.productdescrip}}</p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -331,7 +341,7 @@
                                                 <h5>Address:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p>{{product.address}}</p>
+                                                <p>{{product.productaddress}}</p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -339,7 +349,7 @@
                                                 <h5>Price:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p>{{product.price}}</p>
+                                                <p>{{product.productprice}}</p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -347,7 +357,7 @@
                                                 <h5>Contact:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p>{{product.contact}}</p>
+                                                <p>{{product.productcontact}}</p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -391,8 +401,8 @@
 <script type="text/javascript" src="../controllers/controller.js"></script>
 <script type="text/javascript" src="http://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 <script>
-    CKEDITOR.replace( 'editor1' );
-    CKEDITOR.replace( 'editor2' );
+   /* CKEDITOR.replace( 'editor1' );
+    CKEDITOR.replace( 'editor2' );*/
 </script>
 </body>
 </html>

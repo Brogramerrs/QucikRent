@@ -1,5 +1,5 @@
 
-var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination','ng-file-model']);//'angularUtils.directives.dirPagination','ngRoute'
+var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination','ng-file-model','ngCkeditor']);//'angularUtils.directives.dirPagination','ngRoute'
 
 //-----------------Controller for login Page-------------------------------------------//
 myApp.controller('LoginCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
@@ -101,8 +101,8 @@ myApp.controller('LocateProduct', ['$scope', '$http', function ($scope, $http) {
 
 }]);
 //-----------controller for product--------//
-myApp.controller('Product', ['$scope',function ($scope) {
-    var productlist=[];
+myApp.controller('Product', ['$scope','$http',function ($scope, $http) {
+    /*var productlist=[];
     for(var i=1;i<=100;i++)
     {
         var products=
@@ -120,7 +120,19 @@ myApp.controller('Product', ['$scope',function ($scope) {
 
         productlist.push(products);
     }
-    $scope.products=productlist;
+    $scope.products=productlist;*/
+    $http({
+        method: 'GET',
+        url: '/getAllData'
+
+    }).then(function successCallback(response) {
+        console.log(response.data);
+        $scope.products = response.data;
+
+    }, function errorCallback(response) {
+        console.log(response.data);
+        console.log('error no such listed product');
+    });
     $scope.currentPage = 1;
     $scope.pageSize = 12;
 
@@ -181,10 +193,11 @@ myApp.controller('addProduct',['$scope','$http',function($scope,$http){
             data: {
                 productImages:$scope.images [
                     {
-                        url:{},
+                        url:[],
                     }
                     ],
                 productOwnerName:$scope.ownername,
+                productType:$scope.producttype,
                 productDescription:$scope.productdescrip,
                 productAddress:$scope.productaddress,
                 productPrice:$scope.productprice,
@@ -194,13 +207,14 @@ myApp.controller('addProduct',['$scope','$http',function($scope,$http){
         then(function successCallback(response) {
             console.log(response.data);
 
+
         }, function errorCallback(response) {
             console.log('error');
         });
     };
     $scope.editorOptions = {
         language: 'ru',
-        uiColor: '#000000'
+        uiColor: '#ffffff'
     };
    /* Clear data function*/
     $scope.clearData = function () {
