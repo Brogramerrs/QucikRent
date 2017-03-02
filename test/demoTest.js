@@ -9,7 +9,7 @@ chai.use(chaiHttp)
 describe("Test Demo", function () {
     it("Validate login credentials", function (done) {
         var data = {
-            username: 'vatsal',
+            _id: 'vatsal',
             password: 'vatsal'
         };
         chai.request(server)
@@ -25,7 +25,7 @@ describe("Test Demo", function () {
 
     it("Registration for already registerd user", function (done) {
         var data = {
-            username: 'tarun',
+            _id: 'tarun',
             email: 'tarun@gmail.com'
         };
         chai.request(server)
@@ -41,7 +41,7 @@ describe("Test Demo", function () {
 
     it("Registration for new user", function (done) {
         var data = {
-            username: 'xyz',
+            _id: 'xyz',
             email: 'xyz@gmail.com'
 
         };
