@@ -5,14 +5,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var express = require('express');
 var nodemailer = require('nodemailer');
 var CryptoJS = require("crypto-js");
 var NodeGeocoder = require('node-geocoder');
 var mongo = require('mongoskin');
 var index = require('./routes/index');
+var session = require('express-session');
 
 var app = express();
+app.use(session({secret: 'QUICKRENT'}));
 db = mongo.db('mongodb://admin:root@ds153669.mlab.com:53669/quick_rent_database');
 var options = {
     provider: 'google',
@@ -29,7 +30,7 @@ app.engine('html', require('ejs').renderFile);
 //Set Up Logger and Body Parser
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));//changed to true
 
 //Set Up Cookie Parser
 app.use(cookieParser());
@@ -39,10 +40,47 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 app.use('/', index);
 
+var sess;
+
+app.get('/',function(req,res){
+    sess = req.session;
+    console.log("app.get(/) called ");
+
+
+//Session set when user Request our app via URL
+    if(sess.username) {
+        /*
+         * This line check Session existence.
+         * If it existed will do some action.
+         */
+        if(req.url.toString().include("getProduct"))
+        {
+            console.log("calling GetProductList");
+            GetProductList(req,res);
+        }
+       // res.redirect('/product.html');
+    }
+    else {
+        res.render('index.html');
+    }
+});
 //-------------------------------Services for Login page-------------------------------//
+
+app.post('/logout',function(req,res){
+    req.session.destroy(function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.redirect('/');
+        }
+    });
+
+});
 app.post('/CheckUser',function(req,res) {
-     db.collection("personal_info").findOne({username: req.body.username, password: req.body.password},function (err, data) {
-            console.log("entered function");
+     db.collection("personal_info").findOne({_id: req.body._id, password: req.body.password},function (err, data) {
+            console.log("entered function CheckUser");
+           // console.log(req);
+         sess = req.session;
             if (err) {
                 console.log("entered if");
                 res.json({"data":"failed" + err});
@@ -55,7 +93,9 @@ app.post('/CheckUser',function(req,res) {
             }
             else {
                 console.log("entered else");
-                //console.log(data);
+
+                sess.username= req.body._id;
+                console.log(sess);
                 res.json({"data" : "Valid"});
             }
 
@@ -97,7 +137,7 @@ app.post('/CheckUser',function(req,res) {
 
 //-------------------------------Services for Registration page-------------------------------//
 app.post('/CheckregisterUser',function(req,res) {
-    if (req.body.username === "tarun" && req.body.email === "tarun@gmail.com")
+    if (req.body._id === "tarun" && req.body.email === "tarun@gmail.com")
     {
 
         res.json({"data" : "This username has already taken"});
@@ -108,7 +148,8 @@ app.post('/CheckregisterUser',function(req,res) {
         db.collection('personal_info').save(req.body, function(err, result) {
             if (err)
                 return console.log(err);
-
+            sess = req.session;
+            sess.username= req.body._id;
             console.log('saved to database');
         })
 
@@ -182,18 +223,25 @@ app.post('/searchMyProduct',function (req,res) {
 });
 //----------------------------Service for product add----------------------------------//
 app.post('/productToDb',function(req,res) {
+    sess = req.session;
+if(sess.username){
     console.log("app js called");
     console.log(req.body);
-    db.collection('products').save(req.body, function(err, result) {
+    db.collection('products').save(req.body, function (err, result) {
         if (err)
             return console.log(err);
 
         console.log('saved to database');
     })
     res.json({"data": "valid data"})
+}
+else{res.redirect("/");}
 });
 //----------------------------Service for product selected----------------------------------//
 app.post('/selectProduct',function(req,res) {
+    sess = req.session;
+    if (sess.username) {
+
     console.log("app js called");
     console.log(req.body);
     /*if(req.body.itemWanted === "Car" || req.body.itemWanted === "Books" || req.body.itemWanted === "admin") {
@@ -208,31 +256,77 @@ app.post('/selectProduct',function(req,res) {
      console.log('saved to database');
      })
      res.json({"data": "valid data"})*/
+}
+else{res.redirect("/");}
 });
-app.get('/getAllData',function (req,res) {
-   console.log("entered the function");
-    db.collection('products').find(function (err, data) {
+app.post('/getProducts',function (req,res) {
+    console.log("getAllData");
+  //  console.log(req);
+    console.log(req.session);
+    sess = req.session;
+    console.log(sess);
+    if (sess.username) {
+        console.log("entered the function");
+        db.collection('products').find().toArray(function (err, data) {
 
-            console.log(data);
-            if (err) {
-                console.log("entered if");
-                res.json({"data":"failed" + err});
-                console.log(err);
-            }
-            else if (data==null ||data.length == 0) {
-                console.log("entered else if");
-                //res.json(err);
-                res.json({"data":"Empty Data"});
-            }
-            else {
-                console.log("entered else");
-                console.log("entered database to fetch data");
                 //console.log(data);
-                res.json({"data" : data});
+                if (err) {
+                    console.log("entered if");
+                    res.json({"data": "failed" + err});
+                    console.log(err);
+                }
+                else if (data == null || data.length == 0) {
+                    console.log("entered else if");
+                    //res.json(err);
+                    res.json({"data": "Empty Data"});
+                }
+                else {
+                    console.log("entered else");
+                    console.log("entered database to fetch data");
+
+
+                  //console.log(data);
+                    res.send(data);
+                }
+
             }
-
-        }
-    );
-
+        );
+    }
+    else{console.log("not valid USER");res.status(300).send({"redirect":"/"});}
 });
+
+function GetProductList(req,res)
+{
+    console.log("getAllData");
+    //console.log(req);
+    console.log(req.session);
+     sess = req.session;
+    console.log(sess);
+    if (sess.username) {
+        console.log("entered the function");
+        db.collection('products').find(function (err, data) {
+
+                console.log(data);
+                if (err) {
+                    console.log("entered if");
+                    res.json({"data": "failed" + err});
+                    console.log(err);
+                }
+                else if (data == null || data.length == 0) {
+                    console.log("entered else if");
+                    //res.json(err);
+                    res.json({"data": "Empty Data"});
+                }
+                else {
+                    console.log("entered else");
+                    console.log("entered database to fetch data");
+                    //console.log(data);
+                    res.json({"data": data});
+                }
+
+            }
+        );
+    }
+    else{console.log("not valid USER");res.status(300).send({"redirect":"/"});}
+}
 module.exports = app;

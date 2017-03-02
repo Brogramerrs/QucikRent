@@ -1,18 +1,39 @@
 
-var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination','ng-file-model','ngCkeditor']);//'angularUtils.directives.dirPagination','ngRoute'
-
+var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination','ng-file-model','ngCkeditor','ngCookies']);//'angularUtils.directives.dirPagination','ngRoute'
+console.log("loggedin");
+var loggedin=false;
+console.log("loggedin:" +loggedin);
 //-----------------Controller for login Page-------------------------------------------//
-myApp.controller('LoginCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+myApp.controller('LoginCtrl', ['$scope', '$http', '$window','$cookies', function ($scope, $http, $window,$cookies) {
     console.log("hello from the controller");
+
+if($cookies.get("Loggedin")!=null)
+{
+    console.log("LoggedIn cookie:"+$cookies.get("Loggedin"));
+    $scope.checkUserLogin = $cookies.get("Loggedin").includes("true")?false:true;
+
+    $scope.checkUserLogout = $cookies.get("Loggedin").includes("true")?true:false;
+    console.log("checkUserLogout:"+$scope.checkUserLogout);
+    console.log("checkUserLogin:"+$scope.checkUserLogin);
+}
+else{
     $scope.checkUserLogin = true;
     $scope.checkUserLogout = false;
+    console.log("checkUserLogout:"+$scope.checkUserLogout);
+    console.log("checkUserLogin:"+$scope.checkUserLogin);
+}
+
+    // $scope.checkUserLogin = true;
+    // $scope.checkUserLogout = false;
+    loggedin=false;
+    console.log("loggedin changed to false:" +loggedin);
     $scope.login = function () {
         console.log("Login Button Clicked");
         $http({
             method: 'POST',
             url: '/CheckUser',
             data: {
-                username: $scope.loginusername,
+                _id: $scope.loginusername,
                 password: $scope.loginpassword
             },
         }).then(function successCallback(response) {
@@ -23,6 +44,12 @@ myApp.controller('LoginCtrl', ['$scope', '$http', '$window', function ($scope, $
                 console.log("entered if loop");
                 $scope.checkUserLogin = false;
                 $scope.checkUserLogout = true;
+                loggedin=true;
+                var now=new Date();
+                var Expire=new Date();
+                Expire.setMinutes(now.getMinutes()+1);
+                $cookies.put('Loggedin', 'true',Expire);
+                console.log("loggedin changed to true:" +loggedin);
                 $window.location.href = 'views/product.html';
             }
         },
@@ -31,7 +58,23 @@ myApp.controller('LoginCtrl', ['$scope', '$http', '$window', function ($scope, $
             console.log(response.status);
         });
     };
-
+    $scope.logout=function(){
+        console.log("in logout");
+        $http({
+            method: 'POST',
+            url: '/logout'
+        }).then(function successCallback(response)
+            {
+                $cookies.remove("Loggedin");
+                console.log("loggedout");
+                $scope.checkUserLogin =true ;
+                $scope.checkUserLogout = false;
+            },
+            function errorCallback(response) {
+                console.log("error");
+                console.log(response.status);
+            });
+    }
 }]);
 
 //-----------------Controller for Registration Page-------------------------------------------//
@@ -42,20 +85,21 @@ myApp.controller('RegisterCtrl', ['$scope', '$http', function ($scope, $http) {
             method: 'POST',
             url: '/CheckregisterUser',
             data: {
-                username: $scope.regisusername,
-                email:$scope.regisemail,
+                _id: $scope.regisusername,
+                email: $scope.regisemail,
                 password: $scope.regispassword
 
             },
         }).then(function successCallback(response) {
+            console.log('userRegistered');
             console.log(response.data);
 
         }, function errorCallback(response) {
+            console.log('Unregistered User');
             console.log('error');
+
         });
-
-    };
-
+    }
 }]);
 
 
@@ -101,7 +145,7 @@ myApp.controller('LocateProduct', ['$scope', '$http', function ($scope, $http) {
 
 }]);
 //-----------controller for product--------//
-myApp.controller('Product', ['$scope','$http',function ($scope, $http) {
+myApp.controller('Product', ['$scope','$http', '$window','$cookies',function ($scope, $http, $window,$cookies) {
     /*var productlist=[];
     for(var i=1;i<=100;i++)
     {
@@ -120,17 +164,53 @@ myApp.controller('Product', ['$scope','$http',function ($scope, $http) {
 
         productlist.push(products);
     }
+
     $scope.products=productlist;*/
+    $scope.logout=function(){
+        $http({
+            method: 'POST',
+            url: '/logout'
+        }).then(function successCallback(response)
+            {
+                console.log("loggedout");
+                $cookies.remove("Loggedin");
+                $scope.checkUserLogout = false;
+            },
+            function errorCallback(response) {
+                console.log("error");
+                console.log(response.status);
+            });
+    }
+    console.log("calling getAllData");
     $http({
-        method: 'GET',
-        url: '/getAllData'
+        method: 'POST',
+        url: '/getProducts'
 
     }).then(function successCallback(response) {
-        console.log(response.data);
+        console.log("successcalllback called in get all data");
+        console.log("response.redirect" +response.data["redirect"]);
+        $scope.checkUserLogout = $cookies.get("Loggedin").includes("true")?true:false;
+        $scope.checkUserLogin = $cookies.get("Loggedin").includes("true")?false:true;
+        console.log("checkUserLogout:"+$scope.checkUserLogout);
+        console.log("checkUserLogin:"+$scope.checkUserLogin);
+        if(response.data["redirect"]!= null && response.data["redirect"]!="")
+        {
+            console.log("Redirecting...");
+            console.log(response.data["redirect"]);
+         $window.location.href=response.data["redirect"];
+
+        }
+        console.log(response);
         $scope.products = response.data;
 
     }, function errorCallback(response) {
-        console.log(response.data);
+        console.log("errorCallback called in get all data");
+           console.log("response.redirect" +response.data["redirect"]);
+        if(response.data["redirect"]!= null && response.data["redirect"]!="")
+        {
+            //$window.location.href=response.data["redirect"];
+        }
+        console.log(response);
         console.log('error no such listed product');
     });
     $scope.currentPage = 1;

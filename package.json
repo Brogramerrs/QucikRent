@@ -4,6 +4,7 @@
   "description": "single platform to rent different things",
   "main": "server.js",
   "dependencies": {
+    "angular-cookies": "^1.4.8",
     "async": "^2.1.4",
     "blanket": "^1.2.3",
     "body-parser": "~1.16.0",
@@ -13,6 +14,7 @@
     "debug": "~2.6.0",
     "ejs": "~2.5.5",
     "express": "~4.14.1",
+    "express-session": "^1.15.1",
     "mocha": "^3.2.0",
     "mongojs": "^2.4.0",
     "mongoskin": "^2.1.0",

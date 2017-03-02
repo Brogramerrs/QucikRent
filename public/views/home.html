@@ -24,9 +24,9 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center" ng-controller="LoginCtrl">
-        <a class="btn btn-primary" data-toggle="modal" data-target="#singin" value="" ng-show="checkUserLogin">Sing-In</a>
-        <a class="btn btn-primary" data-toggle="modal" data-target="#singup" value="" ng-show="checkUserLogin">Sing-Up</a>
-        <button class="btn btn-danger" ng-show="checkUserLogout" value="">Logout</button>
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singin" value="" ng-show="checkUserLogin">Sign-In</a>
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singup" value="" ng-show="checkUserLogin">Sign-Up</a>
+        <button class="btn btn-danger" ng-show="checkUserLogout" value="" ng-click="logout()">Logout</button>
        <!-- hi there-->
         <!-- Modal Sing-In -->
         <div class="modal fade" id="singin" role="dialog">
@@ -185,6 +185,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/dirPagination.js"></script>

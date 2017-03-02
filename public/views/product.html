@@ -26,10 +26,10 @@
             <a href="Home.html"><h2 class="header-no-margin">Quickrent</h2></a>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center">
-        <a class="btn btn-primary" data-toggle="modal" data-target="#singin">Sing-In</a>
-        <a class="btn btn-primary" data-toggle="modal" data-target="#singup">Sing-Up</a>
-
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center" ng-controller="Product">
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singin" ng-hide="checkUserLogout">Sign-In</a>
+        <a class="btn btn-primary" data-toggle="modal" data-target="#singup" ng-hide="checkUserLogout">Sign-Up</a>
+        <button class="btn btn-danger" ng-show="checkUserLogout" value="" ng-click="logout()">Logout</button>
         <!-- Modal Sing-In -->
         <div class="modal fade" id="singin" role="dialog">
             <div class="modal-dialog">
@@ -393,6 +393,7 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/dirPagination.js"></script>
