@@ -9,7 +9,7 @@ chai.use(chaiHttp)
 describe("Test Demo", function () {
     it("Validate login credentials", function (done) {
         var data = {
-            _id: 'vatsal',
+            _id: 'vatsal thakar',
             password: 'vatsal'
         };
         chai.request(server)
