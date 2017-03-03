@@ -15,6 +15,11 @@ myApp.directive('fdInput', [function () {
         }
     }
 }]);
+
+
+
+
+
 //-----------------Controller for login Page-------------------------------------------//
 myApp.controller('LoginCtrl', ['$scope', '$http', '$window','$cookies', function ($scope, $http, $window,$cookies) {
     console.log("hello from the controller");
@@ -86,6 +91,7 @@ else{
                 console.log("loggedout");
                 $scope.checkUserLogin =true ;
                 $scope.checkUserLogout = false;
+                $window.location.href = '/';
             },
             function errorCallback(response) {
                 console.log("error");
@@ -188,6 +194,7 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies',function ($s
                 console.log(response.status);
             });
     }
+
     $http({
         method : 'POST',
         url : '/allData'
@@ -247,10 +254,11 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies',function ($s
 }]);
 
 //------------------------------------------product select----------------------------------------//
-myApp.controller('selectProduct', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope, $http, $window) {
+    console.log("-------------------------------------select product---------------------");
     $scope.items =
         {
-            name: ['Car', 'Books', 'Furniture', 'Machines', 'Others']
+            name: ['ar', 'ook', 'furniture', 'machines', 'others']
         };
     $scope.areas =
         {
@@ -259,7 +267,7 @@ myApp.controller('selectProduct', ['$scope', '$http', function ($scope, $http) {
         };
     $scope.prices =
         {
-            amount: ['10', '20', '30']
+            amount: ['10', '20', '30','100']
         };
     $scope.selected = function () {
         console.log("search module called");
@@ -267,32 +275,36 @@ myApp.controller('selectProduct', ['$scope', '$http', function ($scope, $http) {
         console.log($scope.itemSelectArea);
         console.log($scope.itemSelectPrice);
         $http({
-            method: 'GET',
+            method: 'POST',
             url: '/searchData',
             data: {
-                itemName: $scope.itemSelectName,
-                itemArea: $scope.itemSelectArea,
-                itemPrice: $scope.itemSelectPrice
-            },
-
+                itemName:$scope.itemSelectName.toString(),
+                itemArea:$scope.itemSelectArea.toString(),
+                itemPrice:$scope.itemSelectPrice.toString()
+            }
         }).then(function successCallback(response) {
-            console.log(response.data);
+            //console.log(response.data);
 
 
-            console.log(response);
+           console.log(response);
             console.log("successcallback");
 
-            if (response.data.data.toString().includes("Valid")) {
-                console.log("entered if loop");
-
+            if (response.data.toString().includes("oops!...there is no data matching your request")) {
+                console.log("entered else");
+                alert("there is some error correct it");
             }
             else {
-                console.log("entered else");
-                alert("invalid username or password")
+                console.log("there is data present");
+                $scope.products=response.data;
+                console.log(response);
+               /* $window.location.href = '../views/product.html ';*/
+
             }
 
         }, function errorCallback(response) {
             console.log('error');
+            console.log(response);
+
         });
 
     };
@@ -383,6 +395,7 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window', function 
         }).then(function successCallback(response) {
             console.log(response.data);
             if (response.data.toString().includes("Valid data")) {
+                console.log("alert");
                 alert("succesfully saved data");
                 $window.location.href('views/product.html');
             }
@@ -407,6 +420,7 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window', function 
 myApp.controller('getspecific',['$scope','$http','$window',function ($scope, $http, $window) {
     $scope.specificProduct = function(obj) {
         console.log("entering the main game");
+        console.log("getSpecific");
         var clickeddata = obj.currentTarget.attributes.data.nodeValue;
         console.log("game data is : " +clickeddata);
         $http({

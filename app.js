@@ -271,7 +271,7 @@ if(sess.username) {
         console.log("enter Product");
         console.log(req.body.productName);
         if (err) {
-            return console.log("error" + err);
+            return (err);
             console.log("error");
         }
         else {
@@ -284,35 +284,43 @@ else{console.log("session not found");res.redirect("/");}
 
 //----------------------------Service for product selected----------------------------------//
 
-app.get('/searchData',function(req,res) {
+app.post('/searchData',function(req,res) {
+    console.log("searchdata entered");
     sess = req.session;
+    console.log(sess);
     if (sess.username) {
-        console.log("app js called");
+        console.log("------------------------search data -----------------------------------");
+
+        //console.log(req.body);
         console.log(req.body);
+        /*console.log(req.body.itemName.toString().toLowerCase());
+        console.log(req.body.itemPrice);*/
+      /*  var name=new RegExp('/' + +req.body.itemName+'/', 'i');*/
 
-        db.collection("products").findOne({productPrice: req.body.itemPrice}, function (err, data) {
-                console.log("entered function");
-                console.log(data);
-                if (err) {
-                    console.log("entered if");
-                    res.json({"data": "failed" + err});
-                    console.log(err);
-                }
-                else if (data == null || data.length == 0) {
-                    console.log("entered else if");
-                    //res.json(err);
-                    res.json({"data": "Empty Data"});
-                }
-                else {
-                    console.log("entered else");
-                    //console.log(data);
-                    res.json({"data": "Valid"});
-                }
-
+        db.collection("products").find({productType:{ $regex : new RegExp(req.body.itemName, "i") }}).toArray(function (err, data) {
+            console.log("entered function for getting categorized data function");
+            console.log(data);
+            if (err) {
+                console.log("entered if ");
+                res.json({"data": "failed to get any data" + err});
+                console.log(err);
             }
-        );
+            else if (data == null || data.length == 0) {
+                console.log("entered else if for all get");
+                //res.json(err);
+                res.json({"data": "oops!...there is no data matching your request"});
+            }
+            else {
+                console.log("-----------------entered else for all get product------------");
+                console.log(data);
+                res.send(data);
+            }
+
+        });
+
     }
-    else{res.redirect("/");}
+
+        else{res.redirect("/");}
 });
 
 //--------------------------------------specific product-----------------------------------//
@@ -321,7 +329,7 @@ app.get('/getSpecificdata',function(req,res) {
     console.log("specific data is called inside app js ");
 
     console.log(req.query.clicked);
-    db.collection("products").find({productName: req.query.clicked}).toArray(function (err, data) {
+    db.collection("products").find({productType: req.query.clicked}).toArray(function (err, data) {
             console.log("entered function");
             console.log(data);
             if (err) {
