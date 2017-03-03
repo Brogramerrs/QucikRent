@@ -33,7 +33,7 @@ describe("Test Demo", function () {
             .send(data)
             .end(function (err, res) {
                 expect(res).to.have.status(200);
-                expect(res.body.data).to.equal('saved to database');
+                expect(res.body.data).to.equal('data exist');
                 done();
             });
     });
@@ -50,7 +50,7 @@ describe("Test Demo", function () {
             .send(data)
             .end(function (err, res) {
                 expect(res).to.have.status(200);
-                expect(res.body.data).to.contain('Encrypted Password');
+                expect(res.body.data).to.contain('data exist');
                 done();
             });
     });
