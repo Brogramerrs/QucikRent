@@ -33,7 +33,7 @@ describe("Test Demo", function () {
             .send(data)
             .end(function (err, res) {
                 expect(res).to.have.status(200);
-                expect(res.body.data).to.equal('This username has already taken');
+                expect(res.body.data).to.equal('saved to database');
                 done();
             });
     });
@@ -41,8 +41,8 @@ describe("Test Demo", function () {
 
     it("Registration for new user", function (done) {
         var data = {
-            _id: 'xyz',
-            email: 'xyz@gmail.com'
+            _id: 'vatsal thakar',
+            email: 'vatsal@gmail.com'
 
         };
         chai.request(server)
