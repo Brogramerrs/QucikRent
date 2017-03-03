@@ -5,11 +5,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var express = require('express');
 var nodemailer = require('nodemailer');
 var CryptoJS = require("crypto-js");
 var NodeGeocoder = require('node-geocoder');
 var mongo = require('mongoskin');
 var index = require('./routes/index');
+var multer = require('multer');
+var fs =require('fs');
+const url = require('url');
 var session = require('express-session');
 
 var app = express();
@@ -41,6 +45,9 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use('/', index);
 
 var sess;
+/** Serving from the same express Server
+ No cors required */
+app.use(express.static('../client'));
 
 app.get('/',function(req,res){
     sess = req.session;
@@ -106,63 +113,48 @@ app.post('/CheckUser',function(req,res) {
 
 
 
-            /* var name = getName();
-            var pass = get();
-            console.log(name); // this prints "undefined"*/
-    /*if (db.model("personal_info").find(username:req.body.username, password:req.body.password) != null)
-    {
-        res.json({"data" : "Valid User"});
-    } else {
-        res.json({"data" : "Invalid User"});
-    }*/
-
-
-
-
-
-/*function getName(){
-    db.test.find({name: req.body.username}, function(err, objs){
-        var returnable_name;
-        if (objs.length == 1)
-        {
-            returnable_name = objs[0].name;
-            console.log(returnable_name); // this prints "Renato", as it should
-            return returnable_name;
-        }
-    });
-}*/
-
-
-
 
 //-------------------------------Services for Registration page-------------------------------//
 app.post('/CheckregisterUser',function(req,res) {
-    if (req.body._id === "tarun" && req.body.email === "tarun@gmail.com")
-    {
+    db.collection("personal_info").findOne({_id: req.body._id},function (err, data) {
+            console.log("entered function");
+            if (data==null) {
 
-        res.json({"data" : "This username has already taken"});
-    }
-    else{
-        //-------------------------------database-------------------------------------------//
 
-        db.collection('personal_info').save(req.body, function(err, result) {
-            if (err)
-                return console.log(err);
-            sess = req.session;
-            sess.username= req.body._id;
-            console.log('saved to database');
-        })
+                db.collection('personal_info').save(req.body, function(err, result) {
+                    console.log("entered databse");
+                    if (err)
+                        return console.log(err);
+                    else {
+                        sess = req.session;
+                        sess.username= req.body._id;
+                        res.json({"data":"saved to database"});
 
-        //-------------------------------Encrypting password-------------------------------//
-            var ciphertext = CryptoJS.AES.encrypt(req.body.pwd, '100%sucker');
+                    }
+                })
+            }
+            else {
+                console.log("entered else if");
+                //res.json(err);
+                res.json({"data":"data exist"});
+            }
 
-        // // Decrypt
-        // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
-        // var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-            console.log("cipher text"+ciphertext);
-            res.json({"data":"Encrypted Password :"+ciphertext});
         }
+    );
+    /*
+     //-------------------------------Encrypting password-------------------------------//
+     var ciphertext = CryptoJS.AES.encrypt(req.body.pwd, '100%sucker');
+
+
+     console.log("cipher text"+ciphertext);
+     res.json({"data":"Encrypted Password :"+ciphertext});
+     }*!/*/
 });
+
+
+
+
+
 //-------------------------------Services for forgot password page-------------------------------//
 app.post('/forgotPassword',function(req,res) {
 
@@ -193,7 +185,6 @@ app.post('/forgotPassword',function(req,res) {
             if(error){
                 console.log(error);
                 res.json({"data" : "Valid User.Error sending mail"});
-                res.json({yo: 'error'});
             }else{
                 console.log('Message sent: ' + info.response);
                 res.json({"data" : "Valid User.Message sent"});
@@ -212,100 +203,95 @@ app.post('/searchMyProduct',function (req,res) {
     console.log("data recieved at server");
 
     /*var geocoder = NodeGeocoder(options);
-    var address;
-    geocoder.geocode(req.body.location ,function (err, RES) {
-        address=RES;
-        res.json({data: "location" +address});
-    }).catch(function(err) {
-        console.log(err);
-    });
-*/
+     var address;
+     geocoder.geocode(req.body.location ,function (err, RES) {
+     address=RES;
+     res.json({data: "location" +address});
+     }).catch(function(err) {
+     console.log(err);
+     });
+     */
 });
+//------------------------------service for image uploads-----------------------------//
+var name;
+
+var storage = multer.diskStorage({ //multers disk storage settings
+    destination: function (req, file, cb) {
+        cb(null, 'public/image_upload')
+    },
+    filename: function (req, file, cb) {
+        var datetimestamp = Date.now();
+        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+        name = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+    }
+});
+var upload = multer({ //multer settings
+    storage: storage
+}).single('file');
+/** API path that will upload the files */
+app.post('/imagetodb',function(req,res) {
+    console.log("the main function jrurati");
+    upload(req,res,function(err){
+        console.log("uploading...wait..........");
+        if(err){
+            console.log(err);
+            res.json({error_code:1,err_desc:err});
+            return;
+        }
+        else{console.log("Upload successfull");
+            console.log(name);
+            res.send(name);
+        }
+
+    })
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 //----------------------------Service for product add----------------------------------//
 app.post('/productToDb',function(req,res) {
+    console.log("req.session"+req.session);
     sess = req.session;
-if(sess.username){
+if(sess.username) {
     console.log("app js called");
+
     console.log(req.body);
     db.collection('products').save(req.body, function (err, result) {
-        if (err)
-            return console.log(err);
-
-        console.log('saved to database');
+        console.log("enter Product");
+        console.log(req.body.productName);
+        if (err) {
+            return console.log("error" + err);
+            console.log("error");
+        }
+        else {
+            res.json({"data": "valid data"});
+        }
     })
-    res.json({"data": "valid data"})
 }
-else{res.redirect("/");}
+else{console.log("session not found");res.redirect("/");}
 });
+
 //----------------------------Service for product selected----------------------------------//
-app.post('/selectProduct',function(req,res) {
+
+app.get('/searchData',function(req,res) {
     sess = req.session;
     if (sess.username) {
+        console.log("app js called");
+        console.log(req.body);
 
-    console.log("app js called");
-    console.log(req.body);
-    /*if(req.body.itemWanted === "Car" || req.body.itemWanted === "Books" || req.body.itemWanted === "admin") {
-     res.json({"data" : "Valid User"});
-     } else {
-     res.json({"data" : "Invalid User"});
-     }*/
-    /*db.collection('products').save(req.body, function(err, result) {
-     if (err)
-     return console.log(err);
-
-     console.log('saved to database');
-     })
-     res.json({"data": "valid data"})*/
-}
-else{res.redirect("/");}
-});
-app.post('/getProducts',function (req,res) {
-    console.log("getAllData");
-  //  console.log(req);
-    console.log(req.session);
-    sess = req.session;
-    console.log(sess);
-    if (sess.username) {
-        console.log("entered the function");
-        db.collection('products').find().toArray(function (err, data) {
-
-                //console.log(data);
-                if (err) {
-                    console.log("entered if");
-                    res.json({"data": "failed" + err});
-                    console.log(err);
-                }
-                else if (data == null || data.length == 0) {
-                    console.log("entered else if");
-                    //res.json(err);
-                    res.json({"data": "Empty Data"});
-                }
-                else {
-                    console.log("entered else");
-                    console.log("entered database to fetch data");
-
-
-                  //console.log(data);
-                    res.send(data);
-                }
-
-            }
-        );
-    }
-    else{console.log("not valid USER");res.status(300).send({"redirect":"/"});}
-});
-
-function GetProductList(req,res)
-{
-    console.log("getAllData");
-    //console.log(req);
-    console.log(req.session);
-     sess = req.session;
-    console.log(sess);
-    if (sess.username) {
-        console.log("entered the function");
-        db.collection('products').find(function (err, data) {
-
+        db.collection("products").findOne({productPrice: req.body.itemPrice}, function (err, data) {
+                console.log("entered function");
                 console.log(data);
                 if (err) {
                     console.log("entered if");
@@ -319,14 +305,116 @@ function GetProductList(req,res)
                 }
                 else {
                     console.log("entered else");
-                    console.log("entered database to fetch data");
                     //console.log(data);
-                    res.json({"data": data});
+                    res.json({"data": "Valid"});
                 }
 
             }
         );
     }
+    else{res.redirect("/");}
+});
+
+//--------------------------------------specific product-----------------------------------//
+
+app.get('/getSpecificdata',function(req,res) {
+    console.log("specific data is called inside app js ");
+
+    console.log(req.query.clicked);
+    db.collection("products").find({productName: req.query.clicked}).toArray(function (err, data) {
+            console.log("entered function");
+            console.log(data);
+            if (err) {
+                console.log("entered if");
+                res.json({"data":"failed" + err});
+                console.log(err);
+            }
+            else if (data==null ||data.length == 0) {
+                console.log("entered else if");
+                //res.json(err);
+                res.json({"data" : "empty"});
+            }
+            else {
+                console.log("entered else");
+                console.log(data);
+                res.send(data);
+            }
+
+        }
+    );
+
+
+});
+//--------------------------------------get product---------------------------------------//
+app.post('/allData',function (req,res) {
+    console.log(req.session);
+    sess = req.session;
+    console.log(sess);
+    if (sess.username) {
+    console.log("entered the function");
+    db.collection("products").find().toArray(function (err, data) {
+            console.log("entered get all data function");
+            console.log(data);
+            if (err) {
+                console.log("entered if for all product");
+                res.json({"data":"failed" + err});
+                console.log(err);
+            }
+            else if (data==null ||data.length == 0) {
+                console.log("entered else if for all get");
+                //res.json(err);
+                res.json({"data" : "empty"});
+            }
+            else {
+                console.log("entered else for all get product");
+                console.log(data);
+                res.send(data);
+            }
+
+        }
+    );
+    }
     else{console.log("not valid USER");res.status(300).send({"redirect":"/"});}
-}
+});
 module.exports = app;
+//---------------------------------------------send email to tanent----------------------------------------//
+
+app.post('/sendEmail',function(req,res) {
+
+    console.log("entering the sending game");
+    console.log(req.body.texttosend);
+
+    //ToDo:Code to email the password
+    var transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // use SSL
+        auth: {
+            user: 'brogrammerrs@gmail.com', // Your email id
+            pass: '2541temple' // Your password
+        }
+    });
+    var mailOptions = {
+        from: 'brogrammerrs@gmail.com', // sender address
+        to:req.body.emailaddress, // list of receivers
+        subject: 'Rent Your Product', // Subject line;
+        text: req.body.texttosend// plaintext body
+
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+            res.json({"data" : "Valid User.Error sending mail"});
+        }else{
+            console.log("sending...wait...");
+            console.log(text);
+            console.log(req.body.texttotsend);
+            console.log('Message sent: ' + info.response);
+            res.json({"data" : "Valid User.Message sent"});
+            res.json({yo: info.response});
+        };
+    });
+
+
+});
