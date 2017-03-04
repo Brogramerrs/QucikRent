@@ -167,7 +167,21 @@ myApp.controller('LocateProduct', ['$scope', '$http', function ($scope, $http) {
             }
 
         }).then(function successCallback(response) {
-            console.log(response.data);
+            console.log(response);
+            console.log("successcallback");
+
+            if (response.data.toString().includes("oops!...there is no data matching your request")) {
+                console.log("entered else");
+                alert("there is some error correct it");
+            }
+            else {
+                console.log("there is data present");
+               /* $scope.products=response.data;*/
+                console.log(response);
+                /* $window.location.href = '../views/product.html ';*/
+
+            }
+
 
         }, function errorCallback(response) {
             console.log('error no such listed product');
