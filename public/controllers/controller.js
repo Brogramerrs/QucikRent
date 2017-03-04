@@ -249,66 +249,70 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
     }
     var pname = $location.search().productName;
     var type = $location.search().productType;
-
+    if($cookies.get("Loggedin")!=null){
+        $scope.emailShow = true;
+        $scope.emailparashow=false;
+    }
+    else{
+        $scope.emailShow = false;
+        $scope.emailparashow=true;
+    }
 
     pname=pname==null?"":pname;
     type=type==null?"":type;
 
-    $http({
-        method : 'POST',
-        url : '/allData' ,
-        data: {
+        $http({
+            method: 'POST',
+            url: '/allData',
+            data: {
 
-            productName: pname,
-            productType:type,
-            /*productPrice:price*/
-        }
-    }).then(function successCallback(response) {
-        console.log("successcalllback called in get all data");
-        console.log("response.redirect" +response.data["redirect"]);
-        if($cookies.get("Loggedin")!=null) {
-            $scope.checkUserLogout = $cookies.get("Loggedin").includes("true") ? true : false;
-            $scope.checkUserLogin = $cookies.get("Loggedin").includes("true") ? false : true;
-        }
-        console.log("checkUserLogout:"+$scope.checkUserLogout);
-        console.log("checkUserLogin:"+$scope.checkUserLogin);
-        console.log(response.data);
-        if(response.data["redirect"]!= null && response.data["redirect"]!="")
-        {
-            console.log("Redirecting...");
-            console.log(response.data["redirect"]);
-            $window.location.href=response.data["redirect"];
+                productName: pname,
+                productType: type,
 
-        }
-        if (response.data.toString().includes("empty")) {
-            console.log("you r going wrong");
-        }
-        else if (response.data.toString().includes("failed")){
-            console.log("still wrong");
-        }
-        else
-        {
-            console.log("you r going right keep it up");
+            }
+        }).then(function successCallback(response) {
+            console.log("successcalllback called in get all data");
+            console.log("response.redirect" + response.data["redirect"]);
+            if ($cookies.get("Loggedin") != null) {
+                $scope.checkUserLogout = $cookies.get("Loggedin").includes("true") ? true : false;
+                $scope.checkUserLogin = $cookies.get("Loggedin").includes("true") ? false : true;
+            }
+            console.log("checkUserLogout:" + $scope.checkUserLogout);
+            console.log("checkUserLogin:" + $scope.checkUserLogin);
+            console.log(response.data);
+            if (response.data["redirect"] != null && response.data["redirect"] != "") {
+                console.log("Redirecting...");
+                console.log(response.data["redirect"]);
+                $window.location.href = response.data["redirect"];
 
-            $scope.products=response.data;
-            console.log("checking scope products data");
-            console.log( $scope.products);
-        }
-    }, function errorCallback(response) {
-        console.log('error');
+            }
+            if (response.data.toString().includes("empty")) {
+                console.log("you r going wrong");
+            }
+            else if (response.data.toString().includes("failed")) {
+                console.log("still wrong");
+            }
+            else {
+                console.log("you r going right keep it up");
 
-    /*Imp Code for pagination do not delete*/
-        console.log("errorCallback called in get all data");
-           console.log("response.redirect" +response.data["redirect"]);
-        if(response.data["redirect"]!= null && response.data["redirect"]!="")
-        {
-            //$window.location.href=response.data["redirect"];
-        }
-        console.log(response);
-        console.log('error no such listed product');
-    })
-    $scope.currentPage = 1;
-    $scope.pageSize = 12;
+                $scope.products = response.data;
+                console.log("checking scope products data");
+                console.log($scope.products);
+            }
+        }, function errorCallback(response) {
+            console.log('error');
+
+            /*Imp Code for pagination do not delete*/
+            console.log("errorCallback called in get all data");
+            console.log("response.redirect" + response.data["redirect"]);
+            if (response.data["redirect"] != null && response.data["redirect"] != "") {
+                //$window.location.href=response.data["redirect"];
+            }
+            console.log(response);
+            console.log('error no such listed product');
+        })
+        $scope.currentPage = 1;
+        $scope.pageSize = 12;
 
     function OtherController($scope) {
 
@@ -362,129 +366,134 @@ myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope
             if (response.data.toString().includes("oops!...there is no data matching your request")) {
                 console.log("entered else");
                 alert("there is some error correct it");
+                return(err);
             }
             else {
                 console.log("there is data present");
 
                 console.log(response);
-                $window.location.href="../views/product.html#?product="+response;
+                return(response);
 
             }
 
         }, function errorCallback(response) {
             console.log('error');
-            console.log(response);
+
 
         });
 
     };
 }]);
 /*----------------------------------------upload product------------------------------------------*/
-myApp.controller('addProduct', ['Upload','$scope', '$http', '$window', function (Upload,$scope, $http, $window) {
+myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies','$document', function (Upload,$scope, $http, $window, $cookies,$document) {
 
     //---------------------------------------------------image to databse------------------------------------//
     // function addImageToFile() {
     //console.log(file);
 
 
-
-    var vm = this;
-
-    vm.submit = function() {
-        //function to call on form submit
-        console.log("submit");
-        if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
-            console.log("form valid");
-            vm.upload(vm.file); //call upload function
-        }
-        else {
-            console.log("invalid form");
-        }
-    }
-    //$http({
-
-    // method: 'POST',
-    vm.upload = function (file) {
-        console.log("Printing files");
-        console.log(file);
-        Upload.upload({
-
-            url: '/imagetodb', //webAPI exposed to upload the file
-
-            data: {
-                file: file
-            } //pass file as data, should be user ng-model
-        }).then(function (resp) { //upload function returns a promise
-                if (resp != null) { //validate success
-                    console.log("returend successfully");
-                    console.log(resp.data);
-                    imagename = resp.data;
-                    console.log();
-
-                    addProductToDb();
-                    console.log(resp.config.data.file);
-                } else {
-                    $window.alert('an error occured');
-                }
-            },
-            function (resp) { //catch error
-                console.log('Error status: ' + resp.status);
-                $window.alert('Error status: ' + resp.status);
-            })
-    };
-
-    //}
-
-
-
-
-
-
-    //---------------------------------------------------data to database-----------------------------------------//
-    //$scope.addProductToDb = function () {
-    function addProductToDb() {
-
-        //addImageToFile();
-        console.log("entered product add function");
-        console.log($scope.productdescrip);
-        console.log($scope.productaddress);
-        $http({
-            method: 'POST',
-            url: '/productToDb',
-            data: {
-                productimagename: imagename,
-                productOwnerName: $scope.ownername,
-                Emailaddress : $scope.emailaddress,
-                productName: $scope.productname,
-                productType: $scope.producttype,
-                productDescription: $scope.productdescrip,
-                productAddress: $scope.productaddress,
-                productPrice: $scope.productprice,
-                productContact: $scope.productcontact
-            },
-        }).then(function successCallback(response) {
-            console.log(response.data);
-            if (response.data.toString().includes("Valid data")) {
-                console.log("alert");
-                alert("succesfully saved data");
-                $window.location.href('views/product.html');
+    if($cookies.get("Loggedin")!=null){
+        $scope.buttonShow=true;
+        $scope.parashow=false;
+        var vm = this;
+        vm.submit = function () {
+            //function to call on form submit
+            console.log("submit");
+            if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
+                console.log("form valid");
+                vm.upload(vm.file); //call upload function
             }
+            else {
+                console.log("invalid form");
+            }
+        }
+        //$http({
+
+        // method: 'POST',
+        vm.upload = function (file) {
+            console.log("Printing files");
+            console.log(file);
+            Upload.upload({
+
+                url: '/imagetodb', //webAPI exposed to upload the file
+
+                data: {
+                    file: file
+                } //pass file as data, should be user ng-model
+            }).then(function (resp) { //upload function returns a promise
+                    if (resp != null) { //validate success
+                        console.log("returend successfully");
+                        console.log(resp.data);
+                        imagename = resp.data;
+                        console.log();
+
+                        addProductToDb();
+                        console.log(resp.config.data.file);
+                    } else {
+                        $window.alert('an error occured');
+                    }
+                },
+                function (resp) { //catch error
+                    console.log('Error status: ' + resp.status);
+                    $window.alert('Error status: ' + resp.status);
+                })
+        };
+
+        //}
 
 
-        }, function errorCallback(response) {
-            console.log('error');
-        });
-    };
-    $scope.editorOptions = {
-        language: 'ru',
-        uiColor: '#ffffff'
-    };
-    /* Clear data function*/
-    $scope.clearData = function () {
-        console.log("clear function hit");
-        $("input[type=file], textarea").val("");
+        //---------------------------------------------------data to database-----------------------------------------//
+        //$scope.addProductToDb = function () {
+        function addProductToDb() {
+
+            //addImageToFile();
+            console.log("entered product add function");
+            console.log($scope.productdescrip);
+            console.log($scope.productaddress);
+            $http({
+                method: 'POST',
+                url: '/productToDb',
+                data: {
+                    productimagename: imagename,
+                    productOwnerName: $scope.ownername,
+                    Emailaddress: $scope.emailaddress,
+                    productName: $scope.productname,
+                    productType: $scope.producttype,
+                    productDescription: $scope.productdescrip,
+                    productAddress: $scope.productaddress,
+                    productPrice: $scope.productprice,
+                    productContact: $scope.productcontact
+                },
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                if (response.data.toString().includes("Valid data")) {
+                    console.log("alert");
+                    alert("succesfully saved data");
+                    $window.location.href('views/product.html');
+                }
+
+
+            }, function errorCallback(response) {
+                console.log('error');
+            });
+        };
+        $scope.editorOptions = {
+            language: 'ru',
+            uiColor: '#ffffff'
+        };
+        /* Clear data function*/
+        $scope.clearData = function () {
+            console.log("clear function hit");
+            $("input[type=file], textarea").val("");
+        }
+}else{
+    $scope.buttonShow=false;
+        $scope.parashow=true;
     }
-}]);
+
+
+
+    }]);
 //------------------------------------------get specific data-----------------------------------/
 
 myApp.controller('getspecific',['$scope','$http','$window',function ($scope, $http, $window) {
@@ -529,27 +538,33 @@ myApp.controller('getspecific',['$scope','$http','$window',function ($scope, $ht
 }]);
 //----------------------------------------email to tanent----------------------------------------------//
 myApp.controller('email', ['$scope', '$http', function ($scope, $http) {
-    $scope.email = function () {
+
+        $scope.email = function () {
         //var email = $scope.email;
-        console.log($scope.product.Emailaddress);
-        console.log("entred the email function");
-        $http({
-            method: 'POST',
-            url: '/sendEmail',
-            data: {
-                emailaddress: $scope.product.Emailaddress,
-                texttosend : $scope.text
-            }
 
-        }).then(function successCallback(response) {
-            console.log(response.data);
-            console.log("check mail...sent from here");
+            $scope.emailparashow=false;
+            console.log($scope.product.Emailaddress);
+            console.log("entred the email function");
+            $http({
+                method: 'POST',
+                url: '/sendEmail',
+                data: {
+                    emailaddress: $scope.product.Emailaddress,
+                    texttosend: $scope.text
+                }
 
-        }, function errorCallback(response) {
-            console.log('error');
-        });
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                console.log("check mail...sent from here");
 
-    };
+            }, function errorCallback(response) {
+                console.log('error');
+            });
+
+
+
+    }
+
 }]);
 
 

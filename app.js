@@ -283,6 +283,7 @@ app.post('/productToDb',function(req,res) {
     console.log("req.session"+req.session);
     sess = req.session;
 if(sess.username) {
+
     console.log("app js called");
 
     console.log(req.body);
@@ -379,7 +380,7 @@ app.post('/allData',function (req,res) {
     console.log(sess);
    // if (sess.username) {
     console.log("entered the function");
-    db.collection("products").find({productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") },productType:{ $regex : new RegExp(req.body.productPrice, "i") }}).toArray(function (err, data) {
+    db.collection("products").find({productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") }}).toArray(function (err, data) {
             console.log("entered get all data function");
             console.log(data);
             if (err) {
@@ -408,40 +409,43 @@ module.exports = app;
 
 app.post('/sendEmail',function(req,res) {
 
-    console.log("entering the sending game");
-    console.log(req.body.texttosend);
 
-    //ToDo:Code to email the password
-    var transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true, // use SSL
-        auth: {
-            user: 'brogrammerrs@gmail.com', // Your email id
-            pass: '2541temple' // Your password
-        }
-    });
-    var mailOptions = {
-        from: 'brogrammerrs@gmail.com', // sender address
-        to:req.body.emailaddress, // list of receivers
-        subject: 'Rent Your Product', // Subject line;
-        text: req.body.texttosend// plaintext body
+        console.log("entering the sending game");
+        console.log(req.body.texttosend);
 
-    };
+        //ToDo:Code to email the password
+        var transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, // use SSL
+            auth: {
+                user: 'brogrammerrs@gmail.com', // Your email id
+                pass: '2541temple' // Your password
+            }
+        });
+        var mailOptions = {
+            from: 'brogrammerrs@gmail.com', // sender address
+            to: req.body.emailaddress, // list of receivers
+            subject: 'Rent Your Product', // Subject line;
+            text: req.body.texttosend// plaintext body
 
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            console.log(error);
-            res.json({"data" : "Valid User.Error sending mail"});
-        }else{
-            console.log("sending...wait...");
-            console.log(text);
-            console.log(req.body.texttotsend);
-            console.log('Message sent: ' + info.response);
-            res.json({"data" : "Valid User.Message sent"});
-            res.json({yo: info.response});
         };
-    });
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+                res.json({"data": "Valid User.Error sending mail"});
+            } else {
+                console.log("sending...wait...");
+                console.log(text);
+                console.log(req.body.texttotsend);
+                console.log('Message sent: ' + info.response);
+                res.json({"data": "Valid User.Message sent"});
+                res.json({yo: info.response});
+            }
+            ;
+        });
+
 
 
 });
