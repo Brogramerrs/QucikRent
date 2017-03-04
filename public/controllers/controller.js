@@ -66,7 +66,7 @@ else{
                 var now=new Date();
                 var Expire=new Date();
                 Expire.setMinutes(now.getMinutes()+1);
-                $cookies.put('Loggedin', 'true',Expire);
+                $cookies.put('Loggedin', 'true',{path:"/",expires:Expire});
                 console.log("loggedin changed to true:" +loggedin);
                 $window.location.href = 'views/product.html';
             }
@@ -87,7 +87,7 @@ else{
             url: '/logout'
         }).then(function successCallback(response)
             {
-                $cookies.remove("Loggedin");
+                $cookies.remove("Loggedin",{path:"/"});
                 console.log("loggedout");
                 $scope.checkUserLogin =true ;
                 $scope.checkUserLogout = false;
@@ -200,7 +200,7 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies',function ($s
         }).then(function successCallback(response)
             {
                 console.log("loggedout");
-                $cookies.remove("Loggedin");
+                $cookies.remove("Loggedin",{path:"/"});
                 $scope.checkUserLogout = false;
             },
             function errorCallback(response) {
