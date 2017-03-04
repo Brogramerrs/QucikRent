@@ -1,7 +1,7 @@
 var files;
 var fs ;
 var imagename;
-var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination', 'ng-file-model', 'ngCkeditor','ngFileUpload','ngCookies']);//'angularUtils.directives.dirPagination','ngRoute'
+var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination', 'ng-file-model', 'ngCkeditor','ngFileUpload','ngCookies', 'ngSanitize']);//'angularUtils.directives.dirPagination','ngRoute'
 myApp.directive('fdInput', [function () {
     return {
         link: function (scope, element, attrs) {
