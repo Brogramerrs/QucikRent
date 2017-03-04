@@ -202,15 +202,34 @@ app.post('/forgotPassword',function(req,res) {
 app.post('/searchMyProduct',function (req,res) {
     console.log("data recieved at server");
 
-    /*var geocoder = NodeGeocoder(options);
-     var address;
-     geocoder.geocode(req.body.location ,function (err, RES) {
-     address=RES;
-     res.json({data: "location" +address});
-     }).catch(function(err) {
-     console.log(err);
-     });
-     */
+
+        console.log("------------entered search my product at home page------------");
+        console.log(req.body);
+        db.collection("products").find({productName:{ $regex : new RegExp(req.body.mysearch, "i") }}).toArray(function (err, data) {
+            console.log("entered function for getting my own data  function");
+            console.log(data);
+            if (err) {
+                console.log("entered if ");
+                res.json({"data": "failed to get any data" + err});
+                console.log(err);
+            }
+            else if (data == null || data.length == 0) {
+                console.log("entered else if for all get");
+                //res.json(err);
+                res.json({"data": "oops!...there is no data matching your request"});
+            }
+            else {
+                console.log("-----------------entered else for my data product------------");
+                console.log(data);
+                res.send(data);
+            }
+
+        });
+
+
+
+
+
 });
 //------------------------------service for image uploads-----------------------------//
 var name;
