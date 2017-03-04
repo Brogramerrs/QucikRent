@@ -193,6 +193,44 @@ myApp.controller('LocateProduct', ['$scope', '$http', function ($scope, $http) {
 //-------------------------------------controller for product----------------------------------------//
 myApp.controller('Product', ['$scope','$http', '$window','$cookies',function ($scope, $http, $window,$cookies) {
     console.log("entering the main game");
+
+    $scope.login = function () {
+        console.log("Login Button Clicked");
+        $http({
+            method: 'POST',
+            url: '/CheckUser',
+            data: {
+                _id: $scope.username,
+                password: $scope.password
+            },
+        }).then(function successCallback(response) {
+
+            console.log(response);
+            console.log("successcallback");
+
+            if (response.data.data.toString().includes("Valid")) {
+                console.log("entered if loop");
+                $scope.checkUserLogin = false;
+                $scope.checkUserLogout = true;
+                loggedin=true;
+                var now=new Date();
+                var Expire=new Date();
+                Expire.setMinutes(now.getMinutes()+1);
+                $cookies.put('Loggedin', 'true',{path:"/",expires:Expire});
+                console.log("loggedin changed to true:" +loggedin);
+                $window.location.href = '../views/product.html';
+            }
+            else {
+                console.log("entered else");
+                alert("invalid username or password")
+            }
+
+        }, function errorCallback(response) {
+            console.log("error");
+            console.log(response.status);
+        });
+    };
+
     $scope.logout=function(){
         $http({
             method: 'POST',
