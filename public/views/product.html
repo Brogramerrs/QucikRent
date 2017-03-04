@@ -276,8 +276,9 @@
                                             <textarea class="form-control" rows="1" id="comment"
                                                       ng-model="productcontact"></textarea>
                                             <div class="inner-padding">
-                                                <button type="submit" class="btn btn-danger" ng-click="up.submit()">submit
-                                                </button>
+                                                <!--<button type="submit" class="btn btn-danger" ng-click="up.submit()>submit-->
+                                                <button ng-show="buttonShow" type = "submit" class="btn btn-danger" ng-click="up.submit()">Submit</button>
+                                                <p ng-show="parashow">You Have to Log in to add product</p>
                                             </div>
                                         </div>
                                     </div>
@@ -466,7 +467,8 @@
                                                 <form>
                                                     <textarea class="form-control" rows="5" id="comment" ng-model ="text"></textarea>
                                                     <div style="padding:10px" >
-                                                        <button class="btn btn-primary" ng-click="email()">Email</button>
+                                                        <button ng-show="emailShow" class="btn btn-primary" ng-click="email()">Email</button>
+                                                        <p ng-show="emailparashow">You have to login to email to rent this item</p>
                                                     </div>
                                                 </form>
                                             </div>

@@ -13,47 +13,37 @@ var mongo = require('mongoskin');
 var index = require('./routes/index');
 var multer = require('multer');
 var fs =require('fs');
-const url = require('url');
 var session = require('express-session');
-
-var app = express();
-app.use(session({secret: 'QUICKRENT'}));
-db = mongo.db('mongodb://admin:root@ds153669.mlab.com:53669/quick_rent_database');
 var options = {
     provider: 'google',
     httpAdapter: 'https',
     apiKey: 'AIzaSyBzV0yOmGhO_ZDCzGa1uhA2O6xwAhQXuvo',
     formatter: null
 };
-
+var app = express();
+var sess;
+const url = require('url');
+app.use(session({secret: 'QUICKRENT'}));
+db = mongo.db('mongodb://admin:root@ds153669.mlab.com:53669/quick_rent_database');
 // view engine setup
 app.set('views', path.join(__dirname, '/public/views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
-
 //Set Up Logger and Body Parser
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));//changed to true
-
 //Set Up Cookie Parser
 app.use(cookieParser());
-
 //Set Up '/public' as static folder
 app.use(express.static(path.join(__dirname, '/public')));
-
 app.use('/', index);
-
-var sess;
 /** Serving from the same express Server
  No cors required */
 app.use(express.static('../client'));
-
 app.get('/',function(req,res){
     sess = req.session;
     console.log("app.get(/) called ");
-
-
 //Session set when user Request our app via URL
     if(sess.username) {
         /*
@@ -84,6 +74,7 @@ app.post('/logout',function(req,res){
 
 });
 app.post('/CheckUser',function(req,res) {
+    var userChecked=false;
      db.collection("personal_info").findOne({_id: req.body._id, password: req.body.password},function (err, data) {
             console.log("entered function CheckUser");
            // console.log(req);
@@ -100,14 +91,18 @@ app.post('/CheckUser',function(req,res) {
             }
             else {
                 console.log("entered else");
-
+                userChecked=true;
                 sess.username= req.body._id;
+                console.log(data.email);
+                sess.email=data.email;
                 console.log(sess);
                 res.json({"data" : "Valid"});
             }
 
         }
     );
+
+
 
 });
 
@@ -128,8 +123,19 @@ app.post('/CheckregisterUser',function(req,res) {
                     else {
                         sess = req.session;
                         sess.username= req.body._id;
-                        res.json({"data":"saved to database"});
+                        var email="";
+                            db.collection('personal_info').findOne( {_id: req.body._id},function (err, data)
+                            {
+                                if(data!=null)
+                                {
+                                    email=data.email;
+                                }
+                            });
+                            console.log("email"+email);
 
+                        sess.email= email;
+                        res.json({"data":"saved to database"});
+1
                     }
                 })
             }
@@ -283,8 +289,9 @@ app.post('/productToDb',function(req,res) {
     console.log("req.session"+req.session);
     sess = req.session;
 if(sess.username) {
+    console.log("username ="+sess.username);
     console.log("app js called");
-
+    req.body.productusername = sess.username;
     console.log(req.body);
     db.collection('products').save(req.body, function (err, result) {
         console.log("enter Product");
@@ -381,6 +388,7 @@ app.post('/allData',function (req,res) {
     console.log("entered the function");
     db.collection("products").find({productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") }}).toArray(function (err, data) {
             console.log("entered get all data function");
+            console.log(sess.username);
             console.log(data);
             if (err) {
                 console.log("entered if for all product");
@@ -408,40 +416,43 @@ module.exports = app;
 
 app.post('/sendEmail',function(req,res) {
 
-    console.log("entering the sending game");
-    console.log(req.body.texttosend);
 
-    //ToDo:Code to email the password
-    var transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true, // use SSL
-        auth: {
-            user: 'brogrammerrs@gmail.com', // Your email id
-            pass: '2541temple' // Your password
-        }
-    });
-    var mailOptions = {
-        from: 'brogrammerrs@gmail.com', // sender address
-        to:req.body.emailaddress, // list of receivers
-        subject: 'Rent Your Product', // Subject line;
-        text: req.body.texttosend// plaintext body
+        console.log("entering the sending game");
+        console.log(req.body.texttosend);
 
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            console.log(error);
-            res.json({"data" : "Valid User.Error sending mail"});
-        }else{
-            console.log("sending...wait...");
-            console.log(text);
-            console.log(req.body.texttotsend);
-            console.log('Message sent: ' + info.response);
-            res.json({"data" : "Valid User.Message sent"});
-            res.json({yo: info.response});
+        //ToDo:Code to email the password
+        var transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, // use SSL
+            auth: {
+                user: 'brogrammerrs@gmail.com', // Your email id
+                pass: '2541temple' // Your password
+            }
+        });
+        var mailOptions = {
+            from: 'brogrammerrs@gmail.com', // sender address
+            to: req.body.emailaddress, // list of receivers
+            subject: 'Rent Your Product', // Subject line;
+            /*text: 'sender email address:'+ sess.email,*/
+            html: req.body.texttosend +'<br> <b>sender email address:</b>' + sess.email  // plaintext body
         };
-    });
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+                res.json({"data": "Valid User.Error sending mail"});
+            } else {
+                console.log("sending...wait...");
+                console.log(text);
+                console.log(req.body.texttotsend);
+                console.log('Message sent: ' + info.response);
+                res.json({"data": "Valid User.Message sent"});
+                res.json({yo: info.response});
+            }
+            ;
+        });
+
 
 
 });
