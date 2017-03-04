@@ -393,6 +393,7 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
 
 
     if($cookies.get("Loggedin")!=null){
+
         $scope.buttonShow=true;
         $scope.parashow=false;
         var vm = this;
@@ -454,6 +455,7 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
                 method: 'POST',
                 url: '/productToDb',
                 data: {
+                    productusername : 'null',
                     productimagename: imagename,
                     productOwnerName: $scope.ownername,
                     Emailaddress: $scope.emailaddress,
@@ -537,7 +539,7 @@ myApp.controller('getspecific',['$scope','$http','$window',function ($scope, $ht
 
 }]);
 //----------------------------------------email to tanent----------------------------------------------//
-myApp.controller('email', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('email', ['$scope', '$http', '$window',function ($scope, $http, $window) {
 
         $scope.email = function () {
         //var email = $scope.email;
@@ -555,7 +557,20 @@ myApp.controller('email', ['$scope', '$http', function ($scope, $http) {
 
             }).then(function successCallback(response) {
                 console.log(response.data);
-                console.log("check mail...sent from here");
+                if (response.data.toString().includes("Valid User.Message sent")) {
+                    console.log("check mail...sent from here");
+                    alert("Your mail has been sent")
+                }
+                else
+                {
+                    console.log(response.data);
+                    console.log("mail not sent");
+                    alert("mail not sent");
+
+                    $scope.products = response.data;
+                }
+
+
 
             }, function errorCallback(response) {
                 console.log('error');
