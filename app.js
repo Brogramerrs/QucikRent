@@ -304,10 +304,10 @@ else{console.log("session not found");res.redirect("/");}
 //----------------------------Service for product selected----------------------------------//
 
 app.post('/searchData',function(req,res) {
-    console.log("searchdata entered");
+   console.log("searchdata entered");
     sess = req.session;
     console.log(sess);
-    if (sess.username) {
+   // if (sess.username) {
         console.log("------------------------search data -----------------------------------");
 
         //console.log(req.body);
@@ -337,9 +337,9 @@ app.post('/searchData',function(req,res) {
 
         });
 
-    }
+   // }
 
-        else{res.redirect("/");}
+       // else{res.redirect("/");}
 });
 
 //--------------------------------------specific product-----------------------------------//
@@ -348,7 +348,7 @@ app.get('/getSpecificdata',function(req,res) {
     console.log("specific data is called inside app js ");
 
     console.log(req.query.clicked);
-    db.collection("products").find({productType: req.query.clicked}).toArray(function (err, data) {
+    db.collection("products").find({productType:{ $regex : new RegExp(req.body.clicked, "i") }}).toArray(function (err, data) {
             console.log("entered function");
             console.log(data);
             if (err) {
@@ -377,9 +377,9 @@ app.post('/allData',function (req,res) {
     console.log(req.session);
     sess = req.session;
     console.log(sess);
-    if (sess.username) {
+   // if (sess.username) {
     console.log("entered the function");
-    db.collection("products").find().toArray(function (err, data) {
+    db.collection("products").find({productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") },productType:{ $regex : new RegExp(req.body.productPrice, "i") }}).toArray(function (err, data) {
             console.log("entered get all data function");
             console.log(data);
             if (err) {
@@ -400,8 +400,8 @@ app.post('/allData',function (req,res) {
 
         }
     );
-    }
-    else{console.log("not valid USER");res.status(300).send({"redirect":"/"});}
+    //}
+    //else{console.log("not valid USER");res.status(300).send({"redirect":"/"});}
 });
 module.exports = app;
 //---------------------------------------------send email to tanent----------------------------------------//

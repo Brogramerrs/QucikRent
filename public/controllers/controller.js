@@ -154,11 +154,11 @@ myApp.controller('ForgotCtrl', ['$scope', '$http', function ($scope, $http) {
     };
 }]);
 
-//-----------------controller for location---------------------//
-myApp.controller('LocateProduct', ['$scope', '$http', function ($scope, $http) {
+//-----------------controller for personalized search---------------------//
+myApp.controller('LocateProduct', ['$scope', '$http','$window', function ($scope, $http,$window) {
     $scope.searchProduct = function () {
         console.log($scope.product);
-
+        $window.location.href="../views/product.html#?productName="+$scope.product;
         $http({
             method: 'POST',
             url: '/searchMyProduct',
@@ -190,8 +190,9 @@ myApp.controller('LocateProduct', ['$scope', '$http', function ($scope, $http) {
     }
 
 }]);
-//-------------------------------------controller for product----------------------------------------//
-myApp.controller('Product', ['$scope','$http', '$window','$cookies',function ($scope, $http, $window,$cookies) {
+//-------------------------------------controller for get all  product----------------------------------------//
+myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',function ($scope, $http, $window,$cookies,$location) {
+
     console.log("entering the main game");
     $scope.logout=function(){
         $http({
@@ -208,15 +209,29 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies',function ($s
                 console.log(response.status);
             });
     }
+    var pname = $location.search().productName;
+    var type = $location.search().productType;
+
+
+    pname=pname==null?"":pname;
+    type=type==null?"":type;
 
     $http({
         method : 'POST',
-        url : '/allData'
+        url : '/allData' ,
+        data: {
+
+            productName: pname,
+            productType:type,
+            /*productPrice:price*/
+        }
     }).then(function successCallback(response) {
         console.log("successcalllback called in get all data");
         console.log("response.redirect" +response.data["redirect"]);
-        $scope.checkUserLogout = $cookies.get("Loggedin").includes("true")?true:false;
-        $scope.checkUserLogin = $cookies.get("Loggedin").includes("true")?false:true;
+        if($cookies.get("Loggedin")!=null) {
+            $scope.checkUserLogout = $cookies.get("Loggedin").includes("true") ? true : false;
+            $scope.checkUserLogin = $cookies.get("Loggedin").includes("true") ? false : true;
+        }
         console.log("checkUserLogout:"+$scope.checkUserLogout);
         console.log("checkUserLogin:"+$scope.checkUserLogin);
         console.log(response.data);
@@ -236,6 +251,7 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies',function ($s
         else
         {
             console.log("you r going right keep it up");
+
             $scope.products=response.data;
             console.log("checking scope products data");
             console.log( $scope.products);
@@ -269,10 +285,9 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies',function ($s
 
 //------------------------------------------product select----------------------------------------//
 myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope, $http, $window) {
-    console.log("-------------------------------------select product---------------------");
     $scope.items =
         {
-            name: ['ar', 'ook', 'furniture', 'machines', 'others']
+            name: ['Car', 'Book', 'furniture', 'machines', 'others']
         };
     $scope.areas =
         {
@@ -284,6 +299,9 @@ myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope
             amount: ['10', '20', '30','100']
         };
     $scope.selected = function () {
+
+        console.log("i am here only");
+
         console.log("search module called");
         console.log($scope.itemSelectName);
         console.log($scope.itemSelectArea);
@@ -309,9 +327,9 @@ myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope
             }
             else {
                 console.log("there is data present");
-                $scope.products=response.data;
+
                 console.log(response);
-               /* $window.location.href = '../views/product.html ';*/
+                $window.location.href="../views/product.html#?product="+response;
 
             }
 
@@ -433,9 +451,12 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window', function 
 
 myApp.controller('getspecific',['$scope','$http','$window',function ($scope, $http, $window) {
     $scope.specificProduct = function(obj) {
+        var clickeddata = obj.currentTarget.attributes.data.nodeValue;
+        $window.location.href="../views/product.html#?productType="+clickeddata;
+
         console.log("entering the main game");
         console.log("getSpecific");
-        var clickeddata = obj.currentTarget.attributes.data.nodeValue;
+
         console.log("game data is : " +clickeddata);
         $http({
             method : 'GET',
@@ -455,7 +476,7 @@ myApp.controller('getspecific',['$scope','$http','$window',function ($scope, $ht
             {
                 console.log(response.data);
                 console.log("you r going right keep it up");
-                $window.location.href = 'views/product.html';
+               /* $window.location.href = 'views/product.html';*/
                 $scope.products = response.data;
             }
 
@@ -492,3 +513,51 @@ myApp.controller('email', ['$scope', '$http', function ($scope, $http) {
 
     };
 }]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// $scope.$apply(function(){  $scope.products=response.data;});
+/*$scope.applyif=function()
+ {
+ console.log("applyif");
+ if(!$scope.$$phase) {
+ console.log("applying");
+ $scope.$apply(function(){  $scope.products=response.data;});
+ console.log("applied");
+ console.log("scope product");
+ $scope.$apply();
+ // $scope.$applyAsync(function(){$scope.products=response.data;});
+ console.log($scope.products);
+ }else
+ {
+ console.log("timeout");
+ setTimeout(function(){$scope.applyif();},2);
+ }
+ }*/
