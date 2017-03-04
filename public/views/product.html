@@ -12,15 +12,7 @@
 <div class="row container-wrapper header-wrapper">
 
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
-                <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a href="#">Books</a></li>
-                <li><a href="#">Clothes</a></li>
-                <li><a href="#">Videogames</a></li>
-            </ul>
-        </div>
+        <a ng-href="home.html"><button class="btn btn-primary" ng-hide="" value="">Home</button></a>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
         <div class=" text-center">
@@ -30,7 +22,11 @@
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center" ng-controller="Product">
         <a class="btn btn-primary" data-toggle="modal" data-target="#singin" ng-hide="checkUserLogout">Sign-In</a>
         <a class="btn btn-primary" data-toggle="modal" data-target="#singup" ng-hide="checkUserLogout">Sign-Up</a>
-        <button class="btn btn-danger" ng-show="checkUserLogout" value="" ng-click="logout()">Logout</button>
+        <div ng-show="checkUserLogout">
+            <h5>Hi!,{{username}}</h5>
+            <button class="btn btn-danger"  value="" ng-click="logout()">Logout</button>
+        </div>
+
         <!-- Modal Sing-In -->
         <div class="modal fade" id="singin" role="dialog">
             <div class="modal-dialog">
@@ -44,12 +40,8 @@
                     <div class="modal-body">
                         <div class="wrapper" ng-controller="Product">
                             <form class="form-signin">
-                                <input type="text" class="form-control" ng-model="username" placeholder="Username" required="" autofocus="" />
-
-                                <input type="password" class="form-control" ng-model="password" placeholder="Password" required=""/>
-                                <label class="checkbox">
-                                    <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
-                                </label>
+                                <input type="text" class="form-control" ng-model="username" placeholder="Username" ng-required autofocus="" />
+                                <input type="password" class="form-control" ng-model="password" placeholder="Password" ng-required/>
                                 <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="login()">Login</button>
                                 <div class="row" align="center">
                                     <a href="forgot.html">Forgot Username or password </a>
@@ -72,13 +64,12 @@
                     <div class="modal-body">
                         <div class="wrapper" ng-controller="RegisterCtrl">
                             <form class="form-signin">
-
-                                <input type="text" class="form-control" ng-model="regisusername" placeholder="User Name" required="" autofocus="" />
-                                <input type="email" class="form-control" ng-model="regisemail" placeholder="Email Address" required="" autofocus="" />
-                                <input type="password" class="form-control" ng-model="regispassword" placeholder="Password" required=""/>
+                                <input type="text" class="form-control" ng-model="regisusername" placeholder="User Name" ng-required autofocus="true" />
+                                <input type="email" class="form-control" ng-model="regisemail" placeholder="Email Address" ng-required autofocus="true" />
+                                <input type="text" class="form-control" ng-model="regisnumber" placeholder="Phone Number" ng-required autofocus="true" />
+                                <input type="password" class="form-control" ng-model="regispassword" placeholder="Password" ng-required autofocus="true" />
                                 <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="register()">Register</button>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -246,7 +237,7 @@
                                             <h5>Description:</h5>
                                         </div>
                                         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea ng-model="productdescrip" ckeditor="editorOptions">
+                                        <textarea ng-model="productdescrip" ckeditor="editorOptions" class="ckEditorP">
                                         </textarea>
                                         </div>
                                     </div>
@@ -255,7 +246,7 @@
                                             <h5>Address:</h5>
                                         </div>
                                         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea ng-model="productaddress" ckeditor="editorOptions">
+                                        <textarea ng-model="productaddress" ckeditor="editorOptions" class="ckEditorP">
                                         </textarea>
                                         </div>
                                     </div>
@@ -278,7 +269,9 @@
                                             <div class="inner-padding">
                                                 <!--<button type="submit" class="btn btn-danger" ng-click="up.submit()>submit-->
                                                 <button ng-show="buttonShow" type = "submit" class="btn btn-danger" ng-click="up.submit()">Submit</button>
-                                                <p ng-show="parashow">You Have to Log in to add product</p>
+                                                <div ng-show="parashow" class="alert alert-info">
+                                                    <strong>Info!</strong> You Have to Log in to add product
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -508,5 +501,15 @@
     /* CKEDITOR.replace( 'editor1' );
      CKEDITOR.replace( 'editor2' );*/
 </script>
+<!--<script>
+
+        $('.ckEditorP').ckeditor({
+            toolbar: 'Full',
+            enterMode : CKEDITOR.ENTER_BR,
+            shiftEnterMode: CKEDITOR.ENTER_P
+        });
+
+</script>-->
+
 </body>
 </html>

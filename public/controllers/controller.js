@@ -98,38 +98,49 @@ else{
                 console.log(response.status);
             });
     }
+    $scope.myaccount = function(){
+
+    }
 }]);
 
 //-----------------Controller for Registration Page-------------------------------------------//
 myApp.controller('RegisterCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     console.log("clicked register controller");
+    $scope.showalert=false;
     $scope.register = function () {
-        $http({
-            method: 'POST',
-            url: '/CheckregisterUser',
-            data: {
-                _id: $scope.regisusername,
-                email: $scope.regisemail,
-                password: $scope.regispassword
+        if ($scope.regisusername == null && $scope.regisemail == null && $scope.regispassword == null && $scope.regisnumber ==  null)
+        {
+        $scope.showalert= true;
+        $window.alert("Fields cannot be empty");
+        }else {
+            console.log("enter else of register");
+            $http({
+                method: 'POST',
+                url: '/CheckregisterUser',
+                data: {
+                    _id: $scope.regisusername,
+                    email: $scope.regisemail,
+                    password: $scope.regispassword,
+                    phonenumber: $scope.regisnumber
 
-            },
-        }).then(function successCallback(response) {
-            console.log(response.data);
-            if (response.data.data.toString().includes("saved to database")) {
-                console.log("entered if statement");
-                $window.location.href = '/';
-            }
-            else if (response.data.data.toString().includes("data exist")) {
+                },
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                if (response.data.data.toString().includes("saved to database")) {
+                    console.log("entered if statement");
+                    $window.location.href = '/';
+                }
+                else if (response.data.data.toString().includes("data exist")) {
 
-                console.log("entered else if statement");
-                alert("this user name has alredy taken");
+                    console.log("entered else if statement");
+                    alert("this user name has alredy taken");
 
-            }
+                }
 
-        }, function errorCallback(response) {
-            console.log('error');
-        });
-
+            }, function errorCallback(response) {
+                console.log('error');
+            });
+        }
     };
 
 }]);
