@@ -23,7 +23,7 @@ myApp.directive('fdInput', [function () {
 //-----------------Controller for login Page-------------------------------------------//
 myApp.controller('LoginCtrl', ['$scope', '$http', '$window','$cookies', function ($scope, $http, $window,$cookies) {
     console.log("hello from the controller");
-
+$scope.showalertlogin=false;
 if($cookies.get("Loggedin")!=null)
 {
     console.log("LoggedIn cookie:"+$cookies.get("Loggedin"));
@@ -39,47 +39,62 @@ else{
     console.log("checkUserLogout:"+$scope.checkUserLogout);
     console.log("checkUserLogin:"+$scope.checkUserLogin);
 }
-
+if($cookies.get("username")!=null)
+{
+    $scope.userid=$cookies.get("username");
+}
     // $scope.checkUserLogin = true;
     // $scope.checkUserLogout = false;
     loggedin=false;
     console.log("loggedin changed to false:" +loggedin);
     $scope.login = function () {
-        console.log("Login Button Clicked");
-        $http({
-            method: 'POST',
-            url: '/CheckUser',
-            data: {
-                _id: $scope.loginusername,
-                password: $scope.loginpassword
-            },
-        }).then(function successCallback(response) {
+        if($scope.loginusername == null && $scope.loginpassword == null){
+            $scope.showalertlogin=true;
+        $window.alert("Fields cant be empty");
+        }
+        else{
 
-            console.log(response);
-            console.log("successcallback");
+            console.log("Login Button Clicked");
+            $http({
+                method: 'POST',
+                url: '/CheckUser',
+                data: {
+                    _id: $scope.loginusername,
+                    password: $scope.loginpassword,
+                    user: 'null'
+                },
+            }).then(function successCallback(response) {
+                console.log("loggin username");
+                console.log(response);
+                console.log("successcallback");
 
-            if (response.data.data.toString().includes("Valid")) {
-                console.log("entered if loop");
-                $scope.checkUserLogin = false;
-                $scope.checkUserLogout = true;
-                loggedin=true;
-                var now=new Date();
-                var Expire=new Date();
-                Expire.setMinutes(now.getMinutes()+1);
-                $cookies.put('Loggedin', 'true',{path:"/",expires:Expire});
-                console.log("loggedin changed to true:" +loggedin);
-                $window.location.href = 'views/product.html';
-            }
-            else {
-                console.log("entered else");
-                alert("invalid username or password")
-            }
+                if (response!= null) {
+                    console.log("entered if loop");
+                    $scope.checkUserLogin = false;
+                    $scope.checkUserLogout = true;
+                    //$scope.userid = response.data;
+                    loggedin=true;
+                    var now=new Date();
+                    var Expire=new Date();
+                    Expire.setMinutes(now.getMinutes()+1);
+                    $cookies.put('username',$scope.loginusername,{path:"/",expires:Expire});
+                    $cookies.put('Loggedin', 'true',{path:"/",expires:Expire});
+                    $scope.userid=$scope.loginusername;
+                    console.log("loggedin changed to true:" +loggedin);
+                    $window.location.href = '../views/product.html';
+                }
+                else {
+                    console.log("entered else");
+                    alert("invalid username or password")
+                }
 
-        }, function errorCallback(response) {
-            console.log("error");
-            console.log(response.status);
-        });
-    };
+            }, function errorCallback(response) {
+                console.log("error");
+                console.log(response.status);
+            });
+        };
+        }
+
     $scope.logout=function(){
         console.log("in logout");
         $http({
@@ -88,6 +103,7 @@ else{
         }).then(function successCallback(response)
             {
                 $cookies.remove("Loggedin",{path:"/"});
+                $cookies.remove("username",{path:"/"});
                 console.log("loggedout");
                 $scope.checkUserLogin =true ;
                 $scope.checkUserLogout = false;
@@ -98,19 +114,22 @@ else{
                 console.log(response.status);
             });
     }
-    $scope.myaccount = function(){
+   /* $scope.myaccount = function(){
+        $http({
+            method:'GET',
 
-    }
+        })
+    }*/
 }]);
 
 //-----------------Controller for Registration Page-------------------------------------------//
 myApp.controller('RegisterCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     console.log("clicked register controller");
-    $scope.showalert=false;
+    $scope.showalertregis=false;
     $scope.register = function () {
         if ($scope.regisusername == null && $scope.regisemail == null && $scope.regispassword == null && $scope.regisnumber ==  null)
         {
-        $scope.showalert= true;
+        $scope.showalertregis= true;
         $window.alert("Fields cannot be empty");
         }else {
             console.log("enter else of register");
@@ -208,39 +227,47 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
 
     $scope.login = function () {
         console.log("Login Button Clicked");
-        $http({
-            method: 'POST',
-            url: '/CheckUser',
-            data: {
-                _id: $scope.username,
-                password: $scope.password
-            },
-        }).then(function successCallback(response) {
+        if($scope.loginusername == null && $scope.loginpassword == null){
+            $scope.showalertlogin=true;
+            $window.alert("Fields cant be empty");
+        }else {
+            $http({
+                method: 'POST',
+                url: '/CheckUser',
+                data: {
+                    _id: $scope.loginusername,
+                    password: $scope.loginpassword,
+                    user:''
+                },
+            }).then(function successCallback(response) {
+                console.log("successcallback of login");
+                console.log(response);
+                if (response.data != null) {
+                    console.log("entered if loop of login");
+                    console.log(response);
+                    $scope.checkUserLogin = false;
+                    $scope.checkUserLogout = true;
+                    $scope.userid = response.data;
+                    loggedin=true;
+                    var now=new Date();
+                    var Expire=new Date();
+                    Expire.setMinutes(now.getMinutes()+1);
+                    $cookies.put('Loggedin', 'true',{path:"/",expires:Expire});
+                    $cookies.put('username', $scope.loginusername,{path:"/",expires:Expire});
+                    $scope.userid=$scope.loginusername;
+                    console.log("loggedin changed to true:" +loggedin);
+                    $window.location.href = '../views/product.html';
+                }
+                else {
+                    console.log("entered else of login");
+                    alert("invalid username or password")
+                }
 
-            console.log(response);
-            console.log("successcallback");
-
-            if (response.data.data.toString().includes("Valid")) {
-                console.log("entered if loop");
-                $scope.checkUserLogin = false;
-                $scope.checkUserLogout = true;
-                loggedin=true;
-                var now=new Date();
-                var Expire=new Date();
-                Expire.setMinutes(now.getMinutes()+1);
-                $cookies.put('Loggedin', 'true',{path:"/",expires:Expire});
-                console.log("loggedin changed to true:" +loggedin);
-                $window.location.href = '../views/product.html';
-            }
-            else {
-                console.log("entered else");
-                alert("invalid username or password")
-            }
-
-        }, function errorCallback(response) {
-            console.log("error");
-            console.log(response.status);
-        });
+            }, function errorCallback(response) {
+                console.log("error of login");
+                console.log(response.status);
+            });
+        }
     };
 
     $scope.logout=function(){
@@ -251,6 +278,7 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
             {
                 console.log("loggedout");
                 $cookies.remove("Loggedin",{path:"/"});
+                $cookies.remove("username",{path:"/"});
                 $scope.checkUserLogout = false;
             },
             function errorCallback(response) {
@@ -267,6 +295,13 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
     else{
         $scope.emailShow = false;
         $scope.emailparashow=true;
+    }
+    if($cookies.get("username")!=null){
+        $scope.userid = $cookies.get("username");
+
+    }
+    else{
+
     }
 
     pname=pname==null?"":pname;
@@ -581,8 +616,6 @@ myApp.controller('email', ['$scope', '$http', '$window',function ($scope, $http,
                     $scope.products = response.data;
                 }
 
-
-
             }, function errorCallback(response) {
                 console.log('error');
             });
@@ -592,8 +625,71 @@ myApp.controller('email', ['$scope', '$http', '$window',function ($scope, $http,
     }
 
 }]);
+/*My account*/
+myApp.controller('myuseraccount', ['$scope', '$http', '$window',function ($scope, $http, $window,$cookies) {
+
+        //var email = $scope.email;
+    $http({
+        method: 'GET',
+        url: '/getMyUserAccountDetails',
+        }).then(function successCallback(response) {
+            console.log(response);
+            if (response.data != null) {
+                $scope._id = response.data._id;
+                $scope.email = response.data.email
+            }
+            else
+            {
+                console.log(response.data);
+            }
+        }, function errorCallback(response) {
+            console.log('error');
+        });
+    $scope.getuserproducts=function () {
+
+        $http({
+            method: 'GET',
+            url: '/getMyUserAccountProducts',
+        }).then(function successCallback(response) {
+            if (response != null) {
+                console.log("Your condition for get products satisfies");
+                console.log(response.data);
+                $scope.products = response.data;
+            }
+            else
+            {
+                console.log("Invalid data");
+            }
+        }, function errorCallback(response) {
+            console.log('error');
+        });
+        $scope.currentPage = 1;
+        $scope.pageSize = 12;
+
+        function OtherController($scope) {
 
 
+            $scope.pageChangeHandler = function(num) {
+
+            };
+        }
+    }
+$scope.deletedata=function (object) {
+        var userproductid = object;
+    $http({
+        method: 'POST',
+        url: '/deleteMyData',
+        data:
+            {
+                productid:userproductid
+            }
+    }).then(function successCallback(response) {
+        $window.location.reload();
+    }, function errorCallback(response) {
+        console.log('error');
+    });
+}
+}]);
 
 
 

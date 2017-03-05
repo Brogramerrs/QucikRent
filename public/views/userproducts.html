@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <title>My products</title>
@@ -9,33 +9,89 @@
     <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
     <link rel="stylesheet" href="../stylesheets/main.css">
     <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/userprofile.css">
 </head>
 <body>
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-        <div class="card">
-            <div class="userimage">
-                <img src=""/>
-            </div>
-            <div class="">
-                <
+<div class="row container-wrapper header-wrapper">
+
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 text-center">
+        <a ng-href="home.html"><button class="btn btn-primary" ng-hide="" value="">Home</button></a>
+        <a ng-href="home.html"><button class="btn btn-primary" ng-hide="" value="">Product</button></a>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class=" text-center" >
+            <h2 class="header-no-margin">QuickRent</h2>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 text-center" ng-controller="LoginCtrl">
+        <div ng-show="checkUserLogout">
+            <a href="" ng-click="" class="display-inline"><h5><b>Hi!{{userid}}</b></h5></a>
+            <div class="display-inline">
+                <button class="btn btn-danger"  value="" ng-click="logout()">Logout</button>
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-8 col-xs-8">
-        <div class="row">
-            <div class="col-xs-12 col-xs-12 col-xs-6 col-xs-6">
-                <div ng-controller="Product">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" dir-paginate="product in products | itemsPerPage: pageSize" current-page="currentPage" pagination-id="mealsPagination">
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" ng-controller="myuseraccount" >
+            <div class="card">
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        <img src="../images/user.png" class="img-responsive" alt="">
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            <div>
+                                <h4><b>User Name:</b></h4>
+                            </div>
+                            <div>
+                                <h4>{{_id}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-usermenu" style="padding:10px">
+                        <ul class="nav">
+                            <li class="active">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <h4><b>User Email:</b></h4>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <h4><b>{{email}}</b></h4>
+                                    </div>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+            <div class="row">
+                <div ng-controller="myuseraccount"  ng-init="getuserproducts()">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"
+                         dir-paginate="product in products | itemsPerPage: pageSize" current-page="currentPage"
+                         pagination-id="mealsPagination">
                         <div class="card">
                             <div class="card-img-container">
-                                <img src="../images/dollar.jpg" class="card-img">
-                                <span class="card-title">{{product.name}}</span>
+                                <img ng-src="../image_upload/{{product.productimagename}}" class="card-img">
+                                <span class="card-title">{{product.productOwnerName}}</span>
                             </div>
                             <div class="card-product-content">
-                                <p>{{product.desciption}}</p>
+                                <p>{{product.productDescription}}</p>
                                 <!-- Trigger the modal with a button -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product{{$index}}">{{product.moredetail}}</button>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product{{$index}}">More Detail</button>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <button type="button" class="btn btn-primary" ng-click="deletedata(product._id)">Delete</button>
+                                    </div>
+                                </div>
 
                                 <!-- Modal -->
                                 <div id="product{{$index}}" class="modal fade" role="dialog">
@@ -62,31 +118,35 @@
                                                         <div class="carousel-inner" role="listbox">
 
                                                             <div class="item active">
-                                                                <img src="../images/dollar.jpg" alt="Chania" width="100%">
+                                                                <img src="../image_upload/{{product.productimagename}}" alt="Chania" width="100%">
                                                             </div>
 
                                                             <div class="item">
-                                                                <img src="../images/dollar.jpg" alt="Chania" width="100%">
+                                                                <img src="../image_upload/{{product.productimagename}}" alt="Chania" width="100%">
 
                                                             </div>
 
                                                             <div class="item">
-                                                                <img src="../images/dollar.jpg" alt="Flower" width="100%">
+                                                                <img src="../image_upload/{{product.productimagename}}" alt="Flower" width="100%">
                                                             </div>
 
                                                             <div class="item">
-                                                                <img src="../images/dollar.jpg" alt="Flower" width="100%">
+                                                                <img src="../image_upload/{{product.productimagename}}" alt="Flower" width="100%">
                                                             </div>
 
                                                         </div>
 
                                                         <!-- Left and right controls -->
-                                                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                        <a class="left carousel-control" href="#myCarousel" role="button"
+                                                           data-slide="prev">
+                                                    <span class="glyphicon glyphicon-chevron-left"
+                                                          aria-hidden="true"></span>
                                                             <span class="sr-only">Previous</span>
                                                         </a>
-                                                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                                                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                        <a class="right carousel-control" href="#myCarousel" role="button"
+                                                           data-slide="next">
+                                                    <span class="glyphicon glyphicon-chevron-right"
+                                                          aria-hidden="true"></span>
                                                             <span class="sr-only">Next</span>
                                                         </a>
                                                     </div>
@@ -97,7 +157,43 @@
                                                     </div>
                                                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
                                                         <div style="padding: 5px">
-                                                            <p>{{product.name}}</p>
+                                                            <p>{{product.productOwnerName}}</p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row text-left">
+                                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                        <h5>Email Address:</h5>
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                        <div style="padding: 5px">
+                                                            <p>{{product.Emailaddress}}</p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="row text-left">
+                                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                        <h5>Product Name:</h5>
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                        <div style="padding: 5px">
+                                                            <p>{{product.productName}}</p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row text-left">
+                                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                        <h5>Product Type:</h5>
+                                                    </div>
+                                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                        <div style="padding: 5px">
+                                                            <p>{{product.productType}}</p>
                                                         </div>
 
                                                     </div>
@@ -107,7 +203,7 @@
                                                         <h5>Description:</h5>
                                                     </div>
                                                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                        <p>{{product.modaldetails}}</p>
+                                                        <p> {{product.productDescription}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row text-left">
@@ -115,7 +211,7 @@
                                                         <h5>Address:</h5>
                                                     </div>
                                                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                        <p>{{product.address}}</p>
+                                                        <p>{{product.productAddress}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row text-left">
@@ -123,7 +219,7 @@
                                                         <h5>Price:</h5>
                                                     </div>
                                                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                        <p>{{product.price}}</p>
+                                                        <p>{{product.productPrice}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row text-left">
@@ -131,25 +227,13 @@
                                                         <h5>Contact:</h5>
                                                     </div>
                                                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                        <p>{{product.contact}}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="row text-left">
-                                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                        <h5>Text:</h5>
-                                                    </div>
-                                                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                        <form>
-                                                            <textarea class="form-control" rows="5" id="comment"></textarea>
-                                                            <div style="padding:10px">
-                                                                <button class="btn btn-primary">{{product.buttontext}}</button>
-                                                            </div>
-                                                        </form>
+                                                        <p>{{product.productContact}}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                                </button>
                                             </div>
                                         </div>
 
@@ -160,6 +244,13 @@
                     </div>
                 </div>
             </div>
+            <!--pagination-->
+            <div class="row text-center">
+                <dir-pagination-controls boundary-links="true" pagination-id="mealsPagination"
+                                         on-page-change="pageChangeHandler(newPageNumber)"
+                                         template-url="../views/dirPagination.tpl.html"></dir-pagination-controls>
+            </div>
+
         </div>
     </div>
 </div>
@@ -168,11 +259,20 @@
 
 
 
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/dirPagination.js"></script>
+<script type="text/javascript" src="../js/ng-file-model.js"></script>
+<script type="text/javascript" src="../js/ng-ckeditor.js"></script>
 <script type="text/javascript" src="../controllers/controller.js"></script>
+<script type="text/javascript" src="http://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+
+<script src="../js/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+<script src="../js/ng-file-upload.min.js"></script>
+<scipt src="../js/config.js"></scipt>
 </body>
 </html>

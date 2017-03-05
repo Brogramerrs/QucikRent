@@ -21,6 +21,7 @@ var options = {
     formatter: null
 };
 var app = express();
+var ObjectId = require('mongodb').ObjectID;
 var sess;
 const url = require('url');
 app.use(session({secret: 'QUICKRENT'}));
@@ -75,6 +76,8 @@ app.post('/logout',function(req,res){
 });
 app.post('/CheckUser',function(req,res) {
     var userChecked=false;
+
+
      db.collection("personal_info").findOne({_id: req.body._id, password: req.body.password},function (err, data) {
             console.log("entered function CheckUser");
            // console.log(req);
@@ -95,8 +98,8 @@ app.post('/CheckUser',function(req,res) {
                 sess.username= req.body._id;
                 console.log(data.email);
                 sess.email=data.email;
-                console.log(sess);
-                res.json({"data" : "Valid"});
+                console.log(sess.username);
+                res.json({"data":"valid"});
             }
 
         }
@@ -114,8 +117,6 @@ app.post('/CheckregisterUser',function(req,res) {
     db.collection("personal_info").findOne({_id: req.body._id},function (err, data) {
             console.log("entered function");
             if (data==null) {
-
-
                 db.collection('personal_info').save(req.body, function(err, result) {
                     console.log("entered databse");
                     if (err)
@@ -454,5 +455,78 @@ app.post('/sendEmail',function(req,res) {
         });
 
 
+
+});
+/*myuseraccount*/
+app.get('/getMyUserAccountDetails',function(req,res) {
+    console.log("specific data is called inside app js ");
+
+    db.collection("personal_info").findOne({_id: sess.username},function (err, data) {
+            console.log("entered function of myuserid");
+            if (err) {
+                console.log("entered if");
+                res.json({"data":"failed" + err});
+                console.log(err);
+            }
+            else if (data==null ||data.length == 0) {
+                console.log("entered else if");
+                //res.json(err);
+                res.json({"data" : "empty"});
+            }
+            else {
+                console.log("entered else");
+                console.log(data);
+                res.send(data);
+            }
+
+        }
+    );
+
+});
+app.get('/getMyUserAccountProducts',function(req,res) {
+    console.log("specific data is called inside app js ");
+    db.collection("products").find({productusername: sess.username}).toArray(function (err, data) {
+            console.log("entered function of myuserid");
+            if (err) {
+                console.log("entered if");
+                res.json({"data":"failed" + err});
+                console.log(err);
+            }
+            else if (data==null ||data.length == 0) {
+                console.log("entered else if");
+            }
+            else {
+                console.log("entered else");
+                console.log(data);
+                res.send(data);
+            }
+
+        }
+    );
+
+});
+/*
+delete data*/
+app.post('/deleteMyData',function(req,res) {
+    console.log("specific data is called inside app js ");
+    console.log(req.body.productid);
+    db.collection("products").deleteOne({_id: ObjectId(req.body.productid)},function (err, data) {
+            console.log("entered function of delete");
+            if (err) {
+                console.log("entered if");
+                res.json({"data":"failed" + err});
+                console.log(err);
+            }
+            else if (data==null ||data.length == 0) {
+                console.log("entered else if");
+            }
+            else {
+                console.log("entered else");
+                console.log(data);
+                res.json({"data":"data deleted"});
+            }
+
+        }
+    );
 
 });
