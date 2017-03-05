@@ -386,7 +386,8 @@ app.post('/allData',function (req,res) {
     console.log(sess);
    // if (sess.username) {
     console.log("entered the function");
-    db.collection("products").find({productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") }}).toArray(function (err, data) {
+
+    db.collection("products").find({productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") },productAddress:{ $regex : new RegExp(req.body.city, "i") },productPrice:{ $regex : new RegExp(req.body.amount, "i") },}).toArray(function (err, data) {
             console.log("entered get all data function");
             console.log(sess.username);
             console.log(data);

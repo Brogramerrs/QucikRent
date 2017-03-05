@@ -194,8 +194,68 @@ myApp.controller('LocateProduct', ['$scope', '$http','$window', function ($scope
 myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',function ($scope, $http, $window,$cookies,$location) {
 
     console.log("entering the main game");
+    $scope.items =
+        {
+            name: ['Car', 'Book', 'furniture', 'machines', 'others']
+        };
+    $scope.areas =
+        {
+            location: ['Irvine', 'West covina', 'Santa ana', 'new york']
 
-    $scope.login = function () {
+        };
+    $scope.prices =
+        {
+            amount: ['10', '20', '30','100']
+        };
+    $scope.selected = function () {
+
+        console.log("i am here only");
+
+        console.log("search module called");
+
+        var name=$scope.itemSelectName!=null?$scope.itemSelectName:"";
+        var location=$scope.itemSelectArea!=null?$scope.itemSelectArea:"";
+        var price=$scope.itemSelectPrice!=null?$scope.itemSelectPrice:"";
+
+        console.log(name);
+        console.log(location);
+        console.log(price);
+        //name="{"+"'"+"productType"+"'"+":"+"'"+name.toString().toLowerCase()+"'"+"}";
+        //$scope.filterExpr = name;//{"productTyp" : name};//'productAddress': location,
+        $scope.filterExpr={'productType':name};
+       // $scope.Type=name.toLowerCase();
+        //'Price': price
+
+       // console.log("filter exprs");console.log($scope.filterExpr);
+$scope.applyif();
+var URL="../views/product.html#?";
+
+if(name!=null && name!=""){URL=URL+"productType="+name.toString();}
+if(location!=null && location!=""){URL=URL+(name!=null && name!=""?"&":"")+"city="+location};
+if(price!=null && price!=""){URL=URL+((name!=null && name!="")||(city!=null && city!="")?"&":"")+"amount="+price};
+        $window.location.href=URL;//"../views/product.html#?productType="+name+"&city="+location+"&amount="+price;
+        $window.location.reload();
+console.log("not redirecting");
+
+    }
+    $scope.applyif=function()
+    {
+        console.log("applyif");
+        if(!$scope.$$phase) {
+            console.log("applying");
+            $scope.$apply();
+            console.log("applied");
+            console.log("scope product");
+            $scope.$apply();
+            // $scope.$applyAsync(function(){$scope.products=response.data;});
+            console.log($scope.products);
+        }else
+        {
+            console.log("timeout");
+            setTimeout(function(){$scope.applyif();},2);
+        }
+    }
+        $scope.login = function () {
         console.log("Login Button Clicked");
         $http({
             method: 'POST',
@@ -249,6 +309,14 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
     }
     var pname = $location.search().productName;
     var type = $location.search().productType;
+    var city = $location.search().city;
+    var amount = $location.search().amount;
+
+
+    if(type!=null && type!=""){$scope.itemSelectName=type;}
+    if(city!=null && city!=""){$scope.itemSelectArea=city;};
+    if(amount!=null && amount!=""){$scope.itemSelectPrice=amount;};
+
     if($cookies.get("Loggedin")!=null){
         $scope.emailShow = true;
         $scope.emailparashow=false;
@@ -260,7 +328,8 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
 
     pname=pname==null?"":pname;
     type=type==null?"":type;
-
+    city=city==null?"":city;
+    amount=amount==null?"":amount;
         $http({
             method: 'POST',
             url: '/allData',
@@ -268,7 +337,8 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
 
                 productName: pname,
                 productType: type,
-
+                city:city
+            ,amount:amount
             }
         }).then(function successCallback(response) {
             console.log("successcalllback called in get all data");
@@ -348,39 +418,40 @@ myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope
         console.log($scope.itemSelectName);
         console.log($scope.itemSelectArea);
         console.log($scope.itemSelectPrice);
-        $http({
-            method: 'POST',
-            url: '/searchData',
-            data: {
-                itemName:$scope.itemSelectName.toString(),
-                itemArea:$scope.itemSelectArea.toString(),
-                itemPrice:$scope.itemSelectPrice.toString()
-            }
-        }).then(function successCallback(response) {
-            //console.log(response.data);
-
-
-           console.log(response);
-            console.log("successcallback");
-
-            if (response.data.toString().includes("oops!...there is no data matching your request")) {
-                console.log("entered else");
-                alert("there is some error correct it");
-                return(err);
-            }
-            else {
-                console.log("there is data present");
-
-                console.log(response);
-                return(response);
-
-            }
-
-        }, function errorCallback(response) {
-            console.log('error');
-
-
-        });
+        $scope.filterExpr={"productType":$scope.itemSelectName,"productAddress":$scope.itemSelectArea,"Price":$scope.itemSelectPrice};
+        // $http({
+        //     method: 'POST',
+        //     url: '/searchData',
+        //     data: {
+        //         itemName:$scope.itemSelectName.toString(),
+        //         itemArea:$scope.itemSelectArea.toString(),
+        //         itemPrice:$scope.itemSelectPrice.toString()
+        //     }
+        // }).then(function successCallback(response) {
+        //     //console.log(response.data);
+        //
+        //
+        //    console.log(response);
+        //     console.log("successcallback");
+        //
+        //     if (response.data.toString().includes("oops!...there is no data matching your request")) {
+        //         console.log("entered else");
+        //         alert("there is some error correct it");
+        //         return(err);
+        //     }
+        //     else {
+        //         console.log("there is data present");
+        //
+        //         console.log(response);
+        //         return(response);
+        //
+        //     }
+        //
+        // }, function errorCallback(response) {
+        //     console.log('error');
+        //
+        //
+        // });
 
     };
 }]);
@@ -612,20 +683,3 @@ myApp.controller('email', ['$scope', '$http', '$window',function ($scope, $http,
 
 
 // $scope.$apply(function(){  $scope.products=response.data;});
-/*$scope.applyif=function()
- {
- console.log("applyif");
- if(!$scope.$$phase) {
- console.log("applying");
- $scope.$apply(function(){  $scope.products=response.data;});
- console.log("applied");
- console.log("scope product");
- $scope.$apply();
- // $scope.$applyAsync(function(){$scope.products=response.data;});
- console.log($scope.products);
- }else
- {
- console.log("timeout");
- setTimeout(function(){$scope.applyif();},2);
- }
- }*/
