@@ -136,12 +136,12 @@
 <!--Products -->
 <div class="container">
     <div class="row inner-padding">
-        <form ng-controller="selectProduct">
+        <form ng-controller="Product">
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                 <div class="form-group">
                     <label for="productlist">Products:</label>
                     <select class="form-control" id="productlist" ng-model="itemSelectName">
-                        <option ng-repeat="item in items.name" value="{{item}}">{{item}}</option>
+                        <option ng-repeat="item in items.name" value="{{item}}" ng-selected="items.name">{{item}}</option>
                     </select>
                 </div>
             </div>
@@ -149,7 +149,7 @@
                 <div class="form-group">
                     <label for="area">Area:</label>
                     <select class="form-control" id="area" ng-model="itemSelectArea">
-                        <option ng-repeat="area in areas.location" value="{{area}}">{{area}}</option>
+                        <option ng-repeat="area in areas.location" value="{{area}}" ng-selected="itemSelectArea">{{area}}</option>
                     </select>
                 </div>
             </div>
@@ -157,7 +157,7 @@
                 <div class="form-group">
                     <label for="itemprice">Price:</label>
                     <select class="form-control" id="itemprice" ng-model="itemSelectPrice">
-                        <option ng-repeat="price in prices.amount" value="{{price}}">{{price}}</option>
+                        <option ng-repeat="price in prices.amount" value="{{price}}" ng-selected="itemSelectPrice">{{price}}</option>
                     </select>
                 </div>
             </div>
@@ -324,19 +324,23 @@
     </div>
     <!--Products controller-->
     <div class="row">
-        <div ng-controller="Product"  ng-init="">
+        <div ng-controller="Product"  >
             <!--<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" ng-repeat="product in products" dir-paginate="product in products | itemsPerPage: pageSize" current-page="currentPage" pagination-id="mealsPagination">-->
-            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
-                 dir-paginate="product in products | itemsPerPage: pageSize" current-page="currentPage"
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" ng-controller="Product"
+                 dir-paginate="product in products | itemsPerPage: pageSize | filter:filterExpr" current-page="currentPage"
                  pagination-id="mealsPagination">
                 <div class="card">
                     <div class="card-img-container">
                         <img ng-src="../image_upload/{{product.productimagename}}" class="card-img">
                         <span class="card-title">{{product.productOwnerName}}</span>
+
                     </div>
-                    <div class="card-product-content">
-                        <p>{{product.productDescription}}</p>
-                        <!-- Trigger the modal with a button -->
+                    <div class="card-product-content"  >
+                        <p ng-bind-html=product.productDescription></p>
+                        <input type="hidden" name="Htype" value="{{product.productType}}">
+                        <input type="hidden" name="Haddress" value="{{product.Address}}">
+                        <input type="hidden" name="Hprice" value="{{product.Price}}">
+                        <!-- {{product.productDescription}}Trigger the modal with a button -->
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#product{{$index}}">More detail
                         </button>
@@ -451,7 +455,7 @@
                                                 <h5>Description:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p> {{product.productDescription}}</p>
+                                                <p ng-bind-html=product.productDescription> </p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -459,7 +463,7 @@
                                                 <h5>Address:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p>{{product.productAddress}}</p>
+                                                <p ng-bind-html=product.productAddress></p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -515,11 +519,14 @@
 </div>
 
 
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-sanitize.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script type="text/javascript" src="../js/dirPagination.js"></script>
 <script type="text/javascript" src="../js/ng-file-model.js"></script>
 <script type="text/javascript" src="../js/ng-ckeditor.js"></script>
