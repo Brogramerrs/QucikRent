@@ -505,7 +505,7 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
     //console.log(file);
 
 
-var image1,image2,image3;
+var imagename;
 
    // $window.alert("addproduct cookie check");
     console.log("addproduct cookie check");
@@ -568,37 +568,18 @@ console.log($cookies.get("Loggedin"));
                     if (resp != null) { //validate success
                         console.log("returend successfully");
                         console.log(resp.data);
-                        //imagename = imagename!=null && imagename!=""?";"+resp.data+"";
-                        if(image1==null||image1=="")
-                        {
-                            image1=resp.data;
+                        imagename = resp.data;
+                        console.log();
 
-                        }
-                        else if(image2==null||image2=="")
-                        {
-                            image2=resp.data;
-
-                        }
-                        else if(image3==null||image3=="")
-                        {
-                            image3=resp.data;
-
-                        }
-                        console.log("image 1 name is " +image1);
-                        console.log("image 2 name is " +image2);
-                        console.log("image 3 name is " +image3);
-
-
+                        addProductToDb();
                         console.log(resp.config.data.file);
-                        return ;
                     } else {
-                        console.log('Error status: ' + resp.status);
-                        //$window.alert('an error occured');
+                        $window.alert('an error occured');
                     }
                 },
                 function (resp) { //catch error
                     console.log('Error status: ' + resp.status);
-                   // $window.alert('Error status: ' + resp.status);
+                    $window.alert('Error status: ' + resp.status);
                 })
         };
 
@@ -628,9 +609,7 @@ console.log($cookies.get("Loggedin"));
                 url: '/productToDb',
                 data: {
                     productusername : 'null',
-                    productimagename1: image1,
-                    productimagename2: image2,
-                    productimagename3: image3,
+                    productimagename1: imagename,
                     productOwnerName: ownerName,
                     Emailaddress: emailaddress,
                     productName: productname,
@@ -647,7 +626,7 @@ console.log($cookies.get("Loggedin"));
                 console.log(response.data);
                 if (response.data.data.toString().includes("valid data")) {
                     console.log("alert");
-                    //alert("succesfully saved data");
+                    alert("succesfully saved data");
                     //$window.location.href = '../views/product.html';
 
                 }
