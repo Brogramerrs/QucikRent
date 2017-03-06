@@ -1,10 +1,9 @@
 /*var files;*/
 var fs ;
 var imagename;
-<<<<<<< HEAD
+
 var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination', 'ng-file-model', 'ngCkeditor','ngFileUpload','ngCookies']);//'angularUtils.directives.dirPagination','ngRoute'
-=======
-var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination', 'ng-file-model', 'ngCkeditor','ngFileUpload','ngCookies', 'ngSanitize']);//'angularUtils.directives.dirPagination','ngRoute'
+
 myApp.directive('fdInput', [function () {
     return {
         link: function (scope, element, attrs) {
@@ -13,7 +12,10 @@ myApp.directive('fdInput', [function () {
                 console.log(files[0].name);
                 console.log(files[0].size);
                 console.log(files);
->>>>>>> 8256f08a6a0dc6927708d486db3bdb5548e77419
+            });
+        }
+        }
+    }]);
 
 
 //-----------------Controller for login Page-------------------------------------------//
@@ -498,15 +500,15 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
     //---------------------------------------------------image to databse------------------------------------//
     // function addImageToFile() {
     //console.log(file);
-<<<<<<< HEAD
+
 
 var image1,image2,image3;
-=======
+
     $window.alert("addproduct cookie check");
     console.log("addproduct cookie check");
 console.log($cookies.get("Loggedin"));
 
->>>>>>> 8256f08a6a0dc6927708d486db3bdb5548e77419
+
     if($cookies.get("Loggedin")!=null){
 
         $scope.buttonShow=true;
@@ -788,7 +790,7 @@ $scope.deletedata = function (object) {
     }, function errorCallback(response) {
         console.log('error');
     });
-}
+    }
 }]);
 
 

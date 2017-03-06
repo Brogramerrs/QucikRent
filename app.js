@@ -463,7 +463,7 @@ app.post('/sendEmail',function(req,res) {
         res.json({"data": "valid data"})
 
     });
-    /*myuseraccount*/
+    /*---------------------------------------------------------myuseraccount-------------------------------------------------*/
     app.get('/getMyUserAccountDetails', function (req, res) {
         console.log("specific data is called inside app js ");
 
@@ -492,45 +492,45 @@ app.post('/sendEmail',function(req,res) {
     app.get('/getMyUserAccountProducts', function (req, res) {
         console.log("specific data is called inside app js ");
         db.collection("products").find({productusername: sess.username}).toArray(function (err, data) {
-                console.log("entered function of myuserid");
-                if (err) {
-                    console.log("entered if");
-                    res.json({"data": "failed" + err});
-                    console.log(err);
-                }
-                else if (data == null || data.length == 0) {
-                    console.log("entered else if");
+            console.log("entered function of myuserid");
+            if (err) {
+                console.log("entered if");
+                res.json({"data": "failed" + err});
+                console.log(err);
+            }
+            else if (data == null || data.length == 0) {
+                console.log("entered else if");
+            }
+            else {
+                console.log("entered else");
+                console.log(data);
+                res.send(data);
+            }
+
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                    res.json({"data": "Valid User.Error sending mail"});
                 }
                 else {
-                    console.log("entered else");
-                    console.log(data);
-                    res.send(data);
+                    console.log("sending...wait...");
+                    console.log(text);
+                    console.log(req.body.texttotsend);
+                    console.log('Message sent: ' + info.response);
+                    res.json({"data": "Valid User.Message sent"});
                 }
 
-<<<<<<< HEAD
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-                res.json({"data": "Valid User.Error sending mail"});
-            } else {
-                console.log("sending...wait...");
-                console.log(text);
-                console.log(req.body.texttotsend);
-                console.log('Message sent: ' + info.response);
-                res.json({"data": "Valid User.Message sent"});
 
-=======
->>>>>>> 8256f08a6a0dc6927708d486db3bdb5548e77419
-            }
-        );
+            });
 
-    });
-    /*
-     delete data*/
-    app.post('/deleteMyData', function (req, res) {
-        console.log("specific data is called inside app js ");
-        console.log(req.body.productid);
-        db.collection("products").deleteOne({_id: ObjectId(req.body.productid)}, function (err, data) {
+        });
+        /*
+         delete data*/
+        app.post('/deleteMyData', function (req, res) {
+            console.log("specific data is called inside app js ");
+            console.log(req.body.productid);
+            db.collection("products").deleteOne({_id: ObjectId(req.body.productid)}, function (err, data) {
                 console.log("entered function of delete");
                 if (err) {
                     console.log("entered if");
@@ -546,7 +546,8 @@ app.post('/sendEmail',function(req,res) {
                     res.json({"data": "data deleted"});
                 }
 
-            }
-        );
 
+            });
+
+        });
     });
