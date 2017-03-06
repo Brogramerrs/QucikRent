@@ -713,7 +713,7 @@ myApp.controller('email', ['$scope', '$http', '$window',function ($scope, $http,
                 }
 
             }).then(function successCallback(response) {
-                console.log(response.data);
+                console.log(response);
                 if (response.data.data.toString().includes("Valid User.Message sent")) {
                     console.log("check mail...sent from here");
                     alert("Your mail has been sent");
@@ -721,8 +721,8 @@ myApp.controller('email', ['$scope', '$http', '$window',function ($scope, $http,
                 }
                 else
                 {
-                    console.log(response.data);
-                    console.log("mail not sent");
+                    console.log(response);
+                    console.log("mail not sent" + response);
                     alert("mail not sent");
 
                     $scope.products = response.data;

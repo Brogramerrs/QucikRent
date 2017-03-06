@@ -465,7 +465,8 @@ app.post('/sendEmail',function(req,res) {
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
-            res.json({"data": "Valid User.Error sending mail" + error});
+            // res.json({"data": "Valid User.Error sending mail" + error});
+            res.send(error);
         } else {
             console.log("sending...wait...");
            // console.log(text);
