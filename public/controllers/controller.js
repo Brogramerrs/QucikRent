@@ -66,7 +66,7 @@ if($cookies.get("username")!=null)
                 console.log(response);
                 console.log("successcallback");
 
-                if (response != null) {
+                if (response.data.data.toString().includes("valid")) {
                     console.log("entered if loop");
                     $scope.checkUserLogin = false;
                     $scope.checkUserLogout = true;
@@ -389,14 +389,14 @@ console.log("not redirecting");
             }
             console.log("checkUserLogout:" + $scope.checkUserLogout);
             console.log("checkUserLogin:" + $scope.checkUserLogin);
-            console.log(response.data);
+            console.log(response.data.data);
             if (response.data["redirect"] != null && response.data["redirect"] != "") {
                 console.log("Redirecting...");
                 console.log(response.data["redirect"]);
                 $window.location.href = response.data["redirect"];
 
             }
-            if (response.data.toString().includes("empty")) {
+            if (response.data.data.toString().includes("empty")) {
                 console.log("you r going wrong");
             }
             else if (response.data.toString().includes("failed")) {
