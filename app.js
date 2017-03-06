@@ -21,6 +21,7 @@ var options = {
     formatter: null
 };
 var app = express();
+var ObjectId = require('mongodb').ObjectID;
 var sess;
 const url = require('url');
 app.use(session({secret: 'QUICKRENT'}));
@@ -75,6 +76,8 @@ app.post('/logout',function(req,res){
 });
 app.post('/CheckUser',function(req,res) {
     var userChecked=false;
+
+
      db.collection("personal_info").findOne({_id: req.body._id, password: req.body.password},function (err, data) {
             console.log("entered function CheckUser");
            // console.log(req);
@@ -95,8 +98,8 @@ app.post('/CheckUser',function(req,res) {
                 sess.username= req.body._id;
                 console.log(data.email);
                 sess.email=data.email;
-                console.log(sess);
-                res.json({"data" : "Valid"});
+                console.log(sess.username);
+                res.json({"data":"valid"});
             }
 
         }
@@ -114,8 +117,6 @@ app.post('/CheckregisterUser',function(req,res) {
     db.collection("personal_info").findOne({_id: req.body._id},function (err, data) {
             console.log("entered function");
             if (data==null) {
-
-
                 db.collection('personal_info').save(req.body, function(err, result) {
                     console.log("entered databse");
                     if (err)
@@ -275,18 +276,6 @@ app.post('/imagetodb',function(req,res) {
 
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
 //----------------------------Service for product add----------------------------------//
 app.post('/productToDb',function(req,res) {
     console.log("req.session"+req.session);
@@ -315,6 +304,7 @@ else{console.log("session not found");res.redirect("/");}
 });
 
 //----------------------------Service for product selected----------------------------------//
+
 
 app.post('/searchData',function(req,res) {
    console.log("searchdata entered");
@@ -392,7 +382,8 @@ app.post('/allData',function (req,res) {
     console.log(sess);
    // if (sess.username) {
     console.log("entered the function");
-    db.collection("products").find({productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") }}).toArray(function (err, data) {
+
+    db.collection("products").find({productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") },productAddress:{ $regex : new RegExp(req.body.city, "i") },productPrice:{ $regex : new RegExp(req.body.amount, "i") },}).toArray(function (err, data) {
             console.log("entered get all data function");
             console.log(sess.username);
             console.log(data);
@@ -423,27 +414,100 @@ module.exports = app;
 app.post('/sendEmail',function(req,res) {
 
 
-        console.log("entering the sending game");
-        console.log(req.body.texttosend);
+    console.log("entering the sending game");
+    console.log(req.body.texttosend);
 
-        //ToDo:Code to email the password
-        var transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true, // use SSL
-            auth: {
-                user: 'brogrammerrs@gmail.com', // Your email id
-                pass: '2541temple' // Your password
+    //ToDo:Code to email the password
+    var transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // use SSL
+        auth: {
+            user: 'brogrammerrs@gmail.com', // Your email id
+            pass: '2541temple' // Your password
+        }
+    });
+    var mailOptions = {
+        from: 'brogrammerrs@gmail.com', // sender address
+        to: req.body.emailaddress, // list of receivers
+        subject: 'Rent Your Product', // Subject line;
+        /*text: 'sender email address:'+ sess.email,*/
+        html: req.body.texttosend + '<br> <b>sender email address:</b>' + sess.email  // plaintext body
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+            res.json({"data": "Valid User.Error sending mail"});
+        } else {
+            console.log("sending...wait...");
+            console.log(text);
+            console.log(req.body.texttotsend);
+            console.log('Message sent: ' + info.response);
+            res.json({"data": "Valid User.Message sent"});
+            res.json({yo: info.response});
+        }
+        ;
+    });
+
+});
+
+
+    app.post('/ProductSelectCheck', function (req, res) {
+        console.log("app js called");
+        /*if(req.body.itemWanted === "Car" || req.body.itemWanted === "Books" || req.body.itemWanted === "admin") {
+         res.json({"data" : "Valid User"});
+         } else {
+         res.json({"data" : "Invalid User"});
+         }*/
+        res.json({"data": "valid data"})
+
+    });
+    /*myuseraccount*/
+    app.get('/getMyUserAccountDetails', function (req, res) {
+        console.log("specific data is called inside app js ");
+
+        db.collection("personal_info").findOne({_id: sess.username}, function (err, data) {
+                console.log("entered function of myuserid");
+                if (err) {
+                    console.log("entered if");
+                    res.json({"data": "failed" + err});
+                    console.log(err);
+                }
+                else if (data == null || data.length == 0) {
+                    console.log("entered else if");
+                    //res.json(err);
+                    res.json({"data": "empty"});
+                }
+                else {
+                    console.log("entered else");
+                    console.log(data);
+                    res.send(data);
+                }
+
             }
-        });
-        var mailOptions = {
-            from: 'brogrammerrs@gmail.com', // sender address
-            to: req.body.emailaddress, // list of receivers
-            subject: 'Rent Your Product', // Subject line;
-            /*text: 'sender email address:'+ sess.email,*/
-            html: req.body.texttosend +'<br> <b>sender email address:</b>' + sess.email  // plaintext body
-        };
+        );
 
+    });
+    app.get('/getMyUserAccountProducts', function (req, res) {
+        console.log("specific data is called inside app js ");
+        db.collection("products").find({productusername: sess.username}).toArray(function (err, data) {
+                console.log("entered function of myuserid");
+                if (err) {
+                    console.log("entered if");
+                    res.json({"data": "failed" + err});
+                    console.log(err);
+                }
+                else if (data == null || data.length == 0) {
+                    console.log("entered else if");
+                }
+                else {
+                    console.log("entered else");
+                    console.log(data);
+                    res.send(data);
+                }
+
+<<<<<<< HEAD
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
@@ -455,10 +519,34 @@ app.post('/sendEmail',function(req,res) {
                 console.log('Message sent: ' + info.response);
                 res.json({"data": "Valid User.Message sent"});
 
+=======
+>>>>>>> 8256f08a6a0dc6927708d486db3bdb5548e77419
             }
-            ;
-        });
+        );
 
+    });
+    /*
+     delete data*/
+    app.post('/deleteMyData', function (req, res) {
+        console.log("specific data is called inside app js ");
+        console.log(req.body.productid);
+        db.collection("products").deleteOne({_id: ObjectId(req.body.productid)}, function (err, data) {
+                console.log("entered function of delete");
+                if (err) {
+                    console.log("entered if");
+                    res.json({"data": "failed" + err});
+                    console.log(err);
+                }
+                else if (data == null || data.length == 0) {
+                    console.log("entered else if");
+                }
+                else {
+                    console.log("entered else");
+                    console.log(data);
+                    res.json({"data": "data deleted"});
+                }
 
+            }
+        );
 
-});
+    });

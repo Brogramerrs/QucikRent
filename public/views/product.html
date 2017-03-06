@@ -11,26 +11,24 @@
 <body>
 <div class="row container-wrapper header-wrapper">
 
-    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Menu
-                <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a href="#">Books</a></li>
-                <li><a href="#">Clothes</a></li>
-                <li><a href="#">Videogames</a></li>
-            </ul>
-        </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 text-center">
+        <a ng-href="home.html"><button class="btn btn-primary" ng-hide="" value="">Home</button></a>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class=" text-center">
             <a href="Home.html"><h2 class="header-no-margin">Quickrent</h2></a>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 text-center" ng-controller="Product">
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 text-center" ng-controller="Product">
         <a class="btn btn-primary" data-toggle="modal" data-target="#singin" ng-hide="checkUserLogout">Sign-In</a>
         <a class="btn btn-primary" data-toggle="modal" data-target="#singup" ng-hide="checkUserLogout">Sign-Up</a>
-        <button class="btn btn-danger" ng-show="checkUserLogout" value="" ng-click="logout()">Logout</button>
+        <div ng-show="checkUserLogout">
+            <a href="../views/userproducts.html" class="display-inline" ><h5><b>Hi!{{userid}}</b></h5></a>
+            <div class="display-inline">
+                <button class="btn btn-danger"  value="" ng-click="logout()">Logout</button>
+            </div>
+        </div>
+
         <!-- Modal Sing-In -->
         <div class="modal fade" id="singin" role="dialog">
             <div class="modal-dialog">
@@ -43,16 +41,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="wrapper" ng-controller="Product">
+                            <div class="alert alert-warning" ng-show="showalertlogin">
+                                <strong>Warning!</strong> Fields cannot be empty.
+                            </div>
                             <form class="form-signin">
-                                <input type="text" class="form-control" ng-model="username" placeholder="Username" required="" autofocus="" />
-
-                                <input type="password" class="form-control" ng-model="password" placeholder="Password" required=""/>
-                                <label class="checkbox">
-                                    <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
-                                </label>
+                                <input type="text" class="form-control" ng-model="loginusername" placeholder="Username" ng-required autofocus="" />
+                                <input type="password" class="form-control" ng-model="loginpassword" placeholder="Password" ng-required/>
                                 <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="login()">Login</button>
                                 <div class="row" align="center">
-                                    <a href="forgot.html">Forgot Username or password </a>
+                                    <a href="" data-toggle="modal" data-target="#myModal">Forgot Username or password </a>
                                 </div>
                             </form>
                         </div>
@@ -72,13 +69,12 @@
                     <div class="modal-body">
                         <div class="wrapper" ng-controller="RegisterCtrl">
                             <form class="form-signin">
-
-                                <input type="text" class="form-control" ng-model="regisusername" placeholder="User Name" required="" autofocus="" />
-                                <input type="email" class="form-control" ng-model="regisemail" placeholder="Email Address" required="" autofocus="" />
-                                <input type="password" class="form-control" ng-model="regispassword" placeholder="Password" required=""/>
+                                <input type="text" class="form-control" ng-trim="true" ng-model="regisusername" placeholder="User Name" ng-required autofocus="true" />
+                                <input type="text" class="form-control" ng-model="regisnumber" placeholder="Phone Number" ng-required autofocus="true" />
+                                <input type="email" class="form-control" ng-model="regisemail" placeholder="Email Address" ng-required autofocus="true" />
+                                <input type="password" class="form-control" ng-model="regispassword" placeholder="Password" ng-required autofocus="true" />
                                 <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="register()">Register</button>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -110,17 +106,42 @@
 
             </div>
         </div>
+        <!-- forgot Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="form-signin-heading">Forget Password</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="wrapper" ng-controller="ForgotCtrl">
+                            <form class="form-signin">
+                                <input type="email" class="form-control" ng-model="email" placeholder="Email Address" required="" autofocus="" />
+                                <button class="btn btn-lg btn-primary btn-block" type="button" ng-click="lost()">Send Password</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 <!--Products -->
 <div class="container">
     <div class="row inner-padding">
-        <form ng-controller="selectProduct">
+        <form ng-controller="Product">
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                 <div class="form-group">
                     <label for="productlist">Products:</label>
                     <select class="form-control" id="productlist" ng-model="itemSelectName">
-                        <option ng-repeat="item in items.name" value="{{item}}">{{item}}</option>
+                        <option ng-repeat="item in items.name" value="{{item}}" ng-selected="items.name">{{item}}</option>
                     </select>
                 </div>
             </div>
@@ -128,7 +149,7 @@
                 <div class="form-group">
                     <label for="area">Area:</label>
                     <select class="form-control" id="area" ng-model="itemSelectArea">
-                        <option ng-repeat="area in areas.location" value="{{area}}">{{area}}</option>
+                        <option ng-repeat="area in areas.location" value="{{area}}" ng-selected="itemSelectArea">{{area}}</option>
                     </select>
                 </div>
             </div>
@@ -136,7 +157,7 @@
                 <div class="form-group">
                     <label for="itemprice">Price:</label>
                     <select class="form-control" id="itemprice" ng-model="itemSelectPrice">
-                        <option ng-repeat="price in prices.amount" value="{{price}}">{{price}}</option>
+                        <option ng-repeat="price in prices.amount" value="{{price}}" ng-selected="itemSelectPrice">{{price}}</option>
                     </select>
                 </div>
             </div>
@@ -156,7 +177,6 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addproduct">Add
                     Product
                 </button>
-
                 <!-- Modal -->
                 <div id="addproduct" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -266,17 +286,32 @@
                                             <h5>Description:</h5>
                                         </div>
                                         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea ng-model="productdescrip" ckeditor="editorOptions">
+                                        <textarea ng-model="productdescrip" ckeditor="editorOptions" class="ckEditorP">
                                         </textarea>
                                         </div>
                                     </div>
                                     <div class="row text-left">
                                         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                            <h5>Address:</h5>
+                                            <h5>Address 1:</h5>
                                         </div>
                                         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea ng-model="productaddress" ckeditor="editorOptions">
-                                        </textarea>
+                                            <textarea class="form-control" rows="1" id="comment" ng-model="productaddress1"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>Address 2:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <textarea class="form-control" rows="1" id="comment" ng-model="productaddress2"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>City:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <textarea class="form-control" rows="1" id="comment" ng-model="productcity"></textarea>
                                         </div>
                                     </div>
                                     <div class="row text-left">
@@ -298,7 +333,9 @@
                                             <div class="inner-padding">
                                                 <!--<button type="submit" class="btn btn-danger" ng-click="up.submit()>submit-->
                                                 <button ng-show="buttonShow" type = "submit" class="btn btn-danger" ng-click="up.submit()">Submit</button>
-                                                <p ng-show="parashow">You Have to Log in to add product</p>
+                                                <div ng-show="parashow" class="alert alert-info">
+                                                    <strong>Info!</strong> You Have to Log in to add product
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -321,19 +358,23 @@
     </div>
     <!--Products controller-->
     <div class="row">
-        <div ng-controller="Product"  ng-init="">
+        <div ng-controller="Product"  >
             <!--<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" ng-repeat="product in products" dir-paginate="product in products | itemsPerPage: pageSize" current-page="currentPage" pagination-id="mealsPagination">-->
-            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
-                 dir-paginate="product in products | itemsPerPage: pageSize" current-page="currentPage"
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" ng-controller="Product"
+                 dir-paginate="product in products | itemsPerPage: pageSize " current-page="currentPage"
                  pagination-id="mealsPagination">
                 <div class="card">
                     <div class="card-img-container">
                         <img ng-src="../image_upload/{{product.productimagename1}}" class="card-img">
                         <span class="card-title">{{product.productOwnerName}}</span>
+
                     </div>
-                    <div class="card-product-content">
-                        <p>{{product.productDescription}}</p>
-                        <!-- Trigger the modal with a button -->
+                    <div class="card-product-content"  >
+                        <p ng-bind-html=product.productDescription></p>
+                        <input type="hidden" name="Htype" value="{{product.productType}}">
+                        <input type="hidden" name="Haddress" value="{{product.Address}}">
+                        <input type="hidden" name="Hprice" value="{{product.Price}}">
+                        <!-- {{product.productDescription}}Trigger the modal with a button -->
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#product{{$index}}">More detail
                         </button>
@@ -444,15 +485,31 @@
                                                 <h5>Description:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p> {{product.productDescription}}</p>
+                                                <p ng-bind-html=product.productDescription> </p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
                                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                <h5>Address:</h5>
+                                                <h5>Address 1:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p>{{product.productAddress}}</p>
+                                                <p ng-bind-html=product.productAddress1></p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>Address 2:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <p ng-bind-html=product.productAddress2></p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>City:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <p ng-bind-html=product.productCity></p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -508,11 +565,14 @@
 </div>
 
 
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-sanitize.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script type="text/javascript" src="../js/dirPagination.js"></script>
 <script type="text/javascript" src="../js/ng-file-model.js"></script>
 <script type="text/javascript" src="../js/ng-ckeditor.js"></script>
