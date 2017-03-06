@@ -377,7 +377,6 @@ app.get('/getSpecificdata',function(req,res) {
         }
     );
 
-
 });
 //--------------------------------------get product---------------------------------------//
 app.post('/allData',function (req,res) {
@@ -466,7 +465,7 @@ app.post('/sendEmail',function(req,res) {
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
-            res.json({"data": "Valid User.Error sending mail"});
+            res.json({"data": "Valid User.Error sending mail" + error});
         } else {
             console.log("sending...wait...");
            // console.log(text);
