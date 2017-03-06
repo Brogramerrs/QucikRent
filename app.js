@@ -245,7 +245,7 @@ var name="";
 var storage = multer.diskStorage({ //multers disk storage settings
 
     destination: function (req, file, cb) {
-        cb(null, '../apps/QuickRent/public/image_upload/')
+        cb(null, '/apps/QuickRent/public/image_upload')
     },
     filename: function (req, file, cb) {
         var datetimestamp=new String();
@@ -268,7 +268,7 @@ app.post('/imagetodb',function(req,res) {
         console.log("uploading...wait..........");
         if(err){
             console.log(err);
-            res.json({error_code:1,err_desc:err});
+            res.json({error_code:1,err_desc:err+" Name:"+name});
             return;
         }
         else{console.log("Upload successfull");
