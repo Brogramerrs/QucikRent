@@ -380,7 +380,7 @@ app.get('/getSpecificdata',function(req,res) {
 
 });
 //--------------------------------------get product---------------------------------------//
-app.post('/allData',function (req,res) {
+app.get('/allData',function (req,res) {
     console.log(req.session);
     sess = req.session;
     console.log(sess);
