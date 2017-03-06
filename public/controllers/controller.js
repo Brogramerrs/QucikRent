@@ -396,10 +396,13 @@ console.log("not redirecting");
                 $window.location.href = response.data["redirect"];
 
             }
-            if (response.data.data.toString().includes("empty")) {
+            console.log("printing response");
+            console.log(response);
+
+            if (response.data.data!=null && response.data.data.toString().includes("empty")) {
                 console.log("you r going wrong");
             }
-            else if (response.data.toString().includes("failed")) {
+            else if (response.data.data!=null && response.data.toString().includes("failed")) {
                 console.log("still wrong");
             }
             else {
