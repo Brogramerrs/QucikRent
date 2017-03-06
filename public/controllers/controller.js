@@ -519,7 +519,7 @@ console.log($cookies.get("Loggedin"));
         vm.submit = function () {
             //function to call on form submit
             console.log("submit");
-            for(var i = 0; i<3;i++) {
+            for(var i = 0; i<1;i++) {
                 //if (vm.upload_form.file.$valid && vm.file[i]) { //check if from is valid
                     console.log("form valid");
                    console.log(vm.file[i]);
@@ -535,8 +535,8 @@ console.log($cookies.get("Loggedin"));
         }
         $scope.addProductDelayed=function()
         {
-            console.log("applyif");
-            if(!(image1==null || image1=="" || image2==null || image2=="" || image3==null || image3=="")) {
+            console.log("applyif");//|| image2==null || image2=="" || image3==null || image3==""
+            if(!(image1==null || image1=="" )) {
                 console.log("applying");
                 addProductToDb();
                 console.log("added");
