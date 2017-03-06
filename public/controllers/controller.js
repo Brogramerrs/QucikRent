@@ -527,7 +527,7 @@ console.log($cookies.get("Loggedin"));
                     console.log("form valid");
                    console.log(vm.file);
                     vm.upload(vm.file);//call upload function
-                    console.log("value of i is :"+ i);
+                   // console.log("value of i is :"+ i);
                 // }
                 // else {
                 //     console.log("invalid form");
