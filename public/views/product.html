@@ -184,8 +184,28 @@
                                                         ngf-pattern="'image/*'"
                                                         accept="image/*"
                                                         ngf-max-size="20MB"
+                                               multiple />
+                                              <!--  Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file || '/thumb.jpg'"/>
+                                                <input
+                                                        type="file"
+                                                        ngf-select
+                                                        ng-model="up.file1"
+                                                        name="file1"
+                                                        ngf-pattern="'image/*'"
+                                                        accept="image/*"
+                                                        ngf-max-size="20MB"
                                                 />
-                                                Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file || '/thumb.jpg'"/>
+                                                Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file1 || '/thumb.jpg'"/>
+                                                <input
+                                                        type="file"
+                                                        ngf-select
+                                                        ng-model="up.file2"
+                                                        name="file2"
+                                                        ngf-pattern="'image/*'"
+                                                        accept="image/*"
+                                                        ngf-max-size="20MB"
+                                                />-->
+                                                Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file2 || '/thumb.jpg'"/>
                                                 <i ng-show="up.upload_form.file.$error.required">*required</i><br>
                                                 <i ng-show="up.upload_form.file.$error.maxSize">File too large
                                                     {{up.file.size / 1000000|number:1}}MB: max 20M</i>
@@ -308,7 +328,7 @@
                  pagination-id="mealsPagination">
                 <div class="card">
                     <div class="card-img-container">
-                        <img ng-src="../image_upload/{{product.productimagename}}" class="card-img">
+                        <img ng-src="../image_upload/{{product.productimagename1}}" class="card-img">
                         <span class="card-title">{{product.productOwnerName}}</span>
                     </div>
                     <div class="card-product-content">
@@ -343,20 +363,16 @@
                                                 <div class="carousel-inner" role="listbox">
 
                                                     <div class="item active">
-                                                        <img src="../image_upload/{{product.productimagename}}" alt="Chania" width="100%">
+                                                        <img ng-src="../image_upload/{{product.productimagename1}}" alt="Chania" width="100%">
                                                     </div>
 
                                                     <div class="item">
-                                                        <img src="../image_upload/{{product.productimagename}}" alt="Chania" width="100%">
+                                                        <img ng-src="../image_upload/{{product.productimagename2}}" alt="Chania" width="100%">
 
                                                     </div>
 
                                                     <div class="item">
-                                                        <img src="../image_upload/{{product.productimagename}}" alt="Flower" width="100%">
-                                                    </div>
-
-                                                    <div class="item">
-                                                        <img src="../image_upload/{{product.productimagename}}" alt="Flower" width="100%">
+                                                        <img ng-src="../image_upload/{{product.productimagename3}}" alt="Flower" width="100%">
                                                     </div>
 
                                                 </div>

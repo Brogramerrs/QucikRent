@@ -1,20 +1,8 @@
-var files;
+/*var files;*/
 var fs ;
 var imagename;
 var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination', 'ng-file-model', 'ngCkeditor','ngFileUpload','ngCookies']);//'angularUtils.directives.dirPagination','ngRoute'
-myApp.directive('fdInput', [function () {
-    return {
-        link: function (scope, element, attrs) {
-            element.on('change', function (evt) {
-                files = evt.target.files;
-                console.log(files[0].name);
-                console.log(files[0].size);
-                console.log(files);
 
-            });
-        }
-    }
-}]);
 
 
 
@@ -391,22 +379,29 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
     // function addImageToFile() {
     //console.log(file);
 
-
+var image1,image2,image3;
     if($cookies.get("Loggedin")!=null){
 
         $scope.buttonShow=true;
         $scope.parashow=false;
         var vm = this;
+
+
         vm.submit = function () {
             //function to call on form submit
             console.log("submit");
-            if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
-                console.log("form valid");
-                vm.upload(vm.file); //call upload function
+            for(var i = 0; i<=3;i++) {
+                //if (vm.upload_form.file.$valid && vm.file[i]) { //check if from is valid
+                    console.log("form valid");
+                   console.log(vm.file[i]);
+                    vm.upload(vm.file[i]);//call upload function
+                    console.log("value of i is :"+ i);
+                // }
+                // else {
+                //     console.log("invalid form");
+                // }
             }
-            else {
-                console.log("invalid form");
-            }
+            addProductToDb();
         }
         //$http({
 
@@ -425,11 +420,29 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
                     if (resp != null) { //validate success
                         console.log("returend successfully");
                         console.log(resp.data);
-                        imagename = resp.data;
-                        console.log();
+                        //imagename = imagename!=null && imagename!=""?";"+resp.data+"";
+                        if(image1==null||image1=="")
+                        {
+                            image1=resp.data;
 
-                        addProductToDb();
+                        }
+                        else if(image2==null||image2=="")
+                        {
+                            image2=resp.data;
+
+                        }
+                        else if(image3==null||image3=="")
+                        {
+                            image3=resp.data;
+
+                        }
+                        console.log("image 1 name is " +image1);
+                        console.log("image 2 name is " +image2);
+                        console.log("image 3 name is " +image3);
+
+
                         console.log(resp.config.data.file);
+                        return ;
                     } else {
                         $window.alert('an error occured');
                     }
@@ -446,7 +459,9 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
         //---------------------------------------------------data to database-----------------------------------------//
         //$scope.addProductToDb = function () {
         function addProductToDb() {
-
+            console.log("image 1 name is " +image1);
+            console.log("image 2 name is " +image2);
+            console.log("image 3 name is " +image3);
             //addImageToFile();
             console.log("entered product add function");
             console.log($scope.productdescrip);
@@ -456,7 +471,9 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
                 url: '/productToDb',
                 data: {
                     productusername : 'null',
-                    productimagename: imagename,
+                    productimagename1: image1.toString(),
+                    productimagename2: image2.toString(),
+                    productimagename3: image3.toString(),
                     productOwnerName: $scope.ownername,
                     Emailaddress: $scope.emailaddress,
                     productName: $scope.productname,
@@ -465,13 +482,14 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
                     productAddress: $scope.productaddress,
                     productPrice: $scope.productprice,
                     productContact: $scope.productcontact
+
                 },
             }).then(function successCallback(response) {
                 console.log(response.data);
-                if (response.data.toString().includes("Valid data")) {
+                if (response.data.data.toString().includes("valid data")) {
                     console.log("alert");
                     alert("succesfully saved data");
-                    $window.location.href('views/product.html');
+                   /* $window.location.href = '../views/product.html';*/
                 }
 
 
@@ -557,7 +575,7 @@ myApp.controller('email', ['$scope', '$http', '$window',function ($scope, $http,
 
             }).then(function successCallback(response) {
                 console.log(response.data);
-                if (response.data.toString().includes("Valid User.Message sent")) {
+                if (response.data.data.toString().includes("Valid User.Message sent")) {
                     console.log("check mail...sent from here");
                     alert("Your mail has been sent")
                 }

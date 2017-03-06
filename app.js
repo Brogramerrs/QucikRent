@@ -238,16 +238,19 @@ app.post('/searchMyProduct',function (req,res) {
 
 });
 //------------------------------service for image uploads-----------------------------//
-var name;
+var name=["","",""];
 
 var storage = multer.diskStorage({ //multers disk storage settings
+
     destination: function (req, file, cb) {
         cb(null, 'public/image_upload')
     },
     filename: function (req, file, cb) {
-        var datetimestamp = Date.now();
-        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
-        name = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+        var datetimestamp = Date.now()+(new Date()).getUTCMilliseconds()+Math.floor((Math.random() * 1000000000000000) + 1);
+
+        name = sess.username.toString().replace(" ","")+"_"+file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+        cb(null, name);
+
     }
 });
 var upload = multer({ //multer settings
@@ -294,6 +297,9 @@ if(sess.username) {
     req.body.productusername = sess.username;
     console.log(req.body);
     db.collection('products').save(req.body, function (err, result) {
+        console.log(req.body.productimagename1);
+        console.log(req.body.productimagename2);
+        console.log(req.body.productimagename3);
         console.log("enter Product");
         console.log(req.body.productName);
         if (err) {
@@ -448,7 +454,7 @@ app.post('/sendEmail',function(req,res) {
                 console.log(req.body.texttotsend);
                 console.log('Message sent: ' + info.response);
                 res.json({"data": "Valid User.Message sent"});
-                res.json({yo: info.response});
+
             }
             ;
         });
