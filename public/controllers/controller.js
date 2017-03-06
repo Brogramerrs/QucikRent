@@ -567,7 +567,7 @@ console.log($cookies.get("Loggedin"));
             }).then(function (resp) { //upload function returns a promise
                     if (resp != null) { //validate success
                         console.log("returend successfully");
-                        console.log(resp.data);
+                        console.log(resp);
                         imagename = resp.data;
                         console.log();
 
