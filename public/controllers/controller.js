@@ -522,17 +522,17 @@ console.log($cookies.get("Loggedin"));
         vm.submit = function () {
             //function to call on form submit
             console.log("submit");
-            for(var i = 0; i<1;i++) {
+            //for(var i = 0; i<1;i++) {
                 //if (vm.upload_form.file.$valid && vm.file[i]) { //check if from is valid
                     console.log("form valid");
-                   console.log(vm.file[i]);
-                    vm.upload(vm.file[i]);//call upload function
+                   console.log(vm.file);
+                    vm.upload(vm.file);//call upload function
                     console.log("value of i is :"+ i);
                 // }
                 // else {
                 //     console.log("invalid form");
                 // }
-            }
+            //}
             //addProductToDb();
             $scope.addProductDelayed();
         }
