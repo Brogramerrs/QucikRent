@@ -177,7 +177,6 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addproduct">Add
                     Product
                 </button>
-
                 <!-- Modal -->
                 <div id="addproduct" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -273,11 +272,26 @@
                                     </div>
                                     <div class="row text-left">
                                         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                            <h5>Address:</h5>
+                                            <h5>Address 1:</h5>
                                         </div>
                                         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                        <textarea ng-model="productaddress" ckeditor="editorOptions" class="ckEditorP">
-                                        </textarea>
+                                            <textarea class="form-control" rows="1" id="comment" ng-model="productaddress1"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>Address 2:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <textarea class="form-control" rows="1" id="comment" ng-model="productaddress2"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row text-left">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                            <h5>City:</h5>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <textarea class="form-control" rows="1" id="comment" ng-model="productcity"></textarea>
                                         </div>
                                     </div>
                                     <div class="row text-left">
@@ -327,7 +341,7 @@
         <div ng-controller="Product"  >
             <!--<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" ng-repeat="product in products" dir-paginate="product in products | itemsPerPage: pageSize" current-page="currentPage" pagination-id="mealsPagination">-->
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" ng-controller="Product"
-                 dir-paginate="product in products | itemsPerPage: pageSize | filter:filterExpr" current-page="currentPage"
+                 dir-paginate="product in products | itemsPerPage: pageSize " current-page="currentPage"
                  pagination-id="mealsPagination">
                 <div class="card">
                     <div class="card-img-container">
@@ -460,10 +474,26 @@
                                         </div>
                                         <div class="row text-left">
                                             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                <h5>Address:</h5>
+                                                <h5>Address 1:</h5>
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                                                <p ng-bind-html=product.productAddress></p>
+                                                <p ng-bind-html=product.productAddress1></p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>Address 2:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <p ng-bind-html=product.productAddress2></p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                <h5>City:</h5>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                                <p ng-bind-html=product.productCity></p>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -538,15 +568,5 @@
     /* CKEDITOR.replace( 'editor1' );
      CKEDITOR.replace( 'editor2' );*/
 </script>
-<!--<script>
-
-        $('.ckEditorP').ckeditor({
-            toolbar: 'Full',
-            enterMode : CKEDITOR.ENTER_BR,
-            shiftEnterMode: CKEDITOR.ENTER_P
-        });
-
-</script>-->
-
 </body>
 </html>

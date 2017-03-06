@@ -16,10 +16,6 @@ myApp.directive('fdInput', [function () {
     }
 }]);
 
-
-
-
-
 //-----------------Controller for login Page-------------------------------------------//
 myApp.controller('LoginCtrl', ['$scope', '$http', '$window','$cookies', function ($scope, $http, $window,$cookies) {
     console.log("hello from the controller");
@@ -48,11 +44,11 @@ if($cookies.get("username")!=null)
     loggedin=false;
     console.log("loggedin changed to false:" +loggedin);
     $scope.login = function () {
-        if($scope.loginusername == null && $scope.loginpassword == null){
-            $scope.showalertlogin=true;
-        $window.alert("Fields cant be empty");
+        if ($scope.loginusername == null && $scope.loginpassword == null) {
+            $scope.showalertlogin = true;
+            $window.alert("Fields cant be empty");
         }
-        else{
+        else {
 
             console.log("Login Button Clicked");
             $http({
@@ -68,19 +64,19 @@ if($cookies.get("username")!=null)
                 console.log(response);
                 console.log("successcallback");
 
-                if (response!= null) {
+                if (response != null) {
                     console.log("entered if loop");
                     $scope.checkUserLogin = false;
                     $scope.checkUserLogout = true;
                     //$scope.userid = response.data;
-                    loggedin=true;
-                    var now=new Date();
-                    var Expire=new Date();
-                    Expire.setMinutes(now.getMinutes()+1);
-                    $cookies.put('username',$scope.loginusername,{path:"/",expires:Expire});
-                    $cookies.put('Loggedin', 'true',{path:"/",expires:Expire});
-                    $scope.userid=$scope.loginusername;
-                    console.log("loggedin changed to true:" +loggedin);
+                    loggedin = true;
+                    var now = new Date();
+                    var Expire = new Date();
+                    Expire.setMinutes(now.getMinutes() + 1);
+                    $cookies.put('username', $scope.loginusername, {path: "/", expires: Expire});
+                    $cookies.put('Loggedin', 'true', {path: "/", expires: Expire});
+                    $scope.userid = $scope.loginusername;
+                    console.log("loggedin changed to true:" + loggedin);
                     $window.location.href = '../views/product.html';
                 }
                 else {
@@ -92,8 +88,9 @@ if($cookies.get("username")!=null)
                 console.log("error");
                 console.log(response.status);
             });
-        };
         }
+
+    };
 
     $scope.logout=function(){
         console.log("in logout");
@@ -109,17 +106,12 @@ if($cookies.get("username")!=null)
                 $scope.checkUserLogout = false;
                 $window.location.href = '/';
             },
+
             function errorCallback(response) {
                 console.log("error");
                 console.log(response.status);
             });
     }
-   /* $scope.myaccount = function(){
-        $http({
-            method:'GET',
-
-        })
-    }*/
 }]);
 
 //-----------------Controller for Registration Page-------------------------------------------//
@@ -458,12 +450,11 @@ myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope
         };
     $scope.selected = function () {
 
-        console.log("i am here only");
-
         console.log("search module called");
         console.log($scope.itemSelectName);
         console.log($scope.itemSelectArea);
         console.log($scope.itemSelectPrice);
+
         $scope.filterExpr={"productType":$scope.itemSelectName,"productAddress":$scope.itemSelectArea,"Price":$scope.itemSelectPrice};
         // $http({
         //     method: 'POST',
@@ -507,7 +498,9 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
     //---------------------------------------------------image to databse------------------------------------//
     // function addImageToFile() {
     //console.log(file);
-
+    $window.alert("addproduct cookie check");
+    console.log("addproduct cookie check");
+console.log($cookies.get("Loggedin"));
 
     if($cookies.get("Loggedin")!=null){
 
@@ -579,7 +572,9 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
                     productName: $scope.productname,
                     productType: $scope.producttype,
                     productDescription: $scope.productdescrip,
-                    productAddress: $scope.productaddress,
+                    productAddress1: $scope.productaddress1,
+                    productAddress2: $scope.productaddress2,
+                    productCity: $scope.productcity,
                     productPrice: $scope.productprice,
                     productContact: $scope.productcontact
                 },
@@ -697,7 +692,7 @@ myApp.controller('email', ['$scope', '$http', '$window',function ($scope, $http,
 
 }]);
 /*My account*/
-myApp.controller('myuseraccount', ['$scope', '$http', '$window',function ($scope, $http, $window,$cookies) {
+myApp.controller('myuseraccount',['$scope', '$http', '$window',function ($scope, $http, $window){
 
         //var email = $scope.email;
     $http({
@@ -716,7 +711,8 @@ myApp.controller('myuseraccount', ['$scope', '$http', '$window',function ($scope
         }, function errorCallback(response) {
             console.log('error');
         });
-    $scope.getuserproducts=function () {
+
+    $scope.getuserproducts = function () {
 
         $http({
             method: 'GET',
@@ -738,14 +734,12 @@ myApp.controller('myuseraccount', ['$scope', '$http', '$window',function ($scope
         $scope.pageSize = 12;
 
         function OtherController($scope) {
-
-
             $scope.pageChangeHandler = function(num) {
 
             };
         }
     }
-$scope.deletedata=function (object) {
+$scope.deletedata = function (object) {
         var userproductid = object;
     $http({
         method: 'POST',
@@ -763,30 +757,3 @@ $scope.deletedata=function (object) {
 }]);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// $scope.$apply(function(){  $scope.products=response.data;});
