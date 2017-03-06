@@ -18,7 +18,7 @@ describe("Test Demo", function () {
             .end(function (err, res) {
                 console.log(res.data);
                 expect(res).to.have.status(200);
-                expect(res.body.data).to.equal('Valid');
+                expect(res.body.data).to.equal("Empty Data");
                 done();
             });
     });
@@ -33,7 +33,7 @@ describe("Test Demo", function () {
             .send(data)
             .end(function (err, res) {
                 expect(res).to.have.status(200);
-                expect(res.body.data).to.equal('data exist');
+                expect(res.body.data).to.equal("saved to database");
                 done();
             });
     });
@@ -50,7 +50,7 @@ describe("Test Demo", function () {
             .send(data)
             .end(function (err, res) {
                 expect(res).to.have.status(200);
-                expect(res.body.data).to.contain('data exist');
+                expect(res.body.data).to.contain('saved to database');
                 done();
             });
     });
