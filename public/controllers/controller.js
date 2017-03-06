@@ -371,7 +371,7 @@ console.log("not redirecting");
     city=city==null?"":city;
     amount=amount==null?"":amount;
         $http({
-            method: 'GET',
+            method: 'POST',
             url: '/allData',
             data: {
 
