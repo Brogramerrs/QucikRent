@@ -240,7 +240,7 @@ app.post('/searchMyProduct',function (req,res) {
 
 });
 //------------------------------service for image uploads-----------------------------//
-var name=["","",""];
+var name="";
 
 var storage = multer.diskStorage({ //multers disk storage settings
 
