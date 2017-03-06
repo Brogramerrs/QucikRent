@@ -248,9 +248,12 @@ var storage = multer.diskStorage({ //multers disk storage settings
         cb(null, 'public/image_upload')
     },
     filename: function (req, file, cb) {
-        var datetimestamp = Date.now()+(new Date()).getUTCMilliseconds()+Math.floor((Math.random() * 1000000000000000) + 1);
-
-        name = sess.username.toString().replace(" ","")+"_"+file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+        var datetimestamp=new String();
+        datetimestamp = Date.now()+(new Date()).getUTCMilliseconds().toString();
+            var Random=new String();
+            Random=Math.floor((Math.random() * 100000) + 1).toString();
+            console.log(Random);
+        name = sess.username.toString().replace(" ","")+"_"+file.fieldname+"_"+file.originalname.split('.')[0] + '-' + datetimestamp.toString()+"_"+Random.toString() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
         cb(null, name);
 
     }
@@ -384,7 +387,31 @@ app.post('/allData',function (req,res) {
    // if (sess.username) {
     console.log("entered the function");
 
-    db.collection("products").find({productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") },productAddress:{ $regex : new RegExp(req.body.city, "i") },productPrice:{ $regex : new RegExp(req.body.amount, "i") },}).toArray(function (err, data) {
+    console.log(req.body.productName);
+    console.log(req.body.productType);
+    console.log(req.body.city);
+    console.log(req.body.amount);
+    var querry;
+
+    var pname=req.body.productName!=null && req.body.productName!=""?req.body.productName:"";
+    var ptype=req.body.productType!=null && req.body.productType!=""?req.body.productType:"";
+    var city=req.body.city!=null && req.body.city!=""?req.body.city:"";
+    var amount=req.body.amount!=null && req.body.amount!=""?req.body.amount:"";
+    console.log("pname"+pname);
+    console.log("ptype"+ptype);
+    console.log("city"+city);console.log("amount"+amount);
+
+   // querry={productName:{ $regex : new RegExp(pname, "i") },productType:{ $regex : new RegExp(ptype, "i") },productCity:{ $regex : new RegExp(city, "i") },productPrice:{ $regex : new RegExp(amount, "i") },};
+    if((req.body.productName==null || req.body.productName=="") && (req.body.productType==null || req.body.productType=="")
+        && (req.body.city==null || req.body.city=="") && (req.body.amount==null || req.body.amount==""))
+    {
+
+    }
+    else{
+        querry={productName:{ $regex : new RegExp(req.body.productName, "i") },productType:{ $regex : new RegExp(req.body.productType, "i") },productCity:{ $regex : new RegExp(req.body.city, "i") },productPrice:{ $regex : new RegExp(req.body.amount, "i") }};}
+console.log(querry);
+console.log(db.collection("products").find(querry).toArray());
+    db.collection("products").find(querry).toArray(function (err, data) {
             console.log("entered get all data function");
             console.log(sess.username);
             console.log(data);
@@ -442,11 +469,11 @@ app.post('/sendEmail',function(req,res) {
             res.json({"data": "Valid User.Error sending mail"});
         } else {
             console.log("sending...wait...");
-            console.log(text);
+           // console.log(text);
             console.log(req.body.texttotsend);
             console.log('Message sent: ' + info.response);
             res.json({"data": "Valid User.Message sent"});
-            res.json({yo: info.response});
+            //res.json({yo: info.response});
         }
         ;
     });
@@ -509,21 +536,7 @@ app.post('/sendEmail',function(req,res) {
             }
 
 
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error);
-                    res.json({"data": "Valid User.Error sending mail"});
-                }
-                else {
-                    console.log("sending...wait...");
-                    console.log(text);
-                    console.log(req.body.texttotsend);
-                    console.log('Message sent: ' + info.response);
-                    res.json({"data": "Valid User.Message sent"});
-                }
 
-
-            });
 
         });
         /*

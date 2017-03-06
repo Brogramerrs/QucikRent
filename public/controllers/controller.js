@@ -246,12 +246,12 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
         console.log(price);
         //name="{"+"'"+"productType"+"'"+":"+"'"+name.toString().toLowerCase()+"'"+"}";
         //$scope.filterExpr = name;//{"productTyp" : name};//'productAddress': location,
-        $scope.filterExpr={'productType':name};
+        //$scope.filterExpr={'productType':name};
        // $scope.Type=name.toLowerCase();
         //'Price': price
 
        // console.log("filter exprs");console.log($scope.filterExpr);
-$scope.applyif();
+//$scope.applyif();
 var URL="../views/product.html#?";
 
 if(name!=null && name!=""){URL=URL+"productType="+name.toString();}
@@ -519,7 +519,7 @@ console.log($cookies.get("Loggedin"));
         vm.submit = function () {
             //function to call on form submit
             console.log("submit");
-            for(var i = 0; i<=3;i++) {
+            for(var i = 0; i<3;i++) {
                 //if (vm.upload_form.file.$valid && vm.file[i]) { //check if from is valid
                     console.log("form valid");
                    console.log(vm.file[i]);
@@ -530,7 +530,23 @@ console.log($cookies.get("Loggedin"));
                 //     console.log("invalid form");
                 // }
             }
-            addProductToDb();
+            //addProductToDb();
+            $scope.addProductDelayed();
+        }
+        $scope.addProductDelayed=function()
+        {
+            console.log("applyif");
+            if(!(image1==null || image1=="" || image2==null || image2=="" || image3==null || image3=="")) {
+                console.log("applying");
+                addProductToDb();
+                console.log("added");
+
+
+            }else
+            {
+                console.log("timeout");
+                setTimeout(function(){$scope.addProductDelayed();},2);
+            }
         }
         //$http({
 
@@ -573,12 +589,13 @@ console.log($cookies.get("Loggedin"));
                         console.log(resp.config.data.file);
                         return ;
                     } else {
-                        $window.alert('an error occured');
+                        console.log('Error status: ' + resp.status);
+                        //$window.alert('an error occured');
                     }
                 },
                 function (resp) { //catch error
                     console.log('Error status: ' + resp.status);
-                    $window.alert('Error status: ' + resp.status);
+                   // $window.alert('Error status: ' + resp.status);
                 })
         };
 
@@ -588,31 +605,39 @@ console.log($cookies.get("Loggedin"));
         //---------------------------------------------------data to database-----------------------------------------//
         //$scope.addProductToDb = function () {
         function addProductToDb() {
-            console.log("image 1 name is " +image1);
-            console.log("image 2 name is " +image2);
-            console.log("image 3 name is " +image3);
             //addImageToFile();
-            console.log("entered product add function");
+
             // console.log($scope.productdescrip);
             // console.log($scope.productaddress);
+            var ownerName=$scope.ownername!=null && $scope.ownername!=""?$scope.ownername:" ";
+            var emailaddress=$scope.emailaddress!=null && $scope.emailaddress!=""?$scope.emailaddress:" ";
+            var productname=$scope.productname!=null && $scope.productname!=""?$scope.productname:" ";
+            var producttype=$scope.producttype!=null && $scope.producttype!=""?$scope.producttype:" ";
+            var productdescrip=$scope.productdescrip!=null && $scope.productdescrip!=""?$scope.productdescrip:" ";
+            var productaddress1=$scope.productaddress1!=null && $scope.productaddress1!=""?$scope.productaddress1:" ";
+            var productaddress2=$scope.productaddress2!=null && $scope.productaddress2!=""?$scope.productaddress2:" ";
+            var productcity=$scope.productcity!=null && $scope.productcity!=""?$scope.productcity:" ";
+            var productprice=$scope.productprice!=null && $scope.productprice!=""?$scope.productprice:" ";
+            var productcontact=$scope.productcontact!=null && $scope.productcontact!=""?$scope.productcontact:" ";
+
             $http({
                 method: 'POST',
                 url: '/productToDb',
                 data: {
                     productusername : 'null',
-                    productimagename1: image1.toString(),
-                    productimagename2: image2.toString(),
-                    productimagename3: image3.toString(),
-                    productOwnerName: $scope.ownername,
-                    Emailaddress: $scope.emailaddress,
-                    productName: $scope.productname,
-                    productType: $scope.producttype,
-                    productDescription: $scope.productdescrip,
-                    productAddress1: $scope.productaddress1,
-                    productAddress2: $scope.productaddress2,
-                    productCity: $scope.productcity,
-                    productPrice: $scope.productprice,
-                    productContact: $scope.productcontact
+                    productimagename1: image1,
+                    productimagename2: image2,
+                    productimagename3: image3,
+                    productOwnerName: ownerName,
+                    Emailaddress: emailaddress,
+                    productName: productname,
+                    productType: producttype,
+                    productDescription: productdescrip,
+                    productAddress1: productaddress1,
+                    productAddress2: productaddress2,
+                    productCity: productcity,
+                    productPrice: productprice,
+                    productContact: productcontact
 
                 },
             }).then(function successCallback(response) {
@@ -620,7 +645,7 @@ console.log($cookies.get("Loggedin"));
                 if (response.data.data.toString().includes("valid data")) {
                     console.log("alert");
                     alert("succesfully saved data");
-                   /* $window.location.href = '../views/product.html';*/
+                    $window.location.href = '../views/product.html';
                 }
 
 
@@ -708,7 +733,8 @@ myApp.controller('email', ['$scope', '$http', '$window',function ($scope, $http,
                 console.log(response.data);
                 if (response.data.data.toString().includes("Valid User.Message sent")) {
                     console.log("check mail...sent from here");
-                    alert("Your mail has been sent")
+                    alert("Your mail has been sent");
+                    $window.location.href='../views/product.html';
                 }
                 else
                 {
