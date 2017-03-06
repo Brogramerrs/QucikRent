@@ -539,7 +539,7 @@ console.log($cookies.get("Loggedin"));
         $scope.addProductDelayed=function()
         {
             console.log("applyif");//|| image2==null || image2=="" || image3==null || image3==""
-            if(!(image1==null || image1=="" )) {
+            if(!(imagename==null || imagename=="" )) {
                 console.log("applying");
                 addProductToDb();
                 console.log("added");
@@ -574,12 +574,12 @@ console.log($cookies.get("Loggedin"));
                         addProductToDb();
                         console.log(resp.config.data.file);
                     } else {
-                        $window.alert('an error occured');
+                      // $window.alert('an error occured');
                     }
                 },
                 function (resp) { //catch error
                     console.log('Error status: ' + resp.status);
-                    $window.alert('Error status: ' + resp.status);
+                    //$window.alert('Error status: ' + resp.status);
                 })
         };
 
@@ -626,8 +626,8 @@ console.log($cookies.get("Loggedin"));
                 console.log(response.data);
                 if (response.data.data.toString().includes("valid data")) {
                     console.log("alert");
-                    alert("succesfully saved data");
-                    //$window.location.href = '../views/product.html';
+                    //alert("succesfully saved data");
+                    $window.location.href = '../views/product.html';
 
                 }
 
