@@ -8,11 +8,18 @@ var express = require('express');
 var app = express();
 var db ;
 
-    MongoClient.connect('mongodb://admin:root@ds153669.mlab.com:53669/quick_rent_database',function (err, database) {
-        if (err) return console.log(err)
-        db = database
-        app.listen(3000, function() {
-            console.log('listening on 3000')
-        })
-    }) ;
+    // MongoClient.connect('mongodb://admin:root@ds153669.mlab.com:53669/quick_rent_database',function (err, database) {
+    //     if (err) return console.log(err)
+    //     db = database
+    //     app.listen(3000, function() {
+    //         console.log('listening on 3000')
+    //     })
+    // }) ;
+MongoClient.connect('mongodb://admin:root@ec2-52-32-216-134.us-west-2.compute.amazonaws.com:27017/admin',function (err, database) {
+    if (err) return console.log(err)
+    db = database
+    app.listen(3000, function() {
+        console.log('listening on 3000')
+    })
+}) ;
 
