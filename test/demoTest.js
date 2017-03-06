@@ -70,30 +70,30 @@ describe("Test Demo", function () {
             });
     });*/
 
-    it("Validate forgot password", function (done) {
-        var data = {
-            email: 'djethwa2810@gmail.com'
-        };
-        chai.request(server)
-            .post('/forgotPassword')
-            .send(data)
-            .end(function (err, res) {
-                expect(res).to.have.status(200);
-                expect(res.body.data).to.contain('Valid User');
-                done();
-            });
-    });
-    it("Forgot password send mail status", function (done) {
-        var data = {
-            email: 'djethwa2810@gmail.com'
-        };
-        chai.request(server)
-            .post('/forgotPassword')
-            .send(data)
-            .end(function (err, res) {
-                expect(res).to.have.status(200);
-                expect(res.body.data).to.contain('Message sent');
-                done();
-            });
-    });
+    // it("Validate forgot password", function (done) {
+    //     var data = {
+    //         email: 'djethwa2810@gmail.com'
+    //     };
+    //     chai.request(server)
+    //         .post('/forgotPassword')
+    //         .send(data)
+    //         .end(function (err, res) {
+    //             expect(res).to.have.status(200);
+    //             expect(res.body.data).to.contain('Valid User');
+    //             done();
+    //         });
+    // });
+    // it("Forgot password send mail status", function (done) {
+    //     var data = {
+    //         email: 'djethwa2810@gmail.com'
+    //     };
+    //     chai.request(server)
+    //         .post('/forgotPassword')
+    //         .send(data)
+    //         .end(function (err, res) {
+    //             expect(res).to.have.status(200);
+    //             expect(res.body.data).to.contain('Message sent');
+    //             done();
+    //         });
+    // });
 });
