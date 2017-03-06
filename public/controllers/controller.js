@@ -650,8 +650,6 @@ console.log($cookies.get("Loggedin"));
                     //alert("succesfully saved data");
                     //$window.location.href = '../views/product.html';
 
-
-
                 }
 
 
