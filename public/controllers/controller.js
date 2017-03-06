@@ -626,8 +626,8 @@ console.log($cookies.get("Loggedin"));
                 console.log(response.data);
                 if (response.data.data.toString().includes("valid data")) {
                     console.log("alert");
-                    //alert("succesfully saved data");
-                    $window.location.href = '../views/product.html';
+                    alert("succesfully saved data");
+                    //$window.location.href = '../views/product.html';
 
                 }
 
