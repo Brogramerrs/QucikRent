@@ -74,7 +74,7 @@ if($cookies.get("username")!=null)
                     loggedin = true;
                     var now = new Date();
                     var Expire = new Date();
-                    Expire.setMinutes(now.getMinutes() + 1);
+                    Expire.setMinutes(now.getMinutes() + 60);
                     $cookies.put('username', $scope.loginusername, {path: "/", expires: Expire});
                     $cookies.put('Loggedin', 'true', {path: "/", expires: Expire});
                     $scope.userid = $scope.loginusername;
@@ -504,7 +504,7 @@ myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies'
 
 var image1,image2,image3;
 
-    $window.alert("addproduct cookie check");
+   // $window.alert("addproduct cookie check");
     console.log("addproduct cookie check");
 console.log($cookies.get("Loggedin"));
 
@@ -593,8 +593,8 @@ console.log($cookies.get("Loggedin"));
             console.log("image 3 name is " +image3);
             //addImageToFile();
             console.log("entered product add function");
-            console.log($scope.productdescrip);
-            console.log($scope.productaddress);
+            // console.log($scope.productdescrip);
+            // console.log($scope.productaddress);
             $http({
                 method: 'POST',
                 url: '/productToDb',
