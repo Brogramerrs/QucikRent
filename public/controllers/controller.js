@@ -160,7 +160,7 @@ myApp.controller('RegisterCtrl', ['$scope', '$http', '$window', function ($scope
 
 
 //-----------------Controller for Forgot User Page-------------------------------------------//
-myApp.controller('ForgotCtrl', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('ForgotCtrl', ['$scope', '$http','$window', function ($scope, $http,$window) {
     $scope.lost = function () {
         //var email = $scope.email;
         $http({
@@ -170,9 +170,13 @@ myApp.controller('ForgotCtrl', ['$scope', '$http', function ($scope, $http) {
 
         }).then(function successCallback(response) {
             console.log(response.data);
+            alert("password sent through email");
+            $window.location.href="/";
 
         }, function errorCallback(response) {
             console.log('error');
+            alert("invalid user")
+            $window.location.href="/";;
         });
 
     };
@@ -571,7 +575,7 @@ console.log($cookies.get("Loggedin"));
                         imagename = resp.data;
                         console.log();
 
-                        addProductToDb();
+                        //addProductToDb();
                         console.log(resp.config.data.file);
                     } else {
                       // $window.alert('an error occured');
@@ -627,7 +631,7 @@ console.log($cookies.get("Loggedin"));
                 if (response.data.data.toString().includes("valid data")) {
                     console.log("alert");
                     alert("succesfully saved data");
-                    //$window.location.href = '../views/product.html';
+                    $window.location.href = '../views/product.html';
 
                 }
 

@@ -26,7 +26,7 @@ var sess;
 const url = require('url');
 app.use(session({secret: 'QUICKRENT'}));
 
-db = mongo.db('mongodb://admin:root@ec2-52-32-216-134.us-west-2.compute.amazonaws.com:27017/admin');
+db = mongo.db('mongodb://admin:root@ds153669.mlab.com:53669/quick_rent_database');
 // view engine setup
 app.set('views', path.join(__dirname, '/public/views'));
 app.set('view engine', 'ejs');
@@ -166,44 +166,54 @@ app.post('/CheckregisterUser',function(req,res) {
 //-------------------------------Services for forgot password page-------------------------------//
 app.post('/forgotPassword',function(req,res) {
 
-    if (req.body.email==="djethwa2810@gmail.com")
-    {
+    db.collection("personal_info").find({email:{ $regex : new RegExp(req.body.email, "i") }}).toArray(function (err, data) {
+        console.log("getting data");
+        console.log(data);
+        if (data != null) {
 
-        //res.json("Valid User");
+            //res.json("Valid User");
 
-        //ToDo:Code to email the password
-        var transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true, // use SSL
-            auth: {
-                user: 'brogrammerrs@gmail.com', // Your email id
-                pass: '2541temple' // Your password
-            }
-        });
-        var mailOptions = {
-            from: 'brogrammerrs@gmail.com', // sender address
-            to:req.body.email, // list of receivers
-            subject: 'Recover Password', // Subject line
-            text: "Your password is admin" // plaintext body
+            //ToDo:Code to email the password
+            var transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true, // use SSL
+                auth: {
+                    user: 'brogrammerrs@gmail.com', // Your email id
+                    pass: '2541temple' // Your password
+                }
+            });
+            var mailOptions = {
+                from: 'brogrammerrs@gmail.com', // sender address
+                to: req.body.email, // list of receivers
+                subject: 'Recover Password', // Subject line
+                text: "Your password is admin" // plaintext body
 
-        };
-
-        transporter.sendMail(mailOptions, function(error, info){
-            if(error){
-                console.log(error);
-                res.json({"data" : "Valid User.Error sending mail"});
-            }else{
-                console.log('Message sent: ' + info.response);
-                res.json({"data" : "Valid User.Message sent"});
-                res.json({yo: info.response});
             };
-        });
-    }
-    else{
-        //res.json("Invalid User");
-        res.json({"data" : "Invalid User"});
-    }
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                    res.json({"data": "Valid User.Error sending mail"});
+                } else {
+                    console.log('Message sent: ' + info.response);
+                    res.json({"data": "Valid User.Message sent"});
+                    res.json({yo: info.response});
+                }
+                ;
+            });
+        }
+        // else {
+        //     //res.json("Invalid User");
+        //     res.json({"data": "Invalid User"});
+        // }
+        else if(err)
+        {
+            res.json({"data": "Invalid User"});
+        }
+    });
+
+
 });
 
 //----------------------------Service for location----------------------------------//
@@ -245,7 +255,7 @@ var name="";
 var storage = multer.diskStorage({ //multers disk storage settings
 
     destination: function (req, file, cb) {
-        cb(null, '/home/bitnami/apps/QuickRent/public/image_upload');
+        cb(null, './public/image_upload');
     },
     filename: function (req, file, cb) {
         var datetimestamp=new String();
@@ -290,9 +300,9 @@ if(sess.username) {
     req.body.productusername = sess.username;
     console.log(req.body);
     db.collection('products').save(req.body, function (err, result) {
-        console.log(req.body.productimagename1);
+       /* console.log(req.body.productimagename1);
         console.log(req.body.productimagename2);
-        console.log(req.body.productimagename3);
+        console.log(req.body.productimagename3);*/
         console.log("enter Product");
         console.log(req.body.productName);
         if (err) {
