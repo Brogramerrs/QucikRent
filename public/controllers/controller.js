@@ -222,7 +222,7 @@ myApp.controller('LocateProduct', ['$scope', '$http','$window', function ($scope
 myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',function ($scope, $http, $window,$cookies,$location) {
 
     console.log("entering the main game");
-    $scope.items =
+    /*$scope.items =
         {
             name: ['Car', 'Book', 'furniture', 'machines', 'others']
         };
@@ -234,11 +234,12 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
     $scope.prices =
         {
             amount: ['10', '20', '30','100']
-        };
+        };*/
+    $scope.items=['Car', 'Book', 'furniture', 'machines', 'others'],
+        $scope.areas=['Irvine', 'West covina', 'Santa ana', 'new york'],
+        $scope.prices=['10', '20', '30','100']
     $scope.selected = function () {
-
-        console.log("i am here only");
-
+        alert("buttone pressed");
         console.log("search module called");
 
         var name=$scope.itemSelectName!=null?$scope.itemSelectName:"";
@@ -256,13 +257,13 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
 
        // console.log("filter exprs");console.log($scope.filterExpr);
 //$scope.applyif();
-var URL="../views/product.html#?";
+/*var URL="../views/product.html#?";
 
 if(name!=null && name!=""){URL=URL+"productType="+name.toString();}
 if(location!=null && location!=""){URL=URL+(name!=null && name!=""?"&":"")+"city="+location};
-if(price!=null && price!=""){URL=URL+((name!=null && name!="")||(city!=null && city!="")?"&":"")+"amount="+price};
-        $window.location.href=URL;//"../views/product.html#?productType="+name+"&city="+location+"&amount="+price;
-        $window.location.reload();
+if(price!=null && price!=""){URL=URL+((name!=null && name!="")||(city!=null && city!="")?"&":"")+"amount="+price};*/
+       // $window.location.href=URL;//"../views/product.html#?productType="+name+"&city="+location+"&amount="+price;
+        //$window.location.reload();
 console.log("not redirecting");
 
     }
@@ -327,7 +328,7 @@ console.log("not redirecting");
             });
         }
     };
-
+/*logout function*/
     $scope.logout=function(){
         $http({
             method: 'POST',
@@ -344,15 +345,16 @@ console.log("not redirecting");
                 console.log(response.status);
             });
     }
-    var pname = $location.search().productName;
+    /*logout function end*/
+    /*var pname = $location.search().productName;
     var type = $location.search().productType;
     var city = $location.search().city;
-    var amount = $location.search().amount;
+    var amount = $location.search().amount;*/
 
 
-    if(type!=null && type!=""){$scope.itemSelectName=type;}
+    /*if(type!=null && type!=""){$scope.itemSelectName=type;}
     if(city!=null && city!=""){$scope.itemSelectArea=city;};
-    if(amount!=null && amount!=""){$scope.itemSelectPrice=amount;};
+    if(amount!=null && amount!=""){$scope.itemSelectPrice=amount;};*/
 
     if($cookies.get("Loggedin")!=null){
         $scope.emailShow = true;
@@ -370,19 +372,22 @@ console.log("not redirecting");
 
     }
 
-    pname=pname==null?"":pname;
+    /*pname=pname==null?"":pname;
     type=type==null?"":type;
     city=city==null?"":city;
-    amount=amount==null?"":amount;
+    amount=amount==null?"":amount;*/
+    console.log(name);
+    console.log(location);
+    console.log(price);
         $http({
             method: 'POST',
             url: '/allData',
             data: {
 
                 productName: pname,
-                productType: type,
-                city:city
-            ,amount:amount
+                productType: name,
+                city:location,
+                amount:price
             }
         }).then(function successCallback(response) {
             console.log("successcalllback called in get all data");
@@ -443,7 +448,7 @@ console.log("not redirecting");
 }]);
 
 //------------------------------------------product select----------------------------------------//
-myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope, $http, $window) {
+/*myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope, $http, $window) {
     $scope.items =
         {
             name: ['Car', 'Book', 'furniture', 'machines', 'others']
@@ -500,7 +505,7 @@ myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope
         // });
 
     };
-}]);
+}]);*/
 /*----------------------------------------upload product------------------------------------------*/
 myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies','$document', function (Upload,$scope, $http, $window, $cookies,$document) {
 
