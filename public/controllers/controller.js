@@ -222,7 +222,7 @@ myApp.controller('LocateProduct', ['$scope', '$http','$window', function ($scope
 myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',function ($scope, $http, $window,$cookies,$location) {
 
     console.log("entering the main game");
-    $scope.items =
+    /*$scope.items =
         {
             name: ['Car', 'Book', 'furniture', 'machines', 'others']
         };
@@ -234,7 +234,10 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
     $scope.prices =
         {
             amount: ['10', '20', '30','100']
-        };
+        };*/
+    $scope.items=['Car', 'Book', 'furniture', 'machines', 'others'],
+        $scope.areas=['Irvine', 'West covina', 'Santa ana', 'new york'],
+        $scope.prices=['10', '20', '30','100']
     $scope.selected = function () {
 
         console.log("i am here only");
@@ -442,71 +445,8 @@ console.log("not redirecting");
 
 }]);
 
-//------------------------------------------product select----------------------------------------//
-myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope, $http, $window) {
-    $scope.items =
-        {
-            name: ['Car', 'Book', 'furniture', 'machines', 'others']
-        };
-    $scope.areas =
-        {
-            location: ['Irvine', 'West covina', 'Santa ana', 'new york']
-
-        };
-    $scope.prices =
-        {
-            amount: ['10', '20', '30','100']
-        };
-    $scope.selected = function () {
-
-        console.log("search module called");
-        console.log($scope.itemSelectName);
-        console.log($scope.itemSelectArea);
-        console.log($scope.itemSelectPrice);
-
-        $scope.filterExpr={"productType":$scope.itemSelectName,"productAddress":$scope.itemSelectArea,"Price":$scope.itemSelectPrice};
-        // $http({
-        //     method: 'POST',
-        //     url: '/searchData',
-        //     data: {
-        //         itemName:$scope.itemSelectName.toString(),
-        //         itemArea:$scope.itemSelectArea.toString(),
-        //         itemPrice:$scope.itemSelectPrice.toString()
-        //     }
-        // }).then(function successCallback(response) {
-        //     //console.log(response.data);
-        //
-        //
-        //    console.log(response);
-        //     console.log("successcallback");
-        //
-        //     if (response.data.toString().includes("oops!...there is no data matching your request")) {
-        //         console.log("entered else");
-        //         alert("there is some error correct it");
-        //         return(err);
-        //     }
-        //     else {
-        //         console.log("there is data present");
-        //
-        //         console.log(response);
-        //         return(response);
-        //
-        //     }
-        //
-        // }, function errorCallback(response) {
-        //     console.log('error');
-        //
-        //
-        // });
-
-    };
-}]);
 /*----------------------------------------upload product------------------------------------------*/
 myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies','$document', function (Upload,$scope, $http, $window, $cookies,$document) {
-
-    //---------------------------------------------------image to databse------------------------------------//
-    // function addImageToFile() {
-    //console.log(file);
 
 
 var imagename;
