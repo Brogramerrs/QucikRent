@@ -1,7 +1,7 @@
 /*var files;*/
 var fs ;
 var imagename;
-
+var price;
 var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination', 'ng-file-model', 'ngCkeditor','ngFileUpload','ngCookies']);//'angularUtils.directives.dirPagination','ngRoute'
 
 myApp.directive('fdInput', [function () {
@@ -235,7 +235,7 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
         {
             amount: ['10', '20', '30','100']
         };*/
-    $scope.items=['Car', 'Book', 'furniture', 'machines', 'others'],
+    $scope.items=['Car', 'Book', 'furniture', 'machines'],
         $scope.areas=['Irvine', 'West covina', 'Santa ana', 'new york'],
         $scope.prices=['10', '20', '30','100']
     $scope.selected = function () {
@@ -244,11 +244,11 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
 
         var name=$scope.itemSelectName!=null?$scope.itemSelectName:"";
         var location=$scope.itemSelectArea!=null?$scope.itemSelectArea:"";
-        var price=$scope.itemSelectPrice!=null?$scope.itemSelectPrice:"";
+         price=$scope.itemSelectPrice!=null?$scope.itemSelectPrice:"";
 
         console.log(name);
         console.log(location);
-        console.log(price);
+        /*console.log(price);*/
         //name="{"+"'"+"productType"+"'"+":"+"'"+name.toString().toLowerCase()+"'"+"}";
         //$scope.filterExpr = name;//{"productTyp" : name};//'productAddress': location,
         //$scope.filterExpr={'productType':name};
@@ -257,13 +257,13 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
 
        // console.log("filter exprs");console.log($scope.filterExpr);
 //$scope.applyif();
-/*var URL="../views/product.html#?";
+var URL="../views/product.html#?";
 
 if(name!=null && name!=""){URL=URL+"productType="+name.toString();}
 if(location!=null && location!=""){URL=URL+(name!=null && name!=""?"&":"")+"city="+location};
-if(price!=null && price!=""){URL=URL+((name!=null && name!="")||(city!=null && city!="")?"&":"")+"amount="+price};*/
-       // $window.location.href=URL;//"../views/product.html#?productType="+name+"&city="+location+"&amount="+price;
-        //$window.location.reload();
+if(price!=null && price!=""){URL=URL+((name!=null && name!="")||(city!=null && city!="")?"&":"")+"amount="+price};
+       $window.location.href=URL;//"../views/product.html#?productType="+name+"&city="+location+"&amount="+price;
+        $window.location.reload();
 console.log("not redirecting");
 
     }
@@ -346,13 +346,13 @@ console.log("not redirecting");
             });
     }
     /*logout function end*/
-    /*var pname = $location.search().productName;
+    var pname = $location.search().productName;
     var type = $location.search().productType;
     var city = $location.search().city;
-    var amount = $location.search().amount;*/
+    var amount = $location.search().amount;
 
-
-    /*if(type!=null && type!=""){$scope.itemSelectName=type;}
+/*
+    if(type!=null && type!=""){$scope.itemSelectName=type;}
     if(city!=null && city!=""){$scope.itemSelectArea=city;};
     if(amount!=null && amount!=""){$scope.itemSelectPrice=amount;};*/
 
@@ -372,10 +372,10 @@ console.log("not redirecting");
 
     }
 
-    /*pname=pname==null?"":pname;
+    pname=pname==null?"":pname;
     type=type==null?"":type;
     city=city==null?"":city;
-    amount=amount==null?"":amount;*/
+    amount=amount==null?"":amount;
     console.log(name);
     console.log(location);
     console.log(price);
@@ -385,9 +385,9 @@ console.log("not redirecting");
             data: {
 
                 productName: pname,
-                productType: name,
-                city:location,
-                amount:price
+                productType: type,
+                city:city,
+                amount:amount
             }
         }).then(function successCallback(response) {
             console.log("successcalllback called in get all data");
@@ -636,7 +636,7 @@ console.log($cookies.get("Loggedin"));
                 if (response.data.data.toString().includes("valid data")) {
                     console.log("alert");
                     alert("succesfully saved data");
-                    $window.location.href = '../views/product.html';
+                   // $window.location.href = '../views/product.html';
 
                 }
 
