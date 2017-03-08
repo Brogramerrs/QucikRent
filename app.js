@@ -26,7 +26,7 @@ var sess;
 const url = require('url');
 app.use(session({secret: 'QUICKRENT'}));
 
-db = mongo.db('mongodb://admin:root@ds153669.mlab.com:53669/quick_rent_database');
+db = mongo.db('mongodb://admin:root@ec2-107-22-117-119.compute-1.amazonaws.com:27017/admin');
 // view engine setup
 app.set('views', path.join(__dirname, '/public/views'));
 app.set('view engine', 'ejs');

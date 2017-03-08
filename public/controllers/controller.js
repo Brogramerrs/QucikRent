@@ -1,7 +1,7 @@
 /*var files;*/
 var fs ;
 var imagename;
-
+var price;
 var myApp = angular.module('myApp', ['angularUtils.directives.dirPagination', 'ng-file-model', 'ngCkeditor','ngFileUpload','ngCookies']);//'angularUtils.directives.dirPagination','ngRoute'
 
 myApp.directive('fdInput', [function () {
@@ -235,22 +235,20 @@ myApp.controller('Product', ['$scope','$http', '$window','$cookies','$location',
         {
             amount: ['10', '20', '30','100']
         };*/
-    $scope.items=['Car', 'Book', 'furniture', 'machines', 'others'],
-        $scope.areas=['Irvine', 'West covina', 'Santa ana', 'new york'],
+    $scope.items=['Car', 'Book', 'furniture', 'machines'],
+    $scope.areas=['Irvine', 'West covina', 'Santa ana', 'new york'],
         $scope.prices=['10', '20', '30','100']
     $scope.selected = function () {
-
-        console.log("i am here only");
-
+        alert("buttone pressed");
         console.log("search module called");
 
         var name=$scope.itemSelectName!=null?$scope.itemSelectName:"";
         var location=$scope.itemSelectArea!=null?$scope.itemSelectArea:"";
-        var price=$scope.itemSelectPrice!=null?$scope.itemSelectPrice:"";
+         price=$scope.itemSelectPrice!=null?$scope.itemSelectPrice:"";
 
         console.log(name);
         console.log(location);
-        console.log(price);
+        /*console.log(price);*/
         //name="{"+"'"+"productType"+"'"+":"+"'"+name.toString().toLowerCase()+"'"+"}";
         //$scope.filterExpr = name;//{"productTyp" : name};//'productAddress': location,
         //$scope.filterExpr={'productType':name};
@@ -264,7 +262,7 @@ var URL="../views/product.html#?";
 if(name!=null && name!=""){URL=URL+"productType="+name.toString();}
 if(location!=null && location!=""){URL=URL+(name!=null && name!=""?"&":"")+"city="+location};
 if(price!=null && price!=""){URL=URL+((name!=null && name!="")||(city!=null && city!="")?"&":"")+"amount="+price};
-        $window.location.href=URL;//"../views/product.html#?productType="+name+"&city="+location+"&amount="+price;
+       $window.location.href=URL;//"../views/product.html#?productType="+name+"&city="+location+"&amount="+price;
         $window.location.reload();
 console.log("not redirecting");
 
@@ -330,7 +328,7 @@ console.log("not redirecting");
             });
         }
     };
-
+/*logout function*/
     $scope.logout=function(){
         $http({
             method: 'POST',
@@ -347,15 +345,16 @@ console.log("not redirecting");
                 console.log(response.status);
             });
     }
+    /*logout function end*/
     var pname = $location.search().productName;
     var type = $location.search().productType;
     var city = $location.search().city;
     var amount = $location.search().amount;
 
-
+/*
     if(type!=null && type!=""){$scope.itemSelectName=type;}
     if(city!=null && city!=""){$scope.itemSelectArea=city;};
-    if(amount!=null && amount!=""){$scope.itemSelectPrice=amount;};
+    if(amount!=null && amount!=""){$scope.itemSelectPrice=amount;};*/
 
     if($cookies.get("Loggedin")!=null){
         $scope.emailShow = true;
@@ -377,6 +376,9 @@ console.log("not redirecting");
     type=type==null?"":type;
     city=city==null?"":city;
     amount=amount==null?"":amount;
+    console.log(name);
+    console.log(location);
+    console.log(price);
         $http({
             method: 'POST',
             url: '/allData',
@@ -384,8 +386,8 @@ console.log("not redirecting");
 
                 productName: pname,
                 productType: type,
-                city:city
-            ,amount:amount
+                city:city,
+                amount:amount
             }
         }).then(function successCallback(response) {
             console.log("successcalllback called in get all data");
@@ -444,6 +446,67 @@ console.log("not redirecting");
 
 
 }]);
+
+
+//------------------------------------------product select----------------------------------------//
+/*myApp.controller('selectProduct', ['$scope', '$http','$window', function ($scope, $http, $window) {
+    $scope.items =
+        {
+            name: ['Car', 'Book', 'furniture', 'machines', 'others']
+        };
+    $scope.areas =
+        {
+            location: ['Irvine', 'West covina', 'Santa ana', 'new york']
+
+        };
+    $scope.prices =
+        {
+            amount: ['10', '20', '30','100']
+        };
+    $scope.selected = function () {
+
+        console.log("search module called");
+        console.log($scope.itemSelectName);
+        console.log($scope.itemSelectArea);
+        console.log($scope.itemSelectPrice);
+
+        $scope.filterExpr={"productType":$scope.itemSelectName,"productAddress":$scope.itemSelectArea,"Price":$scope.itemSelectPrice};
+        // $http({
+        //     method: 'POST',
+        //     url: '/searchData',
+        //     data: {
+        //         itemName:$scope.itemSelectName.toString(),
+        //         itemArea:$scope.itemSelectArea.toString(),
+        //         itemPrice:$scope.itemSelectPrice.toString()
+        //     }
+        // }).then(function successCallback(response) {
+        //     //console.log(response.data);
+        //
+        //
+        //    console.log(response);
+        //     console.log("successcallback");
+        //
+        //     if (response.data.toString().includes("oops!...there is no data matching your request")) {
+        //         console.log("entered else");
+        //         alert("there is some error correct it");
+        //         return(err);
+        //     }
+        //     else {
+        //         console.log("there is data present");
+        //
+        //         console.log(response);
+        //         return(response);
+        //
+        //     }
+        //
+        // }, function errorCallback(response) {
+        //     console.log('error');
+        //
+        //
+        // });
+
+    };
+}]);*/
 
 /*----------------------------------------upload product------------------------------------------*/
 myApp.controller('addProduct', ['Upload','$scope', '$http', '$window','$cookies','$document', function (Upload,$scope, $http, $window, $cookies,$document) {
@@ -571,7 +634,7 @@ console.log($cookies.get("Loggedin"));
                 if (response.data.data.toString().includes("valid data")) {
                     console.log("alert");
                     alert("succesfully saved data");
-                    $window.location.href = '../views/product.html';
+                   // $window.location.href = '../views/product.html';
 
                 }
 
